@@ -8,9 +8,11 @@ More detailed documentation can be found for the respective projects.
 
 ## Overview of projects
 
-[<img src="https://raw.githubusercontent.com/dmyersturnbull/sauron-publication/main/DOCUMENTATION/projects.svg" />](https://raw.githubusercontent.com/dmyersturnbull/sauron-publication/main/DOCUMENTATION/projects.svg)
+**TIP:** Open the diagram in another window (side-by-side). It contains embedded links, which cannot be rendered here.
+
+<img src="https://raw.githubusercontent.com/dmyersturnbull/sauron-publication/main/DOCUMENTATION/projects.svg" width="60%" height="60%" />
 
 ## Flow of data
 
 
-[<img src="https://raw.githubusercontent.com/dmyersturnbull/sauron-publication/main/DOCUMENTATION/flow.svg" />](https://raw.githubusercontent.com/dmyersturnbull/sauron-publication/main/DOCUMENTATION/flow.svg)
+[<img src="https://raw.githubusercontent.com/dmyersturnbull/sauron-publication/main/DOCUMENTATION/flow.svg" width="60%" height="60%" />](https://raw.githubusercontent.com/dmyersturnbull/sauron-publication/main/DOCUMENTATION/flow.svg)
