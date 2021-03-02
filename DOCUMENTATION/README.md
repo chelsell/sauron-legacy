@@ -8,8 +8,9 @@ More detailed documentation can be found for the respective projects.
 
 ## Overview of projects
 
-![Project structure](./projects.svg)
+[<img src="https://raw.githubusercontent.com/dmyersturnbull/sauron-publication/main/DOCUMENTATION/projects.svg" />](https://raw.githubusercontent.com/dmyersturnbull/sauron-publication/main/DOCUMENTATION/projects.svg)
 
 ## Flow of data
 
-![Data flow](./flow.svg)
+
+[<img src="https://raw.githubusercontent.com/dmyersturnbull/sauron-publication/main/DOCUMENTATION/flow.svg" />](https://raw.githubusercontent.com/dmyersturnbull/sauron-publication/main/DOCUMENTATION/flow.svg)
