@@ -22,11 +22,12 @@ Install [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or Anaconda
 and run `conda env create --file=environment.yml`.
 You will then need a database checkout and to follow the
 [sauronlab](https://github.com/dmyersturnbull/sauronlab) installation instructions.
-Note that the Vagrant setup is currently a stub.
 
 ### Contributing
 
-The source code in this repository is licensed under the terms of the [Apache License 2.0](https://spdx.org/licenses/Apache-2.0.html).
+The source code in this repository is licensed under the terms of the
+[Apache License 2.0](https://spdx.org/licenses/Apache-2.0.html).
 Contributions and questions are welcome via issues.
-For reference, refer to the [contributing guide](https://github.com/dmyersturnbull/sauron-publication/blob/main/CONTRIBUTING.md)
+For reference, refer to the
+[contributing guide](https://github.com/dmyersturnbull/sauron-publication/blob/main/CONTRIBUTING.md)
 and [security policy](https://github.com/dmyersturnbull/sauron-publication/blob/main/SECURITY.md).

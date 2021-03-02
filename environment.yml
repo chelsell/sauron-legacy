@@ -3,8 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - python==3.9.1
-  - sauronlab==0.1.0
-  - mandos==0.2.0
-  - chemserve==0.1.0
-  - jupyterlab==3.0.7
-  - ipympl==0.6.3
+  - poetry>=1.1,<2.0
+  - tox>=2.22,<3.0
+  - pip install git+https://github.com/dmyersturnbull/sauronlab.git/main[perf,extras]
+  - pip install git+https://github.com/dmyersturnbull/mandos.git/main
