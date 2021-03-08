@@ -48,43 +48,6 @@
 			 font-size: 6px;
 			 font-family: SourceSansPro-Regular, Source Sans Pro;
 		}
-		 .m {
-			 letter-spacing: -0.02em;
-		}
-		 .n {
-			 letter-spacing: -0.024em;
-		}
-		 .o {
-			 letter-spacing: -0.014em;
-		}
-		 .p {
-			 letter-spacing: -0.01em;
-		}
-		 .q {
-			 letter-spacing: 0.025em;
-		}
-		 .r {
-			 letter-spacing: -0.004em;
-		}
-		 .s {
-			 letter-spacing: 0.006em;
-		}
-		 .t {
-			 letter-spacing: -0.024em;
-		}
-		 .u {
-			 letter-spacing: -0.016em;
-		}
-		 .v {
-			 letter-spacing: 0em;
-		}
-		 .w {
-			 letter-spacing: -0.022em;
-		}
-		 .x {
-			 letter-spacing: -0.021em;
-		}
-
 		</style>
 	</defs>
 	<path class="a" d="M43.551,48.994c0,5.036-9.094,9.12-20.31,9.12s-20.31-4.084-20.31-9.12,9.093-9.122,20.31-9.122S43.551,43.956,43.551,48.994Z"/>
@@ -218,7 +181,7 @@
 	<text class="l" transform="translate(268.292 110.623)">B</text>
 	<text class="l" transform="translate(40.831 20.868)">user</text>
 	<text class="l" transform="translate(180.74 51.317)">
-		<a href="https://github.com/dmyersturnbull/valar-website">valinor</a>
+		<a href="https://github.com/dmyersturnbull/valinor">valinor</a>
 	</text>
 	<text class="l" transform="translate(92.983 50.537)">Slack</text>
 	<text class="l" transform="translate(84.233 80.244)">
@@ -251,7 +214,7 @@
 	<text class="l" transform="translate(130.635 174.568)">
 		<a href="https://github.com/dmyersturnbull/pippin">pippin-grammars</a>
 	</text>
-	<text class="u" transform="translate(196.93 174.504)">
+	<text class="l" transform="translate(196.93 174.504)">
 		<a href="https://github.com/dmyersturnbull/gale">gale</a>
 	</text>
 	<text class="l" transform="translate(39.019 188.873)">
