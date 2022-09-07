@@ -1,0 +1,24 @@
+@(name: String, extendable: Boolean = true)(headers: Html)(inputs: Html)
+
+<table class="table">
+
+	<thead>
+
+		<tr>
+			@headers
+		</tr>
+
+	</thead>
+
+	<tbody id="extendable_table-@name">
+
+		@inputs
+
+	</tbody>
+
+</table>
+
+@if(extendable) {
+	<button id="extend_table-@name" type="button" class="btn btn-secondary btn-sm">Add another row</button>
+}
+

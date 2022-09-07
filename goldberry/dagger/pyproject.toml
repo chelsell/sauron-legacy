@@ -1,0 +1,149 @@
+[metadata]
+description-file = "README.md"
+
+[build-system]
+# virtualenv 20.0.34 partly breaks pre-commit under conda
+# https://github.com/ContinuumIO/anaconda-issues/issues/12094
+# Poetry uses pip and setuptools (although they're not included as dependencies)
+# We don't need to list wheel here, but setting a min vr can avoid generating inferior wheels
+requires = ["poetry>=1.1,<2", "virtualenv==20.0.33", "wheel>=0.36,<1.0"]
+build-backend = "poetry.masonry.api"
+
+#########################################################################################
+# Poetry metadata
+#########################################################################################
+
+[tool.poetry]
+name = "valardagger"
+version = "0.1.0"
+description = "Scheduler for Valar backend tasks: run insertion, feature insertion, and backups."
+keywords = ["valar", "sauronx", "scheduler"]
+authors = ["Douglas Myers-Turnbull"]
+maintainers = ["Douglas Myers-Turnbull"]
+license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/dmyersturnbull/valar-dagger"
+repository = "https://github.com/dmyersturnbull/valar-dagger"
+documentation = "https://github.com/dmyersturnbull/valar-dagger"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+	"Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX",
+    "Environment :: Console",
+    "Environment :: No Input/Output (Daemon)",
+    "Topic :: Database",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: System :: Systems Administration",
+    "Topic :: System :: Archiving",
+    "typing :: Typed"
+]
+include = [
+    "README.md",
+    "LICENSE.txt",
+    "CHANGELOG.md"
+]
+
+[tool.poetry.urls]
+CI = "https://github.com/dmyersturnbull/valar-dagger/actions"
+Issues = "https://github.com/dmyersturnbull/valar-dagger/issues"
+Download = "https://pypi.org/project/valardagger/"
+
+[tool.poetry.scripts]
+valar-dagger = "valardagger.cli:cli"
+
+
+#########################################################################################
+# Poetry build & dependencies
+#########################################################################################
+
+[tool.poetry.dependencies]
+python                   = ">=3.9, <4"
+peewee                   = ">=3.14,<4.0"
+pocketutils              = {git="https://github.com/dmyersturnbull/pocketutils.git", tag="v0.5.0-snapshot", extras=["tools"]}
+prefect                  = ">=0.14, <1.0"
+tomlkit                  = ">=0.7, <1.0"
+typer                    = ">=0.3, <1.0"
+valarpy                  = {git="https://github.com/dmyersturnbull/valarpy.git", tag = "v3.0.0-alpha.1"}
+fastapi                  = ">=0.63, <1.0"
+dask                     = "=2021.4.0"
+
+[tool.poetry.dev-dependencies]
+pre-commit               = ">=2.11, <3.0"
+pre-commit-hooks         = ">=3.4, <4.0"
+bandit                   = ">=1.7, <2.0"
+black                    = "==20.8b1"
+pytest                   = ">=6.2, <7.0"
+coverage                 = {extras = ["toml"], version = ">=5.5, <6.0"}
+pytest-cov               = ">=2.11, <3.0"
+flake8                   = ">=3.9, <4.0"
+flake8-docstrings        = ">=1.6, <2.0"
+flake8-bugbear           = ">=21"
+
+[tool.poetry.extras]
+dev = [
+    "pre-commit", "pre-commit-hooks",
+    "black", "bandit",
+    "pytest", "coverage", "pytest-cov",
+    "flake8", "flake8-docstrings", "flake8-bugbear"
+]
+
+
+#########################################################################################
+# Tyrannosaurus
+#########################################################################################
+
+[tool.tyrannosaurus.options]
+align    = true
+
+[tool.tyrannosaurus.sources]
+status             = "'Development'"
+date               = "'2020-09-06'"
+copyright          = "'Copyright 2020–2021'"
+version            = "tool.poetry.version"
+release            = "tool.poetry.version"
+pyversions         = "tool.poetry.dependencies"
+devdeps            = "tool.poetry.dev-dependencies"
+linelength         = "tool.black.line-length"
+authors = [
+    "Douglas Myers-Turnbull <github:dmyersturnbull,orcid:0000-0003-3610-4808>"
+]
+contributors = [
+	"Chris S Ki <github:chriski777>"
+]
+maintainers = "tool.tyrannosaurus.sources.authors"
+
+[tool.tyrannosaurus.targets]
+pyproject    = true
+init         = true
+tox          = true
+license      = true
+authors      = true
+github       = true
+dockerfile   = true
+readme       = true
+changelog    = true
+codemeta     = true
+
+
+#########################################################################################
+# Style checking
+#########################################################################################
+
+[tool.coverage.paths]
+source = ["valardagger"]
+
+[tool.coverage.run]
+source = ["valardagger"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.black]
+line-length = 100
+target-version = ["py38"]

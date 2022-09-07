@@ -1,0 +1,107 @@
+@import kokellab.valar.core.Tables.StimuliRow
+
+@import java.sql.Timestamp
+
+@import kokellab.valar.core.Tables.TemplateAssaysRow
+@import kokellab.valar.insertion.TemplateAssayData
+@(assays: Seq[TemplateAssaysRow], stimuli: Seq[StimuliRow], form: Form[TemplateAssayData], userId: Option[Int], username: Option[String])(implicit request: RequestHeader, messages: Messages)
+
+@main(username) {
+
+	<script type="text/javascript" src="@routes.General.extendable("stimuli")" defer></script>
+
+	<h4>Create a template assay</h4>
+
+
+	@bit_submit_form("/newassay") {
+
+		<p>In order: stimuli, pattern, intensity, and frequency, followed by a comma and the total length. Avoid punctuation, and use 's' and 'm' for seconds and minutes.</p>
+		@bit_columned_row("Name") {
+			<input id="name" name="name" type="text" value="@{form.data.getOrElse("name", "")}" required class="form-control" />
+		}
+
+		@bit_textarea_row("Description", value = form.data.get("description"))
+
+		@bit_formtable("stimuli") {
+			<th class="col-md-2">Range</th>
+			<th class="col-md-2">Stimulus</th>
+			<th class="col-md-8">Value</th>
+		} {
+			@for(i <- 0 until Seq(1, form.data count (_._1.startsWith("value")), form.data count (_._1.startsWith("stimulus")), form.data count (_._1.startsWith("range"))).max) {
+				<tr id="extendable_row-stimuli">
+					@bit_formtable_column(2) {
+						<input id="range-1" name="range[]" type="text" class="form-control" value="@{
+							form.data.getOrElse(s"range[$i]", "")
+						}" />
+					}
+					@bit_formtable_column(2) {
+						<select id="stimulus-1" name="stimulus[]" class="form-control">
+							<option value="0">No stimulus</option>
+							@for(s <- stimuli) {
+								<option @{if(form.data.getOrElse(s"stimulus[$i]", "")==s.id.toString){"selected"}else{""}} value="@s.id">@s.name</option>
+							}
+						</select>
+					}
+					@bit_formtable_column(8) {
+						<input id="value-1" name="value[]" type="text" class="form-control" value="@{
+							form.data.getOrElse(s"value[$i]", "")
+						}"/>
+					}
+				</tr>
+			}
+		}
+
+		<input type="hidden" id="creator" name="creator" value="@{userId.get}" />
+	}
+
+	@bit_errors(form.errors)
+
+	@bit_help() {
+
+		<p>
+			All of the ranges are in milliseconds if units are not supplied. Changes in stimuli values must be at least 10ms apart because Arduino and most components can’t handle anything faster. You can specify the values in seconds, minutes, or hours by appending <em>
+			s</em>, <em>m</em>, or <em>h</em>; for example <em>5s – 5h</em>.
+		</p>
+		<p>
+			Values are assumed to be 0 where not specified. To create a background assay, fill in the first row with the intended range but no stimulus. Values cannot exceed their ranges: For example, an expression that results in 300 for a PWM stimuli or 2 for a digital pin anywhere in the range of the assay will result in an error.
+		</p>
+		<p>
+			For audio stimuli, values are relative volumes, where <em>255</em>
+			is the volume of the file, and 0 is probably silent (depending on the file). The audio file will play at a constant volume as long as the value is positive, looping as needed.
+			For example, a value of 50 for 25 seconds of a 20-second audio file will play the whole file followed by the first 5 seconds again, all at volume <em>
+			50</em>.
+			<em>Applying the audio stimulus for 1ms will be interpreted as playing the full length of the audio file, once. For example, <code>
+				if $t=0: 255</code> will play the file once at the start of the assay at full volume.</em>
+		</p>
+
+		@bit_subsection_header("Expression syntax")
+		<p>
+			See <a href="https://valinor.ucsf.edu/expressions">documentation</a>
+			for the <a href="https://github.com/kokellab/kl-common-scala/tree/master/grammars">extended expressions</a>
+			syntax. Write expressions for both digital and PWM stimuli this way.
+			Parameters are alphanumeric strings that begin with a <em>$</em>. Three are predefined:
+		</p>
+		<ul>
+			<li><code>$t</code> is the current frame (number of milliseconds), starting at 0</li>
+			<li><code>$t[x]</code> is the value at some prior frame <em>x</em> (this is restricted to prior frames). <strong>
+				Warning:</strong> This will be 0 for anything outside of the range <em>[0, $t]</em>.</li>
+		</ul>
+		Any other parameter you include will be required when <a href="https://valinor.ucsf.edu/protocols">
+			creating a protocol</a>.
+		<p>
+			There are many functions available, such as <em>cos</em>, <em>%</em> (the modulus operator), and <em>exp</em>
+			. Here are common patterns you might want:
+		</p>
+		<ol>
+			<li><code>if $t % 2000 &lt; 10: $intensity else: 0</code> to get a 10-millisecond application of the value <em>
+				$intensity</em> every 2 seconds</li>
+			<li><code>if $t % 2000 = 0: 255  @@  10</code> for another way to express the above</li>
+			<li><code>100 * sin($t)  @@  50</code> for a sine wave that re-evaluates every 50 milliseconds</li>
+			<li><code>$[$t-1] + normR(0, 1)</code> for Brownian motion</li>
+			<li>In the range column, <code>5s-10</code> will <strong>not work</strong> because the <em>10</em>
+				is interpreted as milliseconds. Use <code>5s-10s</code> instead.</li>
+		</ol>
+
+	}
+
+}

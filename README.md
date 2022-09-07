@@ -1,33 +1,107 @@
-# Science notebook template
+# Legacy Sauron-related code archive
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![template science_notebook](https://img.shields.io/badge/template-science_notebook-990099.svg)](https://github.com/dmyersturnbull/science-notebook-template)
+This page contains documentation for the software as a whole.
+More detailed documentation can be found for the respective projects.
 
-Code and notebooks supporting the manuscript.
+**For installation** of various subsystems, please see the
+[installation overview](https://github.com/dmyersturnbull/sauron-publication/blob/main/DOCUMENTATION/INSTALL.md).
 
-**NOTE:** This repository is under development.
+## Overview of projects
 
-Refer to [CITATION.md](https://github.com/dmyersturnbull/sauron-publication/blob/main/CITATION.md)
-for how to cite the publication and/or datasets.
+**TIP:** Open the diagram in another window (side-by-side). It contains embedded links, which cannot be rendered here.
 
-This repo contains:
+<img src="https://raw.githubusercontent.com/dmyersturnbull/sauron-publication/main/DOCUMENTATION/projects.svg" width="45%" height="45%" />
 
-- [Software documentation](https://github.com/dmyersturnbull/sauron-publication/blob/main/NOTEBOOKS/README.md)
-- [Analysis notebooks](https://github.com/dmyersturnbull/sauron-publication/blob/main/NOTEBOOKS/README.md)
+## Flow of data
 
-### Steps to reproduce
+<img src="https://raw.githubusercontent.com/dmyersturnbull/sauron-publication/main/DOCUMENTATION/flow.svg" width="45%" height="45%" />
 
-The analysis notebooks should run on any current operating system.
-Install [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or Anaconda
-and run `conda env create --file=environment.yml`.
-You will then need a database checkout and to follow the
-[sauronlab](https://github.com/dmyersturnbull/sauronlab) installation instructions.
+## Component glossary
 
-### Contributing
+#### Sauron (instrument)
 
-The source code in this repository is licensed under the terms of the
-[Apache License 2.0](https://spdx.org/licenses/Apache-2.0.html).
-Contributions and questions are welcome via issues.
-For reference, refer to the
-[contributing guide](https://github.com/dmyersturnbull/sauron-publication/blob/main/CONTRIBUTING.md)
-and [security policy](https://github.com/dmyersturnbull/sauron-publication/blob/main/SECURITY.md).
+Behavioral phenotyping instrument
+
+#### SauronX (drivers)
+
+High-level drivers for Sauron (Python and C++)
+
+#### Valar (database)
+
+Database (MariaDB)
+
+#### Valinor (website)
+
+Website (Scala)
+
+#### lorien
+
+Video feature analysis code (Scala)
+
+#### Spinnaker SDK
+
+External library from Point Grey to control Grasshopper 3 camera (C++)
+
+#### Firmata
+
+Firmware used on the Arduino for SauronX (C++)
+
+#### valar-dagger
+
+Scheduler for backend jobs like data insertion and database maintenance (Python)
+
+#### Slack
+
+Valar-dagger can use [Slack](https://slack.com/) for user interaction
+
+#### valar-backend
+
+Collection of backend software, mostly for handling incoming data from valar-dagger (Scala)
+
+#### valar-importer
+
+Subproject of valar-backend to handle data post-processing and insertion (Scala)
+
+#### valar-insertion
+
+Small subproject of valar-backend that provides interfaces for database transactions (Scala)
+
+#### valar-params
+
+Subproject of valar-backend that handles template assays, batteries, and plate layouts (Scala)
+
+#### valar-core
+
+Subproject of valar-backend that provides a stateless database view via [Slick](https://scala-slick.org/) (Scala)
+
+#### Gale (language)
+
+Language for describing behavioral assays (stimuli over time)
+
+#### gale (interpreter)
+
+Interpreter for Gale in Parboiled2 (Scala)
+
+#### pippin-grammars
+
+Grammars and interpreters for parameterization of plate layouts (Scala)
+
+#### valarpy
+
+Stateful ORM for Valar (Python)
+
+#### sauronlab
+
+Analysis package (Python)
+
+#### typed-dfs
+
+Library for Pandas DataFrames with specifications, extensively used by sauronlab (Python)
+
+#### chemserve
+
+Thin wrapper and isolation library for rdkit (Python)
+
+#### pocketutils
+
+Collection of extensively used utilities (Python)

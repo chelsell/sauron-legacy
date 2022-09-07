@@ -1,0 +1,25 @@
+@import play.api.data.FormError
+
+@(errors: Seq[FormError])
+
+@if(errors.size > 1) {
+	@bit_separator()
+	<div class="alert alert-danger">
+		<h4>Multiple errors occurred</h4>
+		<ul>
+			@errors.map { error =>
+				<li title="@error.message">@error.message.replaceAll("&lt;&lt;&lt;.*&gt;&gt;&gt;", "") @if(error.key.nonEmpty){(@error.key)}</li>
+			}
+		</ul>
+	</div>
+}
+@if(errors.size == 1) {
+	@bit_separator()
+	<div title="@errors.head.message" class="alert alert-danger" >
+		<h4>An error occurred</h4>
+		@errors.map { error =>
+			@{error.message.replaceAll("&lt;&lt;&lt;.*&gt;&gt;&gt;", "")} @if(error.key.nonEmpty){(@error.key)}
+		}
+	</div>
+}
+

@@ -1,0 +1,10 @@
+@(label: String, disabled: Boolean = false, required: Boolean = true, allowNone: Boolean = true)(options: Html)
+
+@name = @{label.toLowerCase.replaceAllLiterally(" ", "_")}
+
+@bit_columned_row(label) {
+	<select id="@name" name="@name" @{if(required) "required" else ""}  @{if(disabled) "disabled" else ""} class="form-control">
+		@if(allowNone){<option value="">Select a @label...</option>}
+		@options
+	</select>
+}

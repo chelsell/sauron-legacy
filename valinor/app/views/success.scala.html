@@ -1,0 +1,19 @@
+@(description: String, username: Option[String], extraHtml: Html = Html(""), codeToRun: Option[String] = None)
+
+@main(username) {
+
+	<h4>Success!</h4>
+
+	<div class="alert alert-success">
+		<p class="lead">
+			<strong>Success!</strong>
+			@description
+			@extraHtml
+			@if(codeToRun.nonEmpty) {
+            <button class="btn clipboard_button" aria-label="Copy to clipboard" data-clipboard-text="@codeToRun.get">
+                <img src="/assets/images/copy.png" class="clipboard_icon" />
+            </button>
+			}
+		</p>
+	</div>
+}

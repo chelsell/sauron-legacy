@@ -1,0 +1,9 @@
+@(name: String, checked: Boolean = false)(content: Html)
+
+
+<div class="form-check">
+	<label class="form-check-label">
+		<input id="@name" value="true" name="@name" type="checkbox" @if(checked){checked} class="form-check-input">
+		@content
+	</label>
+</div>

@@ -7,27 +7,113 @@
 ~*
 *~
 *#
-Thumbs.db
+$*
+*$
+*.lnk
 *.bak
 *.swp
+*.tmp
+*.temp
 tmp/
+null
+null/
+pids
+*.pid
+*.pid.lock
+*.backup
 
-# Log files and binary files
+
+# Silly OS files
+Thumbs.db
+[Dd]esktop.ini
+
+# Bad doc formats
+*.ps
+*.eps
+*.dvi
+*.doc
+*.ppt
+*.xls
+
+# Bad image formats
+*.jpg
+*.jpeg
+
+# Bad audio formats
+*.wav
+*.wave
+*.aiff
+*.aif
+*.aifc
+*.mp3
+*.mp4
+*.m4a
+*.3gp
+*.m4b
+*.m4p
+*.m4r
+*.m4v
+*.aac
+*.tta
+
+# Bad video formats
+*.gif
+*.avi
+*.mov
+*.wmv
+*.yuv
+*.mpg
+*.mp2
+*.mpeg
+*.mpe
+*.mpv
+*.m2v
+*.3g2
+
+
+# Common build dirs
+out/
+build/
+dist/
+dist-*
+
+# Log files
 *.log
-*.zip
+*.log.gz
+*.log.lz4
+
+# Potentially sensitive
+*.jks
+*.keystore
+google-services.json
+
+# Mutli-file archives
+*.7z
+*.bz2
+*.tar
 *.tar.gz
 *.tgz
-*.gz
-*.tar
-*.z7
-*.exe
-*.msi
-*.pkg
+*.zip
+*.war
+*.nar
+*.ear
+*.rar
+*.jar
+
+# Misc binary files
 *.dll
 *.so
+*.so.*
+*.dylib
+*.exe
+*.msi
+*.msix
+*.cab
+*.pkg
+*.out
+*.app
 
-# Python temp and build files
-docs/html/
+# Python
 __pycache__/
 __pypackages__/
 *.py[cod]
@@ -35,27 +121,133 @@ __pypackages__/
 *.egg-info
 pip-wheel-metadata
 share/python-wheels/
-build/
-dist/
 eggs/
 sdist/
 docs/_build
 cython_debug/
-docs/autoapi
+docs/autoapi/
 
-# Hidden files that are definitely unwanted (redundant)
-.tox/
-.pytest_cache
-.ipynb_checkpoints
+# Redis
+*.rdb
 
-# Files from other languages
+# C/C++
+*.d
 *.o
+*.slo
+*.lo
+*.obj
+*.gch
+*.pch
+*.ko
+*.elf*.lib
+*.a
+*.la
+*.lai
+*.lib
+
+# JVM
 hs_err_pid*
+replay_pid*
 *.class
+.hprof
+*.iml
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# Lua
+luac.out
+*.os
+*.elf
+
+# Cuda
+*.i
+*.ii
+*.gpu
+*.ptx
+*.cubin
+*.fatbin
+
+# Julia
 *.jl.cov
 *.jl.*.cov
 *.jl.mem
 deps/deps.jl
+
+# Javascript
+node_modules
+coverage/
+*.lcov
+build/Release
+node_modules/
+jspm_packages/
+web_modules/
+*.tsbuildinfo
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Matlab
+slprj/
+sccprj/
+codegen/
+
+# Elm
+elm-stuff
+repl-temp-*
+
+# Terraform
+**/.terraform/*
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+terraform.rc
+
+# Jekyll
+_site/
+vendor/
+
+# LaTeX
+*.aux
+*.lof
+*.lot
+*.fls
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+*.xdv
+*-converted-to.*
+*.bbl
+*.bcf
+*.blg
+*-blx.aux
+*-blx.bib
+*.run.xml
+*.fdb_latexmk
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+latex.out/
+*.lol
+*.brf
+*.idx
+*.ilg
+*.ind
+_minted*
+*.pyg
+*.nlg
+*.nlo
+*.nls
+*.auxlock
+*.ptc
 
 # Keep these config files
 !/.gitignore
@@ -70,3 +262,6 @@ deps/deps.jl
 !/.pre-commit-config.yaml
 !.npmignore
 !/.scrutinizer.yml
+!/.nojekyll
+!gradle-wrapper.jar
+!gradle-wrapper.properties

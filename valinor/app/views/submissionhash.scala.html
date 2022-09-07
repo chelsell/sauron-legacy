@@ -1,0 +1,18 @@
+@(submissionHash: String, username: Option[String])
+
+@main(username) {
+
+	<h4>Success!</h4>
+
+	<div class="alert alert-success">
+		<p class="lead">
+			Run this in a Terminal window immediately after placing your plate in Sauron:
+		</p>
+		<p class="lead">
+			<kbd>sauronx submit @submissionHash</kbd>
+			<button class="btn clipboard_button" aria-label="Copy to clipboard" data-clipboard-text="sauronx submit @submissionHash">
+				<img src="/assets/images/copy.png" class="clipboard_icon" />
+			</button>
+		</p>
+	</div>
+}

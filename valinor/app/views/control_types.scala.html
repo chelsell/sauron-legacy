@@ -1,0 +1,54 @@
+@import kokellab.valar.core.Tables.ControlTypesRow
+
+@(controlTypes: Seq[ControlTypesRow], username: Option[String])
+
+@main(username) {
+
+	<h4>Control types</h4>
+
+	<table class="table table-md table-hover">
+		<thead>
+			<tr>
+				<th class="col-md-3">Name</th>
+				<th class="col-md-1">+/−</th>
+				<th class="col-md-6">Description</th>
+				<th class="col-md-2">Plate contains</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for(t <- controlTypes) {
+				<tr>
+					@if(Set("solvent (-)", "drug (-)", "drug (+)", "genotype (-)", "genotype (+)", "empty", "liquid") contains t.name) {
+						<td class="col-md-3 text-success">
+					} else {
+						<td class="col-md-3">
+						}
+					@t.name
+				<button class="btn clipboard_button" aria-label="Copy to clipboard" data-clipboard-text="@t.name">
+					<img src="/assets/images/copy.png" class="clipboard_icon" />
+				</button>
+				</td>
+				<td class="col-md-1">
+				@if(t.positive){+} else {−}
+				</td>
+				<td class="col-md-6">@t.description</td>
+				<td class="col-md-2">
+					@if(t.geneticsRelated && t.drugRelated) {
+						both
+					}
+					@if(!t.geneticsRelated && t.drugRelated) {
+						treatments only
+					}
+					@if(t.geneticsRelated && !t.drugRelated) {
+						variants only
+					}
+					@if(!t.geneticsRelated && !t.drugRelated) {
+						neither
+					}
+				</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+}

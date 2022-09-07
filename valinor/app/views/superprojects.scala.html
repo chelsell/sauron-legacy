@@ -1,0 +1,40 @@
+@import kokellab.valar.core.Tables.SuperprojectsRow
+@import kokellab.valar.core.Tables.SuperprojectsRow
+@import java.sql.Timestamp
+@import kokellab.valar.insertion.SuperprojectData
+
+@import kokellab.valar.core.Tables.ProjectTypesRow
+
+@(superprojects: Seq[SuperprojectsRow], projectTypes: Seq[ProjectTypesRow], form: Form[SuperprojectData], userId: Option[Int], username: Option[String])(implicit request: RequestHeader, messages: Messages)
+
+
+@main(username) {
+
+	<h4>Create a new project</h4>
+
+	@bit_submit_form("/newproject", editable = true) {
+
+		@bit_select_row("Type") {
+			@for(p <- projectTypes) {
+				<option value="@p.id" @{if (p.id.toString == form.data.getOrElse("project_type", "")) "selected"}>@p.name</option>
+			}
+		}
+
+		@bit_columned_row("Name") {
+			<input id="name" name="name" type="text" value="@form.data.getOrElse("name", "")" required class="form-control" />
+		}
+
+		@bit_textarea_row("Description", value = form.data.get("description"))
+		@bit_textarea_row("Reason", value = form.data.get("reason"), placeholder = "Enter a reason for running these experiments")
+		@bit_textarea_row("Methods", value = form.data.get("methods"), placeholder = "Enter how you handled the animals, chose compounds, etc.")
+
+        @bit_checkbox_row("active", checked = form.data.getOrElse("active", "true")=="true") {
+            The project is active.
+        }
+		<input type="hidden" id="creator" name="creator" value="@{userId.get}" />
+	}
+
+	@bit_errors(form.errors)
+
+}
+

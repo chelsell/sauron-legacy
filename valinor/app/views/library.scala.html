@@ -1,0 +1,49 @@
+
+@import kokellab.valar.core.Tables.BatchesRow
+@import kokellab.valar.core.Tables.CompoundsRow
+
+@(name: String, compounds: Seq[(BatchesRow, Option[CompoundsRow])], userNames: Map[Int, String], libraryNames: Map[Int, String], supplierNames: Map[Int, String], username: Option[String])
+
+@main(username) {
+
+	<h4>There are @compounds.size compounds for @name</h4>
+
+	<table class="table table-sm table-hover">
+		<thead>
+			<tr>
+				<th>Lookup hash</th>
+				<th>Library</th>
+				<th>Inchikey</th>
+				<th>Legacy ID</th>
+				<th>Maker</th>
+				<th>Supplier</th>
+				<th>Date ordered</th>
+			</tr>
+		</thead>
+		<tbody>
+		@for((oc, c) <- compounds) {
+			<tr>
+				<td>
+					<a href="@routes.Compounds.batch(oc.id.toString)">@oc.lookupHash</a>
+					<button class="btn clipboard_button" aria-label="Copy to clipboard" data-clipboard-text="@oc.lookupHash">
+						<img src="/assets/images/copy.png" class="clipboard_icon" />
+					</button>
+				</td>
+				<td>
+					@if(oc.refId.isDefined) {
+						<a href="@routes.Compounds.library(oc.refId.get.toString)">@oc.refId.map(r => libraryNames(r))</a>
+					} else {
+						-
+					}
+				</td>
+				<td>@if(c.isDefined){<a href="https://valinor.ucsf.edu/compound_search?text=@c.map(_.inchikey)">@c.map(_.inchikey)</a>}</td>
+				<td>@oc.legacyInternalId</td>
+				<td>@oc.personOrdered.map(r => userNames(r))</td>
+				<td>@oc.supplierId.map(r => supplierNames(r))</td>
+				<td>@oc.dateOrdered</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+
+}

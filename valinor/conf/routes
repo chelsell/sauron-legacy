@@ -1,0 +1,79 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /                               controllers.Index.index
+GET     /_index                         controllers.Index._index
+
+POST     /login                         controllers.Index.login
+GET      /login                         controllers.Index.methodNotAllowed
+GET      /logout                        controllers.Index.logout
+POST     /logout                        controllers.Index.logout
+
+GET     /submissions                    controllers.Submissions.submissions
+GET     /_submissions                   controllers.Submissions._submissions
+POST    /newsubmission                  controllers.Submissions.newSubmission
+GET     /newsubmission                  controllers.Submissions.methodNotAllowed
+GET     /newsubmission/:hash            controllers.Submissions.submissionHash(hash: String)
+GET     /concern_keys                   controllers.Plates.concernKeys()
+
+GET     /projects                       controllers.Superprojects.superprojects
+POST    /newproject                     controllers.Superprojects.newSuperproject
+GET     /newproject                     controllers.Superprojects.methodNotAllowed
+
+GET     /experiments                    controllers.Projects.projects
+POST    /newexperiment                  controllers.Projects.newProject
+GET     /newexperiment                  controllers.Projects.methodNotAllowed
+
+GET     /compounds                      controllers.Compounds.compounds
+GET     /library/:name                  controllers.Compounds.library(name: String)
+GET     /compound_search                controllers.Compounds.search
+GET     /batch/:id                      controllers.Compounds.batch(id: String)
+GET     /bid/:id                        controllers.Compounds.batch(id: String)
+GET     /cid/:id                        controllers.Compounds.compoundById(id: Int)
+GET     /compound/:id                   controllers.Compounds.compound(id: Int)
+POST    /newcompound                    controllers.Compounds.newCompound
+GET     /newcompound                    controllers.Compounds.methodNotAllowed
+POST    /compounds/label                controllers.Compounds.newCompoundLabel
+POST    /concentration                  controllers.Compounds.setConcentration
+PATCH   /concentration                  controllers.Compounds.setConcentration
+GET     /structures/:cid                controllers.Compounds.structure(cid: Int)
+
+GET     /batteries                      controllers.Protocols.protocols
+GET     /_batteries                     controllers.Protocols._protocols
+POST    /newbattery                     controllers.Protocols.newProtocol
+GET     /newbattery                     controllers.Protocols.methodNotAllowed
+
+GET     /assays                         controllers.Assays.assays
+POST    /newassay                       controllers.Assays.newAssay
+GET     /newassay                       controllers.Assays.methodNotAllowed
+
+GET     /layouts                        controllers.Layouts.layouts
+GET     /controls                       controllers.Layouts.controlTypes
+POST    /newlayout                      controllers.Layouts.newLayout
+GET     /newlayout                      controllers.Layouts.methodNotAllowed
+
+GET     /variants                       controllers.Variants.variants
+POST    /newvariant                     controllers.Variants.newVariant
+GET     /newvariant                     controllers.Variants.methodNotAllowed
+
+GET     /constructs                     controllers.Constructs.constructs
+
+GET     /run_search                     controllers.Index.runSearch
+GET     /runs/:id                       controllers.Plates.plate(id: Int)
+GET     /submissions/:hash              controllers.Plates.plateByHash(hash: String)
+POST    /delete_submission              controllers.Plates.deleteSubmission
+DELETE  /delete_submission              controllers.Plates.deleteSubmission
+POST    /runs/concern                   controllers.Plates.plateConcern
+
+GET     /expressions                    controllers.General.expressions
+
+GET     /extendable/:item               controllers.General.extendable(item: String)
+
+GET     /grammars/:grammar              controllers.ApiQueries.grammar(key: String, grammar: String, expression: String, start: Int, end: Int)
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)
+GET     /schema.png                     controllers.Assets.at(path="/public", file="images/valar.png")
+GET     /parrot                         controllers.Assets.at(path="/public", file="parrot")

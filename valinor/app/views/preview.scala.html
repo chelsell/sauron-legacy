@@ -1,0 +1,30 @@
+@import kokellab.valar.core.Tables.TemplatePlatesRow
+@import kokellab.valar.core.Tables.PlateTypesRow
+
+@(templatePlate: TemplatePlatesRow, plateType: PlateTypesRow, fillValues: Map[(Int, Int), String], userId: Option[Short], username: Option[String])
+
+<h2>@templatePlate.name</h2>
+<p>@templatePlate.description</p>
+
+@main(username) {
+
+	<table class="table table-sm">
+		<thead>
+			<th>∇</th>
+			@for(column <- 1 to plateType.nColumns) {
+				<th>@column</th>
+			}
+		</thead>
+		<tbody>
+			@for(row <- 1 to plateType.nRows) {
+				<tr>
+					<th scope="row">@row</th>
+					@for(column <- 1 to plateType.nColumns) {
+						<td>@fillValues(row, column)</td>
+					}
+				</tr>
+			}
+		</tbody>
+	</table>
+
+}

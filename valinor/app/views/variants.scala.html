@@ -1,0 +1,52 @@
+
+@import kokellab.valar.core.Tables.GeneticVariantsRow
+@import kokellab.valar.insertion.VariantData
+
+@(variants: Seq[GeneticVariantsRow], form: Form[VariantData], userId: Option[Int], username: Option[String])(implicit request: RequestHeader, messages: Messages)
+
+@main(username) {
+
+	<script type="text/javascript" src="@routes.General.extendable("mutations")" defer></script>
+
+	<h4>Create a new variant</h4>
+
+	<div id="uneditable-warning" class="alert alert-info">
+		Don’t use this form for anything more than simple crosses and selections, or new wild-types.
+	</div>
+
+	@bit_submit_form("/newvariant") {
+
+		@bit_columned_row("Name", form.errors) {
+			<input id="name" name="name" type="text" value="@{form.data.getOrElse("name", "")}" required class="form-control" />
+		}
+
+		@bit_select_row("Type", required = true) {
+			<option value="cross" @{if ("cross" == form.data.getOrElse("type", "")) "selected"}>cross</option>
+			<option value="selection" @{if ("selection" == form.data.getOrElse("type", "")) "selected"}>selection</option>
+			<option value="wild-type" @{if ("wild-type" == form.data.getOrElse("type", "")) "selected"}>wild-type</option>
+		}
+
+		@bit_select_row("Mother", required = false) {
+			@for(p <- variants) {
+				<option value="@p.id"@{if (p.id.toString == form.data.getOrElse("mother_strain", "")) "selected"}>@p.name</option>
+			}
+		}
+		@bit_select_row("Father", required = false) {
+			@for(p <- variants) {
+				<option value="@p.id" @{if (p.id.toString == form.data.getOrElse("father_strain", "")) "selected"}>@p.name</option>
+			}
+		}
+
+		@bit_columned_row("Date created", form.errors) {
+			<input id="date_created" name="date_created" type="date" value="@{form.data.getOrElse("date_created", "")}" class="form-control" />
+		}
+
+		@bit_textarea_row("Notes", value = form.data.get("notes"))
+
+		<input type="hidden" id="creator" name="creator" value="@{userId.get}" />
+
+	}
+
+	@bit_errors(form.errors)
+
+}

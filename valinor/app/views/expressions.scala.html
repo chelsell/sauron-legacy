@@ -1,0 +1,107 @@
+@(username: Option[String])
+
+@main(username) {
+	<p>
+		This is some user documentation for the public <a href="https://github.com/kokellab/kl-common-scala/tree/master/grammars">extended expression</a> grammar.
+	</p>
+	<p>
+		These expressions can contain math, logical, and value expressions, and if-elif-else statements. Here’s a general form:
+		<pre><code>
+			if &lt;boolean expression&gt;: &lt;value expression&gt;
+			elif &lt;boolean expression&gt;: &lt;value expression&gt;
+			else &lt;boolean expression&gt;: &lt;value expression&gt;
+		</code></pre>
+		<p>	You can chain as many <code>elif</code> statements as you like. You can also use parantheses to group if-elif-else statements, but you cannot mix these with value expressions for technical reasons. For example, this is allowed:
+		<pre><code>
+			if x: (if y: v1 else: v2) else: v3
+		</code></pre>
+		However, this is <strong>not</strong> permitted:
+		<pre><code>
+			if x: 2 * (if y: v1 else: v2) else: v3
+		</code></pre>
+		You can also use the boolean (logical) operators <code>and</code>, <code>or</code>, <code>xor</code>, <code>nand</code>, and <code>nor</code>. For example:
+		<pre><code>
+			if x and y: v1 elif z: v2 else: v3
+		</code></pre>
+		The value expressions can be either strings or math expressions. Math expressions are used for assays, number of fish, and compound dose; strings are used for fish variants. Strings can be quoted with <code>"</code> for clarity.
+		Math expressions can be much more interesting. They consist of integer or decimal numbers, functions, and operators. These all have different precedence (meaning which is evaluated first: for example multiplication is evaluated before addition). In order of decreasing precedence:
+	<ol>
+		<li> values and functions like <code>cos</code></li>
+		<li>the operators <code>*</code> (or <code>×</code>), <code>/</code>, and <code>%</code></li>
+		<li>The operators <code>+</code>, <code>-</code> (or <code>−</code>)</li>
+		<li>Comparison, logical, and bitwise operators</li>
+	</ol>
+	Here are the functions available:
+	<ul>
+		<li><code>sqrt</code>, <code>√</code>, and <code>∛</code></li>
+		<li><code>sin</code>, <code>cos</code>, <code>tan</code>, <code>asin</code>, <code>acos</code>, and <code>atan</code></li>
+		<li><code>exp</code>, <code>pow</code>, <code>exp</code>, <code>ln</code>, <code>sinh</code>, and <code>cosh</code></li>
+		<li><code>abs</code>, <code>round</code>, <code>ceil</code>, <code>floor</code>, <code>min</code>, and <code>max</code></li>
+		<li><code>sgn</code>, <code>bool</code> (<em>0 if 0, 1 otherwise</em>), and <code>not</code> (1 if 0, 0 otherwise)</li>
+		<li>random sampling: <code>unifR</code>, <code>normR</code>, <code>betaR</code>, and <code>gammaR</code></li>
+	</ul>
+	The comparison operators are <code>=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&lt;=</code> (or <code>≥</code>), <code>&gt;=</code> (or <code>≤</code>), <code>!=</code> (or <code>≠</code>), and approximate comparison operators.
+
+		There is also a matter of parameters, which are alphanumeric strings that begin with a <code>$</code> and terminate in a non-alphnumeric character. These will be substituted with their respected values. When filling out tcodeplate assays and layouts, you can introduce arbitrary parameters that will be required during <a href="https://valinor.ucsf.edu/submissions">SauronX submission</a>. Four are also available normally:
+		<ul>
+			<li><code>$t</code> for time in milliseconds for assay values (0-indexed)</li>
+			<li><code>$r</code> and <code>$c</code> for 1-indexed well row and column (both are numerical) on the <a href="https://valinor.ucsf.edu/layouts"></a> page</li>
+			<li>A <a href="https://en.wikipedia.org/wiki/Random_seed">random seed</a> per assay for random functions like <code>unifR</code>; these are generated when creating a protocol.</li>
+		</ul>
+	<p>
+		Any user-defined parameter that begins with <code>$...</code> will be assumed to be an array with length determined by the well or stimulus range. These should be set in the SauronX submission using the syntax <code>param_r = [v1, v2, v3]</code> (for an array of length 3).
+	</p>
+	<p>
+		There are two more points of interest for assays:
+	</p>
+		<ul>
+			<li>
+				There is an additional parameter <code>$[zzz]</code>, which is the value of the same stimulus at some prior frame <code>zzz</code>. For example, this gives the value two frames before:
+				<code>
+					$[$t-2]
+				</code>
+			</li>
+			<li>At the end of the value range, you can use the syntax <code> @@ [interval] [units]</code> or <code> @@ [interval] [units]</code>. This gives a <code>sampling interval</code>, which causes the value to be evaluated only every <code>frame</code> steps, or at a rate of <code>freq + units</code> (for example, <code>1mHz</code>). The expression will be evaluated at frame <code>0</code> and remain the same unttil the frame <code>frame</code>. Be careful when using an evalulation interval (<em>@@</em>) with modulus (<em>%</em>). <code>if $t%30=0: 1 else: 0 @@ 100</code> will always be <em>0</em> because at every evaluation <em>0, 100, 200, ...</em>, <code>$t%30=0</code> is false. To avoid this, just make sure that the evaluation interval is an integer multiple of the modulo divisor.</li>
+		</ul>
+
+	<p>
+		The grammar is restricted depending on the place:
+	</p>
+	<ul>
+		<li>Ordered compounds and fish variants: No random functions and only plain strings as values</li>
+		<li>Number of fish: No random functions; and no fractional numbers, division, or functions that can return fractional numbers are (<code>pow</code> is restricted to only allow nonnegative powers)</li>
+		<li>Assay values: Anything</li>
+	</ul>
+	<p>
+	Units are allowed in some cases. Dose expressions allow units in micromolar (<code>μM</code> or <code>uM</code>), millimolar (<code>mM</code>), and molar (<code>M</code>). For example, you can write <code>5 mM</code> or <code>5 mmol/L</code>. Assay ranges and evaluation intervals allow units in millseconds (<code>ms</code>), seconds (<code>s</code>), kiloseconds (<code>ks</code>), milli-minutes (<code>mm</code>), minutes (<code>m</code>), kilo-minutes (<code>km</code>), milli-hours (<code>mh</code>), hours (<code>h</code>), and kilo-hours (<code>kh</code>), as well as millihertz (<code>mHz</code>), hertz (<code>Hz</code>), and kilohertz (<code>kHz</code>).
+
+	</p>
+
+
+	<h4>Substitutions text</h4>
+	<p>
+		In the submissions page, you’ll need to fill in parameters if the project requires them.
+		If you’re running a library, you’ll see something like this when you drop-down your project:
+		<code>
+			$...drug = ["oc_&lt;hash&gt;"#1, ..., "oc_&lt;hash&gt;"#80]
+		</code>
+		Suppose you only had three screening compounds on a plate in the ChemBridge library, rather than than 80 as shown above. Then to get the compounds <em>CB6150101</em>, <em>CB6150101</em>, and <em>CB6150101</em> from the first ChemBridge plate, you could write:
+		<code>
+			$...drug = ["oc_386faf3df2f", "oc_bc17c49d3af", "oc_759a1f26248"]
+		</code>
+		Or:
+		<code>
+			$...drug = [
+			"oc_386faf3df2f"
+			"oc_bc17c49d3af"
+			"oc_759a1f26248"
+			]
+		</code>
+		But a better way still is to write:
+		<code>
+			$...drug = /CB61501/
+		</code>
+		This means to fill in all compounds whose legacy ID begins with <em>CB61501</em> (in order of ascending legacy ID).
+	</p>
+
+}

@@ -1,0 +1,13 @@
+@(description: Html, username: Option[String] = None)
+
+
+@main(username) {
+
+	<h4>Failed</h4>
+
+	<div class="alert alert-error">
+		<p class="lead">
+			@description
+		</p>
+	</div>
+}

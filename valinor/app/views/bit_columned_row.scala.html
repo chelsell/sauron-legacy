@@ -1,0 +1,17 @@
+@import play.api.data.FormError
+
+@(label: String, errors: Seq[FormError] = List.empty)(content: Html)
+
+@name = @{label.toLowerCase.replaceAllLiterally(" ", "_")}
+
+@additionalClasses = @{if(errors exists (_.key == name)) "has-warning" else ""}
+
+<div class="form-group row @additionalClasses">
+	<label for="@name" class="col-sm-2 col-form-label">@label:</label>
+	<div class="col-sm-10">
+		@content
+	@for(error <- errors filter (_.key == name)) {
+		<div class="form-control-feedback">@{if (error.message.startsWith("error.")) error.message.substring(6) + " required" else error.message}</div>
+	}
+	</div>
+</div>

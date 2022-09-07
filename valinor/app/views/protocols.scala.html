@@ -1,0 +1,88 @@
+@import kokellab.valar.core.Tables.BatteriesRow
+@import kokellab.valar.core.Tables.TemplateAssaysRow
+
+@import java.sql.Timestamp
+@import kokellab.valar.insertion.BatteryData
+
+
+@(protocols: Seq[BatteriesRow], assays: Seq[TemplateAssaysRow], form: Form[BatteryData], userId: Option[Int], username: Option[String])(implicit request: RequestHeader, messages: Messages)
+
+
+@main(username) {
+
+	<script type="text/javascript" src="@routes.Protocols._protocols()" defer></script>
+
+	<script type="text/javascript" src="@routes.General.extendable("assays")" defer></script>
+
+	<h4>Create a battery</h4>
+
+	@bit_submit_form("/newbattery") {
+
+		@bit_select_row("Type") {
+			<option value="standard">standard ::</option>
+			<option value="specialized">specialized ::</option>
+			<option value="experiment-specific">(exact experiment name)</option>
+			<option value="hardware">hardware ::</option>
+			<option value="hardware">sys ::</option>
+			<option value="debug">~~. (debug)</option>
+		}
+
+
+
+		@bit_columned_row("Name") {
+			<input id="name" name="name" maxlength="100" type="text" value="@{form.data.getOrElse("name", "")}" required class="form-control" />
+		}
+
+		@bit_textarea_row("Description", value = form.data.get("description"))
+
+		@bit_textarea_row("Notes", value = form.data.get("notes"))
+
+		@bit_formtable("assays") {
+			<th class="col-md-3">Assay</th>
+			<th class="col-md-9">Parameters</th>
+		} {
+			@for(i <- 0 until Seq(1, form.data count (_._1.startsWith("assay"))).max) {
+				<tr id="extendable_row-assays">
+					@bit_formtable_column(3) {
+						<select id="assay-1" name="assay[]" class="form-control">
+							<option value="0">Choose a template assay...</option>
+							@for(s <- assays) {
+								<option @{if(form.data.getOrElse(s"assay[$i]", "")==s.id.toString){"selected"}else{""}} value="@s.id">@s.name</option>
+							}
+						</select>
+					}
+					@bit_formtable_column(9) {
+						<input id="params-1" name="params[]" class="form-control" value="@{
+							form.data.getOrElse(s"params[$i]", "")
+						}" />
+					}
+				</tr>
+			}
+		}
+
+		<input type="hidden" id="creator" name="creator" value="@{userId.get}" />
+
+	}
+
+	@bit_errors(form.errors)
+
+	@bit_help() {
+
+		<p>
+			Submitting this form parameterizes each template assay to create an assay and then creates a protocol using those assays.
+			Already-built assays and protocols will be reused where possible, in which case the previous name is kept.
+		</p>
+		<p>
+			Building new assays is slow, so you may need to be patient. There are a few ways to mitigate this issue:
+		</p>
+		<ol>
+			<li>When using template assays that require parameters, string together assays that already exist. For example, instead of parameterzing a background template assay with <code>
+				$length = 4000</code> (4 seconds), list a background assay with length <code>1000</code> four times.</li>
+			<li>Use constant values rather than expressions.</li>
+			<li>Don’t use <code>if</code> statements.</li>
+			<li>Don’t refer to previous frame values with <code>$t[index]</code>, <strong>especially for long assays</strong>.</li>
+		</ol>
+
+	}
+
+}

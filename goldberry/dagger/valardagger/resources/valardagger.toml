@@ -1,0 +1,33 @@
+[dagger]
+
+max_simultaneous = 2
+min_memory = "4G"
+symlink_tree_path = "/runs/"
+log_path = "/var/log/dagger/${submission.hash}.log"
+features = [ "cd(10)", "MI" ]
+
+
+[dagger.paths]
+
+upload = "/var/spool/dagger/${submission.hash}/"
+archive = "/shire/${run.year}/${run.month}/${run.tag}/"
+video = "camera/x265-crf15/x265-crf15.mkv"
+video_hash = "camera/x265-crf15/x265-crf15.mkv.sha256"
+signal_path = ".upload-complete"
+
+
+[dagger.notify]
+
+
+[dagger.backup]
+# These correspond to running `valar-dagger backup <<name>>`
+
+[logger.backup.nightly]
+paths = [ "/bak/nightly/", "/shire/valar/nightly/" ]
+sensors = true
+features = true
+
+[logger.backup.daily]
+paths = [ "/shire/valar/${now.datetime}/" ]
+sensors = true
+features = false

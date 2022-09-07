@@ -1,0 +1,97 @@
+@import kokellab.valar.core.Tables.SubmissionsRow
+@import kokellab.valar.core.Tables.ExperimentsRow
+@import kokellab.valar.core.Tables.UsersRow
+@import kokellab.valar.insertion.SubmissionData
+
+@import java.time.ZonedDateTime
+@import java.time.temporal.ChronoUnit
+@import java.time.format.DateTimeFormatter
+
+@(submissions: Seq[SubmissionsRow], experiments: Seq[ExperimentsRow], users: Seq[UsersRow],
+		form: Form[SubmissionData], userId: Option[Int], username: Option[String])(implicit request: RequestHeader, messages: Messages)
+
+@midnight = @{ZonedDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0).truncatedTo(ChronoUnit.MINUTES).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))}
+
+@main(username) {
+
+	<script type="text/javascript" src="@routes.Submissions._submissions()" defer></script>
+
+	<h4>Prepare a new submission for SauronX</h4>
+
+	@bit_submit_form(routes.Submissions.newSubmission().url) {
+
+		@bit_select_row("Experiment") {
+			@for(p <- experiments) {
+				<option value="@p.id" @{if (p.id.toString == form.data.getOrElse("experiment", "")) "selected"}>@p.name</option>
+			}
+		}
+
+		@bit_textarea_row("Treatment parameters", value = form.data.get("treatment_parameters"), errors = form.errors, maxLength = 20000, placeholder = "Ignore unless selecting a experiment adds text here.")
+		@bit_textarea_row("Well parameters", value = form.data.get("well_parameters"), errors = form.errors, maxLength = 20000, placeholder = "Ignore unless selecting a experiment adds text here.")
+
+		@bit_columned_row("Datetime plated", form.errors) {
+			<input id="datetime_plated" name="datetime_plated" required step="60" type="datetime-local" class="form-control" value="@{form.data.getOrElse("datetime_plated", midnight)}" />
+		}
+		@bit_columned_row("Datetime dosed", form.errors) {
+			<input id="datetime_dosed" name="datetime_dosed" step="60" type="datetime-local" class="form-control" value="@{form.data.getOrElse("datetime_dosed", midnight)}" />
+		}
+		@bit_columned_row("Acclimation time (s)", form.errors) {
+			<input id="acclimation_sec" name="acclimation_sec" required type="number" min="0" step="10" class="form-control" value="@{form.data.getOrElse("acclimation_sec", "600")}" />
+		}
+
+		@bit_select_row("Person plated") {
+			@for(u <- users) {
+				<option value="@u.id" @{if (u.id.toString == form.data.getOrElse("person_plated", userId.get.toString)) "selected"}>@u.username</option>
+			}
+		}
+		@bit_checkbox_row("rerunning", checked = form.data.getOrElse("rerunning", "false")=="true") {
+			<strong>I’m re-running a plate</strong>
+		}
+
+		@bit_columned_row("Int description", form.errors) {
+			<input id="description" name="description" required type="text" class="form-control" value="@{form.data.getOrElse("description", "")}" max="250" />
+		}
+
+		@bit_textarea_row("Notes", value = form.data.get("notes"), maxLength = 10000)
+
+		<input type="hidden" id="creator" name="creator" value="@{userId.get}" />
+	}
+
+	@bit_errors(form.errors)
+
+	@bit_help() {
+
+		<p>
+			If you see something like <code>$drug = "oc_&lt;hash&gt;"</code>, substitute it with <code>$drug = "oc_386faf3df2f"</code>
+			If you’re running a library, you should fill in the array of screening drugs this way (without quotes):
+			<code>$...drugs = /CB61501/</code>
+			This will substitute all of the compounds beginning with <em>CB61501</em> into the array, in order.
+		</p>
+
+		<p>
+			You can submit this any time after you dosed your plate. Set the dark adaptation time here, and, when you’re ready to run, just load your plate and enter the SauronX command. Don’t perform the dark adaptation manually.
+			If you dosed the plate more than once, enter the last time you dosed it.
+		</p>
+		<div id="safari-warning" class="alert alert-warning">
+			<p>
+				Some browsers, depending on the version, struggle to handle the datetime fields correctly.
+			</p>
+			<ul>
+				<li>If you’re presented with a fancy drop-down, which is common in Chrome, you may need to enter nonzero milliseconds.</li>
+				<li>
+					If you only have a simple text form, you probably need to enter the date in the form
+					<em>&lt;year&gt;-&lt;month&gt;-&lt;day&gt;T&lt;hours&gt;:&lt;minutes&gt;:&lt;seconds&gt;</em>
+					. For example:
+					<code>2017-01-22T15:35:00</code> for 3:35 pm.
+				</li>
+			</ul>
+			<small>Note that your local timezone is implied.</small>
+		</div>
+		<p>
+			You must set all of the required parameters and no more. Whitespace is ignored everywhere. Quotation marks are usually optional, but double (U+0022) quotation marks must surround any genetic variant name that contains a comma.
+			For list types, you can use either of these formats:
+		</p>
+
+	}
+
+}

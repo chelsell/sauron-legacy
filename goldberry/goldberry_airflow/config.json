@@ -1,0 +1,7 @@
+{
+  "crf": 15,
+  "link_path": ["/", "runs", "by-hash"],
+  "upload_path": ["/", "alpha", "uploads"],
+  "store_path": ["/", "shire", "store"],
+  "repo_path": ["/", "data", "repos"]
+}

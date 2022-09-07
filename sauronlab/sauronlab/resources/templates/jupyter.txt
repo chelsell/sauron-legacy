@@ -1,0 +1,12 @@
+%matplotlib widget
+from sauronlab.jupyter import *
+plt.interactive(False)
+today = datetime${datetime}
+quick = Quicks.pointgrey(as_of=today)
+
+J.md("""
+# Notebook name  
+**Author: ${author}**  
+**As of: ${datestr}**  
+**Sauronlab: ${version}**  
+""")

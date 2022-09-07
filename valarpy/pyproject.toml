@@ -1,0 +1,190 @@
+[metadata]
+description-file = "README.md"
+
+[build-system]
+requires = ["poetry>=1,<2", "coverage[toml]>=5,<6", "virtualenv>=20.2"]
+build-backend = "poetry.masonry.api"
+
+
+#########################################################################################
+# Poetry metadata
+#########################################################################################
+
+[tool.poetry]
+name = "valarpy"
+version = "3.0.0"
+description = "Python ORM to talk to Valar."
+keywords = ["valar", "orm", "zebrafish"]
+authors = ["Douglas Myers-Turnbull"]
+maintainers = ["Douglas Myers-Turnbull"]
+license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/dmyersturnbull/valarpy"
+repository = "https://github.com/dmyersturnbull/valarpy"
+documentation = "https://valarpy.readthedocs.io"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+	"Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+	"Topic :: Scientific/Engineering :: Bio-Informatics",
+	"Topic :: Scientific/Engineering :: Chemistry",
+	"Topic :: Database",
+]
+
+[tool.poetry.urls]
+CI = "https://github.com/dmyersturnbull/valarpy/actions"
+Issues = "https://github.com/dmyersturnbull/valarpy/issues"
+Download = "https://pypi.org/project/valarpy/"
+Changelog = "https://github.com/dmyersturnbull/valarpy/blob/main/CHANGELOG.md"
+
+
+#########################################################################################
+# Poetry build & dependencies
+#########################################################################################
+
+
+[tool.poetry.dependencies]
+python                   = "^3.8"
+tomlkit                  = ">=0.10, <1"
+pandas                   = "^1.4"
+numpy                    = "^1.23"
+peewee                   = "^3.14"
+PyMySQL                  = "^1.0"
+
+[tool.poetry.dev-dependencies]
+pre-commit               = "^2.20"
+bandit                   = "^1.7"
+pytest                   = ">=7"
+coverage                 = {extras = ["toml"], version = "^6"}
+pytest-cov               = "^3"
+flake8                   = "^5"
+flake8-bugbear           = ">=22"
+flake8-docstrings        = "^1.6"
+Sphinx                   = "^5"
+sphinx-copybutton        = ">=0.5, <1.0"
+sphinx-autoapi           = "^1.8"
+sphinx-rtd-theme         = "^1"
+tomlkit                  = ">=0.11, <1.0"
+
+
+
+#########################################################################################
+# Tyrannosaurus
+#########################################################################################
+
+[tool.tyrannosaurus.sources]
+doc_license        = "'CC BY 4.0'"
+doc_license_url    = "'https://creativecommons.org/licenses/by/4.0'"
+status             = "'Development'"
+date               = "'${today}'"
+version            = "tool.poetry.version"
+release            = "tool.poetry.version"
+devdeps            = "tool.poetry.dev-dependencies"
+linelength         = "tool.black.line-length"
+copyright          = "'Douglas Myers-Turnbull 2016–2022'"
+authors            = [
+    "Douglas Myers-Turnbull <github:dmyersturnbull,orcid:0000-0003-3610-4808>"
+]
+contributors = [
+	"Chris S Ki <github:chriski777>"
+]
+
+maintainers        = "tool.tyrannosaurus.sources.authors"
+
+importorderstyle   = "'google'"
+docstringstyle     = "'google'"
+
+[tool.tyrannosaurus.sources.flake8skip]
+# 212 and 213 contradict; 203 and 204 contradict; D302 is not relevant in Py3
+# D107 isn't needed sometimes; and the rest are overly picky
+all   = "'W503,E203,E225,E301,E302,E501,D107,D200,D205,D400,D403,D409,D410,D411,D212,W391,W293'"
+test  = "'D100,D101,D102,D103,D104,S101,W503,E203,E225,E301,E302,E501,D107,D200,D205,D400,D403,D409,D410,D411,D212,W391,W293'"
+
+[tool.tyrannosuarus.paths]
+recipe             = "'recipes/valarpy/meta.yaml'"
+environment        = "'environment.yml'"
+
+[tool.tyrannosaurus.targets]
+pyproject    = true
+init         = true
+precommit    = true
+tox          = true
+docs         = true
+recipes      = true
+license      = true
+authors      = true
+github       = true
+travis       = true
+scrutinizer  = true
+dockerfile   = true
+readme       = true
+changelog    = true
+citation     = true
+codemeta     = true
+headers      = false
+environment  = false
+
+
+#########################################################################################
+# Testing
+#########################################################################################
+
+# This will be used in a future version of pytest:
+#[tool.pytest]
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(name)s: %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+#########################################################################################
+# Changelog generation
+#########################################################################################
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+
+[tool.towncrier]
+filename = "NEWS.md"
+
+
+#########################################################################################
+# Style checking
+#########################################################################################
+
+[tool.coverage.paths]
+source = ["valarpy"]
+
+[tool.coverage.run]
+source = ["valarpy"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.black]
+line-length = 100
+target-version = ["py39"]
+
+[tool.isort]
+line_length = 100
+
+# ------- THE FOLLOWING ARE NOT USED BY THEIR RESPECTIVE TOOLS  --------
+# --- There are open discussions about supporting pyproject for each ---
+# https://github.com/python/mypy/issues/5205
+# https://github.com/PyCQA/bandit/issues/606
+# https://github.com/PyCQA/pycodestyle/issues/813
+# https://github.com/PyCQA/pydocstyle/issues/447
+
+[tool.bandit]
+
+[tool.pycodestyle]
+max-line-length = 100
+statistics = true
+
+[tool.pydocstyle]

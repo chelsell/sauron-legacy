@@ -1,0 +1,210 @@
+
+@import kokellab.valar.core.Tables.CompoundsRow
+@import kokellab.valar.core.Tables.BatchesRow
+@import kokellab.valar.core.Tables.BatchLabelsRow
+@import kokellab.valar.core.Tables.CompoundLabelsRow
+@import kokellab.valar.core.Tables.UsersRow
+
+@(oc: BatchesRow, c: Option[CompoundsRow], names: Seq[CompoundLabelsRow], ids: Seq[BatchLabelsRow], dataSourceName: Option[String], compoundSourceName: Option[String], personOrdered: Option[UsersRow], dataSourceNames: Map[Int, String], locations: Map[Int, String], username: Option[String], newerId: Option[Int])
+
+
+@main(username) {
+
+@if(c.isDefined) {
+	<h4>Batch b@oc.id (compound c<a href="@routes.Compounds.compound(c.get.id)">@{c.get.id}</a>)</h4>
+	<p>See <a href="/cid/@c.get.id">other batches of the same compound</a>.
+} else {
+	<h4>Batch b@oc.id</h4>
+}
+
+	@bit_separator()
+
+	@if(oc.suspicious) {
+		<div class="alert alert-warning" role="alert">
+			This batch is flagged as suspicious, meaning that the physical compound or some of the data here is likely wrong.
+		</div>
+	}
+	@if(newerId.isDefined) {
+		<div class="alert alert-warning">
+			<p class="lead">
+				There is a <a href="/batch/@newerId.get">newer stock of the same compound</a>.
+			</p>
+		</div>
+	}
+	@if(c.isEmpty) {
+		<div class="alert alert-warning">
+			<p class="lead">
+			No compound linked.
+			</p>
+		</div>
+	}
+
+	<table class="table table-sm">
+		<thead>
+			<tr>
+				<th>Key</th>
+				<th>Value</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row">ID (batch)</th>
+				<td>@oc.id</td>
+			</tr>
+			<tr>
+				<th scope="row">Compound ID</th>
+				<td>
+					@if(c.isDefined) {
+						<a href="@routes.Compounds.compound(c.get.id)">@{c.get.id}</a>
+					} else {
+						-
+					}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">Tag</th>
+				<td>@oc.tag.getOrElse("-")</td>
+			</tr>
+			<tr>
+				<th scope="row">Lookup hash</th>
+				<td>
+					@oc.lookupHash
+					<button class="btn clipboard_button" aria-label="Copy to clipboard" data-clipboard-text="@oc.lookupHash">
+						<img src="/assets/images/copy.png" class="clipboard_icon" />
+					</button>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">Supplier</th>
+				@if(compoundSourceName.isDefined) {
+					<td><a href="/compound_search?text=@{compoundSourceName.get.replaceAllLiterally(" ", "%20")}">@compoundSourceName</a></td>
+				} else {
+					<td>@compoundSourceName</td>
+				}
+			</tr>
+			<tr>
+				<th scope="row">Ref</th>
+				@if(dataSourceName.isDefined) {
+					<td><a href="@routes.Compounds.library(dataSourceName.get.toString)">@dataSourceName</a></td>
+				} else {
+					<td>@dataSourceName</td>
+				}
+			</tr>
+			<tr>
+				<th scope="row">Internal ID</th>
+				<td>@oc.legacyInternalId</td>
+			</tr>
+			<tr>
+				<th scope="row">Box number</th>
+				<td>@oc.boxNumber</td>
+			</tr>
+			<tr>
+				<th scope="row">Well number</th>
+				<td>@oc.wellNumber</td>
+			</tr>
+			<tr>
+				<th scope="row">Location</th>
+				<td>
+					@oc.locationId.map(ell => locations(ell)).getOrElse("-")
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">Amount</th>
+				<td>@oc.amount.getOrElse("-")</td>
+			</tr>
+			<tr>
+				<th scope="row">Location note</th>
+				<td>
+					@oc.locationNote.getOrElse("-")
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">Person ordered</th>
+				@if(personOrdered.isDefined) {
+					<td><a href="/compound_search?text=@personOrdered.get.username">@personOrdered.map(_.firstName) @personOrdered.map(_.lastName)</a></td>
+				} else {
+					<td>-</td>
+				}
+			</tr>
+			<tr>
+				<th scope="row">Date ordered</th>
+				@if(oc.dateOrdered.isDefined) {
+					<td><a href="/compound_search?text=@oc.dateOrdered.get">@oc.dateOrdered</a></td>
+				} else {
+					<td>@oc.dateOrdered</td>
+				}
+			</tr>
+			<tr>
+				<th scope="row">Concentration (mM)</th>
+				<td>@oc.concentrationMillimolar</td>
+			</tr>
+			<tr>
+				<th scope="row">Solvent ID</th>
+				@if(oc.solventId.isDefined) {
+					<td><a href="@routes.Compounds.compound(oc.solventId.get)">
+						@{if (oc.solventId contains 1) "water"
+						else if (oc.solventId contains 2) "DMSO"
+						else if (oc.solventId contains 3) "methanol"
+						else if (oc.solventId contains 4) "ethanol"
+						else oc.solventId}
+					</a></td>
+				} else {
+					<td>@oc.solventId</td>
+				}
+			</tr>
+			<tr>
+				<th scope="row">Molecular weight</th>
+				<td>@oc.molecularWeight</td>
+			</tr>
+			<tr>
+				<th scope="row">Catalog number</th>
+				<td>@oc.supplierCatalogNumber.getOrElse("-")</td>
+			</tr>
+			<tr>
+				<th scope="row">Made from</th>
+				@if(oc.madeFromId.nonEmpty) {
+					<td><a href="@routes.Compounds.batch(oc.madeFromId.map(_.toString).getOrElse("-"))">@oc.madeFromId.map(_.toString).getOrElse("-")</a></td>
+				} else {
+					<td>@oc.madeFromId.getOrElse("-")</td>
+				}
+			</tr>
+			<tr>
+				<th scope="row">Notes</th>
+				<td>@oc.notes</td>
+			</tr>
+			<tr>
+				<th scope="row">Is suspicious</th>
+				<td>@oc.suspicious</td>
+			</tr>
+			<tr>
+				<th scope="row">Datetime created</th>
+				<td>@oc.created</td>
+			</tr>
+		</tbody>
+	</table>
+
+	@if(ids.nonEmpty) {
+		@bit_separator()
+		@bit_subsection_header("Labels specific to batch")
+
+		<p>There are @{names.size} compound labels and @{ids.size} batch labels.</p>
+
+		<table class="table table-sm">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Source</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for(id <- ids) {
+					<tr>
+						<td><a href="/compound_search?text=@{id.name.replaceAllLiterally(" ", "%20")}">@id.name</a></td>
+						<td>@{dataSourceNames(id.refId)}</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+
+}

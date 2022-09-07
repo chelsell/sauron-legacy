@@ -1,0 +1,109 @@
+@import kokellab.valar.core.Tables.UsersRow
+@import kokellab.valar.core.Tables.ExperimentsRow
+@import kokellab.valar.core.Tables.SubmissionsRow
+@import kokellab.valar.core.DateTimeUtils._
+@import java.time.ZoneId
+@import model.SimpleSubmissionInfo
+@import java.time.format.DateTimeFormatter
+
+@(stats: Map[String, Int],
+		users: Seq[UsersRow],
+		recentHistory: Seq[SimpleSubmissionInfo], pendingSubmissions: Seq[(SubmissionsRow, ExperimentsRow)],
+		form: Form[(String, String)], plateForm: Form[String], username: Option[String], fullName: Option[String]
+	)(implicit request: RequestHeader, messages: Messages)
+
+@main(username) {
+
+	<form action="@routes.Index.login()" method="POST" class="form-horizontal" role="form">
+		@bit_fieldset_row {
+			<input id="user" name="user" type="text" class="form-control" placeholder="Web username" />
+		}
+		@bit_fieldset_row {
+			<input id="password" name="password" type="password" class="form-control" placeholder="Web password" />
+		}
+		@bit_submit_row("Log in")
+	</form>
+
+	@bit_errors(form.errors)
+	@if(username.isDefined) {
+	<div class="alert alert-info">
+		@fullName.get is assumed to be the experimentalist and purchaser. Please use your account for your experiments.
+	</div>
+	} else {
+		<div id="safari-warning" class="alert alert-warning">
+			Warning: Safari might not work (its own fault). A different browser is recommended.
+		</div>
+	}
+
+	@if(username.isDefined) {
+
+		@bit_separator()
+
+		<h4>Your pending submissions (max 10 shown)</h4>
+		<table class="table table-md table-hover">
+			<thead>
+				<tr>
+					<th class="col-sm-2">Hash</th>
+					<th class="col-sm-8">Project</th>
+					<th class="col-sm-2">Created</th>
+				</tr>
+			</thead>
+			<tbody>
+			@for(sub <- pendingSubmissions) {
+				<tr>
+					<td class="col-sm-2"><a href="@routes.Plates.plateByHash(sub._1.lookupHash)">@sub._1.lookupHash</a></td>
+					<td class="col-sm-8">@sub._2.name</td>
+					<td class="col-sm-2">@sub._1.created.toLocalDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))</td>
+				</tr>
+			}
+			</tbody>
+		</table>
+
+		@bit_separator()
+
+		<h4>Your recent runs (max 10 shown)</h4>
+		<table class="table table-md table-hover">
+			<thead>
+				<tr>
+					<th class="col-sm-2">Submission</th>
+					<th class="col-sm-2">Sauron</th>
+					<th class="col-sm-2">Started</th>
+					<th class="col-sm-2">Status</th>
+					<th class="col-sm-2">Updated</th>
+					<th class="col-sm-2">User</th>
+				</tr>
+			</thead>
+			<tbody>
+			@for(h <- recentHistory) {
+				<tr>
+					<td class="col-sm-2"><a href="@routes.Plates.plateByHash(h.submission.lookupHash)">@h.submission.lookupHash</a></td>
+					<td class="col-sm-2">@h.history.sauronId</td>
+					<td class="col-sm-2">@h.history.created.toLocalDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))</td>
+					<td class="col-sm-2">@h.history.status</td>
+					<td class="col-sm-2">@h.history.created.toLocalDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))</td>
+					<td class="col-sm-2">@h.user.username</td>
+				</tr>
+			}
+			</tbody>
+		</table>
+
+		@bit_separator()
+
+		<h4>View and edit plate run notes</h4>
+		<form method="GET" action="@routes.Index.runSearch()" data-toggle="validator" class="form-horizontal">
+			<div class="form-group">
+				<div class="col-md-9">
+					<input name="plate" type="text" required class="form-control" pattern="(?:[0-9a-f]{12})|(?:\d+)" placeholder="plate run ID or 12-digit submission hash" />
+				</div>
+				<div class="col-md-3">
+					<button type="submit" class="btn btn-primary">Look up</button>
+				</div>
+			</div>
+		</form>
+		@bit_errors(plateForm.errors)
+	}
+
+	@bit_separator()
+
+	<script type="text/javascript" src="@routes.Index._index()" defer></script>
+}

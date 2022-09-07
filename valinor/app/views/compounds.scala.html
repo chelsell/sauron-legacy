@@ -1,0 +1,144 @@
+@import kokellab.valar.core.Tables.RefsRow
+@import kokellab.valar.core.Tables.LocationsRow
+@import kokellab.valar.core.Tables.CompoundsRow
+@import kokellab.valar.core.Tables.SuppliersRow
+@import kokellab.valar.core.Tables.BatchesRow
+@import kokellab.valar.insertion.CompoundData
+
+@import java.time.format.DateTimeFormatter
+@import java.time.LocalDate
+
+@(dmsoStockCompounds: Seq[(BatchesRow, Option[CompoundsRow])], solvents: Seq[(Int, String)],
+		dataSources: Seq[RefsRow], suppliers: Seq[SuppliersRow], locations: Seq[LocationsRow],
+		nCompounds: Int, dataSourcesToNCompounds: Map[String, Int],
+		userId: Option[Int], username: Option[String],
+		searchForm: Form[String], newCompoundForm: Form[CompoundData], nextTube: (Int, Int)
+)(implicit request: RequestHeader, messages: Messages)
+
+@currentDate = @{LocalDate.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"))}
+
+@main(username) {
+
+	<p>There are @nCompounds unique compounds and @{dataSourcesToNCompounds.values.sum} batches.</p>
+	<ul>
+	@for((source, n) <- dataSourcesToNCompounds) {
+		<li>
+			<a href="@routes.Compounds.library(source)">@source</a> (@n)
+		</li>
+	}
+	</ul>
+	<div class="form-group">&nbsp;</div>
+
+	<h4>Search for a compound</h4>
+	<form method="GET" action="@routes.Compounds.search()" data-toggle="validator" class="form-horizontal">
+		<div class="form-group">
+			<div class="col-md-9">
+				<input name="text" type="text" required class="form-control" placeholder="Inchi, Inchi key, oc_ hash, etc." />
+			</div>
+			<div class="col-md-3">
+				<button type="submit" class="btn btn-primary">Search</button>
+			</div>
+		</div>
+	</form>
+	@bit_errors(searchForm.errors)
+
+	@bit_help("search_help", "Show search help") {
+		You can search using any of these fields:
+		<ul>
+			<li>Compound or batch ID</li>
+			<li>Lookup hash (<em>oc</em> number)</li>
+			<li>ID in library (<em>UC</em> number)</li>
+			<li>Supplier</li>
+			<li>Supplier catalog number</li>
+			<li>Any substring of Inchi, Inchikey, or SMILES</li>
+			<li>First name, last name, or username</li>
+			<li>Box or well number</li>
+			<li>Date ordered in the form year-month-day (ex: 2017-10-12)</li>
+			<li>Notes or reason ordered if the query is enclosed in double quotes</li>
+			<li>Compound label, including ChemSpider and Chembl IDs</li>
+			<li>Batch label</li>
+		</ul>
+	}
+
+	@bit_separator()
+
+	<h4>Add a new compound or batch</h4>
+
+	<p>For a new dry stock, clear box and well, and set solvent to water.</p>
+
+	@bit_submit_form(routes.Compounds.newCompound().url) {
+
+		@bit_select_row("Type") {
+			<option value="compound" selected>compound</option>
+			<option value="mixture">mixture</option>
+			<option value="exposure">exposure</option>
+			<option value="blinded">blinded</option>
+		}
+		@bit_checkbox_row("is_dry_stock", checked = newCompoundForm.data.getOrElse("is_dry_stock", "false")=="true") {
+			Dry / original stock
+		}
+		@bit_select_row("Supplier") {
+			@for(p <- suppliers) {
+				<option value="@p.id" @{if (p.id.toString == newCompoundForm.data.getOrElse("supplier", "")) "selected"}>@p.name</option>
+			}
+		}
+		@bit_columned_row("Catalog number", newCompoundForm.errors) {
+			<input id="catalog_number" name="catalog_number" type="text" value="@{newCompoundForm.data.getOrElse("catalog_number", "")}" class="form-control" />
+		}
+		@bit_columned_row("Inchi", newCompoundForm.errors) {
+			<input id="inchi" name="inchi" type="text" value="@{newCompoundForm.data.getOrElse("inchi", "")}" required class="form-control" />
+		}
+		@bit_columned_row("Date made/ordered", newCompoundForm.errors) {
+			<input id="date_ordered" name="date_ordered" type="date" value="@{newCompoundForm.data.getOrElse("date_ordered", currentDate)}" required class="form-control" />
+		}
+		@bit_columned_row("Box number", newCompoundForm.errors) {
+			<input id="box_number" name="box_number" type="number" min="0" value="@{newCompoundForm.data.getOrElse("box_number", nextTube._1)}" class="form-control" />
+		}
+		@bit_columned_row("Well number", newCompoundForm.errors) {
+			<input id="well_number" name="well_number" type="number" min="0" value="@{newCompoundForm.data.getOrElse("well_number", nextTube._2)}" class="form-control" />
+		}
+		@bit_select_row("Batch location", required=false, disabled=false) {
+			@for(p <- locations) {
+				<option value="@p.id" @{if (p.id.toString == newCompoundForm.data.getOrElse("batch_location", "")) "selected"}>@p.name</option>
+			}
+		}
+		@bit_columned_row("Location note", newCompoundForm.errors) {
+			<input id="location_note" name="location_note" type="text" value="@{newCompoundForm.data.getOrElse("location_note", "")}" class="form-control" />
+		}
+		@bit_columned_row("Amount", newCompoundForm.errors) {
+			<input id="amount" name="amount" type="text" value="@{newCompoundForm.data.getOrElse("amount", "")}" class="form-control" required />
+		}
+		@bit_columned_row("Made from (batch ID)", newCompoundForm.errors) {
+			<input id="made_from" name="made_from" type="text" value="@{newCompoundForm.data.getOrElse("made_from", "")}" class="form-control" />
+		}
+		@bit_columned_row("Molecular weight", newCompoundForm.errors) {
+			<input id=molecular_weight" name="molecular_weight" type="number" value="@{newCompoundForm.data.getOrElse("molecular_weight", "")}" min="0" step="0.001" class="form-control" />
+		}
+		@bit_select_row("Solvent") {
+			@for(s <- solvents) {
+				<option value="@s._1" @{if (s._1.toString == newCompoundForm.data.getOrElse("solvent", "")) "selected"}>@s._2</option>
+			}
+		}
+
+		@bit_textarea_row("Labels for structure", value = newCompoundForm.data.get("labels_for_structure"), placeholder = "List one name per row; ex:\nDMSO\nDimethyl sulfoxide")
+		@bit_textarea_row("Labels for batch", value = newCompoundForm.data.get("labels_for_batch"), placeholder = "List one name per row; ex: additional catalog numbers")
+		@bit_textarea_row("Notes", value = newCompoundForm.data.get("notes"), placeholder = "Mechanisms or targets, solubility, etc.")
+
+		@bit_checkbox_row("suspicious", checked = newCompoundForm.data.getOrElse("suspicious", "false")=="true") {
+			Suspicious / has issue
+		}
+
+
+		<input type="hidden" id="creator" name="creator" value="@{userId.get}" />
+
+		<div class="alert alert-info">
+			<ul>
+				<li>If it’s a mixture with no Inchi, write "*" for the Inchikey.</li>
+				<li>If you’re forced to write something wrong, check suspicious and describe it in the notes in the form <em>TODO: description here</em>.
+			</ul>
+		</div>
+	}
+
+	@bit_errors(newCompoundForm.errors)
+
+}

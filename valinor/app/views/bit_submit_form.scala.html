@@ -1,0 +1,9 @@
+@(action: String, method: String = "POST", editable: Boolean = false)(content: Html)
+
+<form method="@method" action="@action" data-toggle="validator" class="form-horizontal">
+
+	@content
+
+	@bit_separator()
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>

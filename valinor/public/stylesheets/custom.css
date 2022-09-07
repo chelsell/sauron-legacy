@@ -1,0 +1,46 @@
+.clipboard_button {
+	display: inline;
+	width: 1.2em;
+	height: 1.2em;
+	padding: 0;
+	outline: none;
+	border-radius: 0;
+	border-style: none;
+	box-shadow: #ffffff 0 0 0 0;
+	background: none;
+	margin-left: 0.6em;
+	vertical-align: middle;
+}
+.clipboard_icon {
+	display: inline;
+	vertical-align: middle;
+	width: 1.2em;
+	height: 1.2em;
+}
+.notathing {
+	background: url('/assets/images/copy.png');
+	background-size: 1.2em;
+	background-repeat: no-repeat;
+}
+
+.deleteathing {
+	background: url('/assets/images/copy.png');
+	background-size: 1.2em;
+	background-repeat: no-repeat;
+}
+
+.link-button {
+	background: none;
+	border: none;
+	color: #bb0000;
+	text-decoration: underline;
+	cursor: pointer;
+	font-size: 1em;
+	font-family: serif;
+}
+.link-button:focus {
+	outline: none;
+}
+.link-button:active {
+	color:red;
+}

@@ -1,0 +1,11 @@
+@(name: String = "help", text: String = "Show help")(content: Html)
+
+@bit_separator()
+<div id="@name-parent">
+<a href="#@name" data-toggle="collapse" data-parent="@name-parent" class="text-info collapsed collapse-toggle lead">@text</a>
+
+<div id="@name" class="collapse">
+	@content
+</div>
+</div>
+

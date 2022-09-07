@@ -1,0 +1,34 @@
+
+@(concerns: Map[String, (Int, Set[String], String)], username: Option[String])
+
+@main(username) {
+
+	<h4>Concerns keys used</h4>
+
+	<table class="table table-md table-hover">
+		<thead>
+			<tr>
+				<th class="col-md-3">Name/key</th>
+				<th class="col-md-1">uses</th>
+				<th class="col-md-4">Used by</th>
+				<th class="col-md-4">Sample explanation</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for((k, v) <- concerns) {
+			<tr>
+				<td>
+					@k
+					<button class="btn clipboard_button" aria-label="Copy to clipboard" data-clipboard-text="@k">
+						<img src="/assets/images/copy.png" class="clipboard_icon" />
+					</button>
+				</td>
+				<td>@v._1</td>
+				<td>@v._2</td>
+				<td>@v._3.mkString(", ")</td>
+			</tr>
+			}
+		</tbody>
+	</table>
+
+}

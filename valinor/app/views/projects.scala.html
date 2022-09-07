@@ -1,0 +1,63 @@
+@import kokellab.valar.core.Tables.ExperimentsRow
+
+@import kokellab.valar.core.Tables.SuperprojectsRow
+@import kokellab.valar.core.Tables.TemplatePlatesRow
+@import kokellab.valar.core.Tables.TransferPlatesRow
+@import java.sql.Timestamp
+@import kokellab.valar.core.Tables.BatteriesRow
+@import kokellab.valar.insertion.ExperimentData
+
+@(superprojects: Seq[SuperprojectsRow], projects: Seq[ExperimentsRow], protocols: Seq[BatteriesRow], templatePlates: Seq[TemplatePlatesRow], transferPlates: Seq[TransferPlatesRow],
+		form: Form[ExperimentData], userId: Option[Int], username: Option[String])(implicit request: RequestHeader, messages: Messages)
+
+
+@main(username) {
+
+	<h4>Create a new experiment</h4>
+
+	@bit_submit_form("/newexperiment") {
+
+		@bit_select_row("Project") {
+			@for(p <- superprojects filter (_.active)) {
+				<option value="@p.id" @{if (p.id.toString == form.data.getOrElse("superproject", "")) "selected"}>@p.name</option>
+			}
+		}
+
+		@bit_columned_row("Name", form.errors) {
+			<input id="name" name="name" type="text" value="@{form.data.getOrElse("name", "")}" required class="form-control" />
+		}
+
+	@bit_textarea_row("Description", value = form.data.get("description"))
+
+		@bit_select_row("Battery") {
+			@for(p <- protocols sortBy (_.hidden)) {
+				<option value="@p.id" @{if (p.id.toString == form.data.getOrElse("battery", "")) "selected"}>@p.name</option>
+			}
+		}
+
+		@bit_select_row("Layout") {
+			@for(p <- templatePlates) {
+				<option value="@p.id" @{if (p.id.toString == form.data.getOrElse("layout", "")) "selected"}>@p.name</option>
+			}
+		}
+
+		@bit_select_row("Transfer plate", required=false) {
+			@for(p <- transferPlates) {
+				<option value="@p.id" @{if (p.id.toString == form.data.getOrElse("transfer_plate", "")) "selected"}>@p.name</option>
+			}
+		}
+
+		@bit_columned_row("Acclimation time (s)", form.errors) {
+			<input id="acclimation" name="acclimation" required type="number" min="0" step="10" class="form-control" value="@{form.data.getOrElse("acclimation", "600")}" />
+		}
+
+		@bit_textarea_row("Notes", value = form.data.get("notes"))
+
+		<input type="hidden" id="creator" name="creator" value="@{userId.get}" />
+
+	}
+
+	@bit_errors(form.errors)
+
+}
+

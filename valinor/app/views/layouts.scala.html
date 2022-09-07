@@ -1,0 +1,179 @@
+@import kokellab.valar.core.Tables.TemplatePlatesRow
+@import kokellab.valar.core.Tables.TemplateWellsRow
+@import kokellab.valar.core.Tables.PlateTypesRow
+
+@import kokellab.valar.core.Tables.ControlTypesRow
+@import kokellab.valar.insertion.LayoutData
+
+@(templatePlates: Seq[TemplatePlatesRow], templateWells: Seq[TemplateWellsRow], plateTypes: Seq[PlateTypesRow], controlTypes: Seq[ControlTypesRow],
+		form: Form[LayoutData], userId: Option[Int], username: Option[String]
+)(implicit request: RequestHeader, messages: Messages)
+
+@main(username) {
+
+	<script type="text/javascript" src="@routes.General.extendable("fish")" defer></script>
+	<script type="text/javascript" src="@routes.General.extendable("treatments")" defer></script>
+
+	<h4>Create a template plate layout</h4>
+
+
+	@bit_submit_form("/newlayout") {
+
+		@bit_select_row("Type") {
+			<option value="standard">standard ::</option>
+			<option value="specialized">specialized ::</option>
+			<option value="experiment-specific">(exact experiment name)</option>
+			<option value="flawed">~(exact experiment name)</option>
+			<option value="debug">~~. (debug)</option>
+		}
+
+
+		@bit_columned_row("Name") {
+			<input id="name" name="name" type="text" value="@{
+				form.data.getOrElse("name", "")
+			}" required class="form-control" />
+		}
+
+		@bit_textarea_row("Description", value = form.data.get("description"))
+
+		@bit_select_row("Plate type") {
+			@for(t <- plateTypes) {
+				<option value="@t.id" @{
+					if(t.id.toString == form.data.getOrElse("plate_type", "")) "selected"
+				}>@t.name</option>
+			}
+		}
+
+		@bit_subsection_header("Per-well information...")
+
+		@bit_formtable("fish") {
+			<th class="col-md-2">Well range</th>
+			<th class="col-md-2">Control type</th>
+			<th class="col-md-2"># of fish</th>
+			<th class="col-md-2">Age (days)</th>
+			<th class="col-md-2">Group/clutch</th>
+			<th class="col-md-2">Genetic variant</th>
+		} {
+			@for(i <- 0 until Seq(1, form.data count (_._1.startsWith("fish-range"))).max) {
+				<tr id="extendable_row-fish">
+					@bit_formtable_column(2) {
+						<input id="fish-range-1" name="fish-range[]" type="text" class="form-control" value="@{
+							form.data.getOrElse(s"fish-range[$i]", "")
+						}" />
+					}
+					@bit_formtable_column(2) {
+						<select id="control-1" name="control[]" class="form-control">
+							<option @{if(form.data.getOrElse(s"stimulus[$i]", "")==""){"selected"}else{""}} value="">not a control</option>
+							@for(ct <- controlTypes) {
+								<option @{if(form.data.getOrElse(s"control[$i]", "")==ct.id.toString){"selected"}else{""}} value="@ct.id">@ct.name</option>
+							}
+						</select>
+					}
+					@bit_formtable_column(2) {
+						<input id="nfish-1" name="nfish[]" type="text" class="form-control" value="@{
+							form.data.getOrElse(s"nfish[$i]", "")
+						}" />
+					}
+					@bit_formtable_column(2) {
+						<input id="age-1" name="age[]" type="text" class="form-control" value="@{
+							form.data.getOrElse(s"age[$i]", "")
+						}" />
+					}
+					@bit_formtable_column(2) {
+						<input id="group-1" name="group[]" type="text" class="form-control" value="@{
+							form.data.getOrElse(s"group[$i]", "")
+						}" />
+					}
+					@bit_formtable_column(2) {
+						<input id="variant-1" name="variant[]" type="text" class="form-control" value="@{
+							form.data.getOrElse(s"fish-range[$i]", "Singapore")
+						}" />
+					}
+				</tr>
+			}
+		}
+		@bit_separator()
+		<p><strong><a href="@routes.Layouts.controlTypes" target="_blank">See control type descriptions</a></strong></p>
+		@bit_separator()
+		@bit_subsection_header("Treatment information...")
+
+		@bit_formtable("treatments") {
+			<th class="col-md-2">Well range</th>
+			<th class="col-md-4">Compound</th>
+			<th class="col-md-6">Dose</th>
+		} {
+			@for(i <- 0 until Seq(1, form.data count (_._1.startsWith("treatment-range"))).max) {
+				<tr id="extendable_row-treatments">
+					@bit_formtable_column(2) {
+						<input id="treatment-range-1" name="treatment-range[]" type="text" class="form-control" value="@{
+							form.data.getOrElse(s"treatment-range[$i]", "")
+						}" />
+					}
+					@bit_formtable_column(4) {
+						<input id="compound-1" name="compound[]" type="text" class="form-control" value="@{
+							form.data.getOrElse(s"compound[$i]", "")
+						}" />
+					}
+					@bit_formtable_column(6) {
+						<input id="dose-1" name="dose[]" type="text" class="form-control" value="@{
+							form.data.getOrElse(s"dose[$i]", "")
+						}" />
+					}
+				</tr>
+			}
+		}
+
+		<input type="hidden" id="creator" name="creator" value="@{userId.get}" />
+
+	}
+
+	@bit_errors(form.errors)
+
+
+	@bit_help() {
+
+		<p>You must fill in the well information for every well. This is not required for treatments.</p>
+
+		@bit_subsection_header("Expression syntax:")
+		<p>
+			See <a href="https://valinor.ucsf.edu/expressions">documentation</a> for the <a href="https://github.com/kokellab/kl-common-scala/tree/master/grammars">extended expressions</a> syntax.
+			Write the values for number of fish, fish variants (genetics), compound, and dose using this.
+			Parameters are alphanumeric strings that begin with a <em>$</em>. Two are predefined:
+		</p>
+			<ul>
+				<li><em>$r</em> is the well row 1–8
+				<li><em>$c</em> is the column 1–12</li>
+			</ul>
+		<p>
+			Any other parameter will be required when filling out a SauronX <a href="https://valinor.ucsf.edu/submissions">submission</a>.
+		</p>
+
+		@bit_subsection_header("Data types:")
+			<ol>
+				<li>For control status, leave as “not a control” if it’s not a control.</li>
+				<li>For N fish, expressions must evaluate to be positive integers. This is the <em>number of fish <strong>per well</strong></em>.</li>
+				<li>For fish variants, values must match names or IDs in the <em>fish_variants</em> table. Either way, they must be surrounded with quotes.</li>
+				<li>Doses are micromolar nonnegative decimal values.</li>
+				<li>Use an ordered compound’s <em>unique hash</em>, which begins with <em>oc_</em>. They must be surrounded with quotes.</li>
+			</ol>
+
+		@bit_subsection_header("Well range syntax:")
+		<p>
+			A well range expression can use one of three forms:
+		</p>
+			<ol>
+				<li><em>A1–A12</em> or <em>A1–H1</em> for a range within one row or column</li>
+				<li><em>A2*C4</em> for a block: <em>A2, A3, A4, B2, B3, B4, C1, C2, C3, C4</em></li>
+				<li><em>A2...C4</em> for a range: <em>A2–A12</em>, <em>B1–B12</em>, and <em>C1–C4</em></li>
+			</ol>
+		<p>
+			Common patterns you might want use:
+		</p>
+		<ol>
+			<li><em>$top_dose / pow($fold , $r)</em> for a <em>$fold</em>-fold dilution</li>
+			<li><em>$compound</em> for a single screened compound to fill in (during submission)</li>
+			<li><em>$...compounds</em> for an array of screened compounds to fill in</li>
+			<li><em>$strain</em> for a strain fish variant to fill in</li>
+		</ol>
+	}
+}

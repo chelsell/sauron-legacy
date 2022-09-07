@@ -1,0 +1,97 @@
+
+@import kokellab.valar.core.Tables.GeneticVariantsRow
+@import kokellab.valar.core.Tables.UsersRow
+@import kokellab.valar.core.Tables.SuppliersRow
+@import kokellab.valar.core.Tables.LocationsRow
+@import kokellab.valar.core.Tables.GeneticConstructsRow
+@import kokellab.valar.insertion.ConstructData
+
+@(constructs: Seq[GeneticConstructsRow], suppliers: Seq[SuppliersRow], locations: Seq[LocationsRow], users: Seq[UsersRow], form: Form[ConstructData], userId: Option[Int], username: Option[String])(implicit request: RequestHeader, messages: Messages)
+
+@main(username) {
+
+	<script type="text/javascript" src="@routes.General.extendable("mutations")" defer></script>
+
+	<h4>Create a new construct</h4>
+
+	@bit_submit_form("/newconstruct") {
+
+		@bit_select_row("Type", required = true) {
+			<option value="plasmid" @{if ("plasmid" == form.data.getOrElse("type", "")) "selected"}>plasmid</option>
+			<option value="guide" @{if ("guide" == form.data.getOrElse("type", "")) "selected"}>guide</option>
+			<option value="morpholino" @{if ("morpholino" == form.data.getOrElse("type", "")) "selected"}>morpholino</option>
+			<option value="other" @{if ("other" == form.data.getOrElse("type", "")) "selected"}>other</option>
+		}
+
+		@bit_columned_row("Name", form.errors) {
+			<input id="name" name="name" type="text" value="@{form.data.getOrElse("name", "")}" required class="form-control" />
+		}
+
+		@bit_columned_row("Description", form.errors) {
+			<input id="description" name="description" type="text" value="@{form.data.getOrElse("description", "")}" required class="form-control" />
+		}
+
+                @bit_select_row("Person made") {
+                        @for(u <- users) {
+                                <option value="@u.id" @{if (u.id.toString == form.data.getOrElse("person_made", userId.get.toString)) "selected"}>@u.username</option>
+                        }
+                }
+
+
+		@bit_select_row("Supplier", required = false) {
+			@for(p <- suppliers) {
+				<option value="@p.id"@{if (p.id.toString == form.data.getOrElse("supplier", "")) "selected"}>@p.name</option>
+			}
+		}
+
+		@bit_select_row("Location", required = true) {
+			@for(p <- locations) {
+				<option value="@p.id"@{if (p.id.toString == form.data.getOrElse("locations", "")) "selected"}>@p.name</option>
+			}
+		}
+
+		@bit_columned_row("PubMed ID", form.errors) {
+			<input id="pubmed_id" name="pubmed_id" type="text" value="@{form.data.getOrElse("pubmed_id", "")}" class="form-control" />
+		}
+
+		@bit_columned_row("Pub link", form.errors) {
+			<input id="pub_link" name="pub_link" type="url" value="@{form.data.getOrElse("pub_link", "")}" class="form-control" />
+		}
+
+		@bit_columned_row("Box", form.errors) {
+			<input id="box" required name="box" type="number" value="@{form.data.getOrElse("box", "")}" required class="form-control" />
+		}
+
+		@bit_columned_row("Tube", form.errors) {
+			<input id="tube" required name="tube" type="number" value="@{form.data.getOrElse("tube", "")}" required class="form-control" />
+		}
+
+		@bit_columned_row("Selection marker", form.errors) {
+			<input id="selection_marker" name="selection_marker" type="text" value="@{form.data.getOrElse("selection_marker", "")}" class="form-control" />
+		}
+
+		@bit_columned_row("Bacterial strain", form.errors) {
+			<input id="bacterial_strain" name="bacterial_strain" type="text" value="@{form.data.getOrElse("bacterial_strain", "")}" class="form-control" />
+		}
+
+		@bit_columned_row("Vector", form.errors) {
+			<input id="vector" name="vector" type="text" value="@{form.data.getOrElse("vector", "")}" class="form-control" />
+		}
+
+		@bit_columned_row("Data file", form.errors) {
+			<input id="data_file" name="vector" type="file" required class="form-control" />
+		}
+
+		@bit_columned_row("Date created", form.errors) {
+			<input id="date_created" name="date_created" type="date" value="@{form.data.getOrElse("date_created", "")}" class="form-control" />
+		}
+
+		@bit_textarea_row("Notes", value = form.data.get("notes"))
+
+		<input type="hidden" id="creator" name="creator" value="@{userId.get}" />
+
+	}
+
+	@bit_errors(form.errors)
+
+}

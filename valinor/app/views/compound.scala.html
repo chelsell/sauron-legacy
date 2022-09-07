@@ -1,0 +1,164 @@
+
+@import kokellab.valar.core.Tables.CompoundsRow
+@import kokellab.valar.core.Tables.CompoundLabelsRow
+@import kokellab.valar.core.Tables.UsersRow
+@import kokellab.valar.core.Tables.MandosInfoRow
+@import kokellab.valar.core.Tables.MandosRulesRow
+
+@(c: CompoundsRow, names: Seq[CompoundLabelsRow], infos: Seq[MandosInfoRow], rules: Seq[(Int, String, String, Option[String])], refNames: Map[Int, String], username: Option[String], userId: Option[Int])
+
+
+@main(username) {
+
+		<h4>Compound @{c.id}</h4>
+		<p>
+			See <a href="/cid/@c.id"><strong>all batches</strong> of this compound</a>.
+			See <a href="/compound_search?text=@c.inchikeyConnectivity"><strong>all steroisomers</strong></a>.
+		</p>
+		<figure class="figure">
+			<img class="figure-img img-thumbnail" alt="A skeletal formula" src="https://valinor.ucsf.edu/assets/images/structures/@{c.id}.svg" />
+		</figure>
+		@bit_separator()
+
+		<table class="table table-sm">
+			<thead>
+				<tr>
+					<th>Key</th>
+					<th>Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row">ID</th>
+					<td>@c.id</td>
+				</tr>
+				<tr>
+					<th scope="row">Inchikey</th>
+					<td>@c.inchikey</td>
+				</tr>
+				<tr>
+					<th scope="row">Inchi</th>
+					<td>@c.inchi</td>
+				</tr>
+				<tr>
+					<th scope="row">SMILES</th>
+					<td>@c.smiles</td>
+				</tr>
+				<tr>
+					<th scope="row">ChemSpider ID</th>
+					@if(c.chemspiderId.isDefined) {
+						<td><a href="https://www.chemspider.com/Chemical-Structure.@{c.chemspiderId.get.toString + "."}html">@c.chemspiderId</a></td>
+					} else {
+						<td>@c.chemspiderId</td>
+					}
+				</tr>
+				<tr>
+					<th scope="row">CHEMBL ID</th>
+					@if(c.chemblId.isDefined) {
+						<td><a href="https://www.ebi.ac.uk/chembl/compound/inspect/@{c.chemblId}">@c.chemblId</a></td>
+					} else {
+						<td>@c.chemblId</td>
+					}
+				</tr>
+				<tr>
+					<th scope="row">Datetime created</th>
+					<td>@c.created</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+	@if(infos.nonEmpty) {
+		@bit_separator()
+		@bit_subsection_header("Chem info")
+
+		<p>There are @{infos.size} chemical annotations.</p>
+
+		<table class="table table-sm">
+			<thead>
+				<tr>
+					<th>Ref</th>
+					<th>Name</th>
+					<th>Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for(info <- infos) {
+					<tr>
+						<td>@{refNames(info.refId)}</td>
+						<td>@{info.name}</td>
+						<td>@{info.value}</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+
+	@if(rules.nonEmpty) {
+		@bit_separator()
+		@bit_subsection_header("Rules / associations")
+
+		<p>There are @{rules.size} rules.</p>
+
+		<table class="table table-sm">
+			<thead>
+				<tr>
+					<th>Predicate</th>
+					<th>Object</th>
+					<th>Object name</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for(rule <- rules) {
+					<tr>
+						<td>@{rule._2}</td>
+						<td>@{rule._3}</td>
+						<td>@{rule._4.getOrElse("-")}</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+
+
+	@if(names.nonEmpty) {
+		@bit_separator()
+		@bit_subsection_header("Compound labels")
+
+		<p>There are @{names.size} compound labels.</p>
+
+		<table class="table table-sm">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Ref</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for(name <- names) {
+					<tr>
+						<td><a href="/compound_search?text=@{name.name.replaceAllLiterally(" ", "%20")}">@name.name</a></td>
+						<td>@{refNames.get(name.refId).getOrElse(name.refId.toString)}</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+
+	@bit_separator()
+	@bit_subsection_header("Add a compound label")
+	@bit_submit_form(s"/compounds/label", editable = true) {
+		<input id="compound_id" name="compound_id" type="hidden" value="@c.id" />
+		<input id="creator" name="creator" type="hidden" value="@{userId}" />
+		@bit_columned_row("Name") {
+			<input id="name" name="name" type="text" placeholder="A name, ID, or label" class="form-control" />
+		}
+		@bit_select_row("Ref") {
+			@for(r <- refNames) {
+				<option value="@r._1" @if(r._2=="valinor") {selected="selected"}>@r._2</option>
+			}
+		}
+	}
+
+
+}

@@ -1,0 +1,15 @@
+@(label: String, placeholder: String = "", errors: Seq[FormError] = List.empty, nRows: Int=4, disabled: Boolean = false, value: Option[String] = None, maxLength: Int = 5000)
+
+@name = @{label.toLowerCase.replaceAllLiterally(" ", "_")}
+
+@additionalClasses = @{if(errors exists (_.key == name)) "has-warning" else ""}
+
+<div class="form-group row">
+	<div class="col-md-12">
+		<label for="@name">@label:</label>
+		<textarea id="@name" name="@name" @{if(disabled) "disabled" else ""} maxlength="@maxLength" class="form-control" rows="@nRows" placeholder="@placeholder">@value.getOrElse("")</textarea>
+		@for(error <- errors filter (_.key == name)) {
+			<div class="form-control-feedback">@{if (error.message.startsWith("error.")) error.message.substring(6) + " required" else error.message}</div>
+		}
+	</div>
+</div>

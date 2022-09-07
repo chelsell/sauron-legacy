@@ -1,0 +1,2017 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns/graphml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:y="http://www.yworks.com/xml/graphml" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns/graphml http://www.yworks.com/xml/schema/graphml/1.0/ygraphml.xsd">
+  <key for="node" id="d0" yfiles.type="nodegraphics"/>
+  <key attr.name="description" attr.type="string" for="node" id="d1"/>
+  <key for="edge" id="d2" yfiles.type="edgegraphics"/>
+  <key attr.name="description" attr.type="string" for="edge" id="d3"/>
+  <key for="graphml" id="d4" yfiles.type="resources"/>
+  <graph id="valar" edgedefault="directed">
+<node id="valar_api_keys">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="112.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">api_keys</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_assay_params">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="144.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">assay_params</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_assays">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="96.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">assays</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_assays_in_protocols">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="200.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">assays_in_protocols</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_audio_files">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="136.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">audio_files</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_camera_configs">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="160.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">camera_configs</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_cameras">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="104.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">cameras</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_carp_data">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="120.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">carp_data</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_carp_data_tasks">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="168.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">carp_data_tasks</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_carp_data_types">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="168.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">carp_data_types</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_carp_project_types">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="192.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">carp_project_types</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_carp_projects">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="152.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">carp_projects</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_carp_scans">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="128.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">carp_scans</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_carp_system_data">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="176.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">carp_system_data</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_carp_tank_tasks">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="168.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">carp_tank_tasks</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_carp_tanks">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="128.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">carp_tanks</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_carp_tasks">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="128.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">carp_tasks</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_component_checks">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="176.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">component_checks</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_compound_ids">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="144.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">compound_ids</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_compound_names">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="160.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">compound_names</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_compound_sources">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="176.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">compound_sources</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_compounds">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="120.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">compounds</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_concerns">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="112.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">concerns</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_condition_types">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="168.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">condition_types</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_constructs">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="128.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">constructs</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_control_types">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="152.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">control_types</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_data_sources">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="144.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">data_sources</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_features">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="112.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">features</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_fish_variants">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="152.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">fish_variants</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_genes">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="88.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">genes</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_genes_in_constructs">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="200.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">genes_in_constructs</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_genes_in_mutations">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="192.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">genes_in_mutations</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_locations">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="120.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">locations</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_lorien_configs">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="160.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">lorien_configs</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_mandos_associations">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="200.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">mandos_associations</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_mandos_chem_info">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="176.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">mandos_chem_info</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_mandos_keys">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="136.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">mandos_keys</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_mandos_modes">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="144.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">mandos_modes</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_mutations">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="120.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">mutations</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_oligos">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="96.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">oligos</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_ordered_compounds">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="184.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">ordered_compounds</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_plate_run_info">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="160.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">plate_run_info</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_plate_runs">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="128.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">plate_runs</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_plate_types">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="136.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">plate_types</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_plates">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="96.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">plates</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_projects">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="112.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">projects</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_protocols">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="120.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">protocols</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_rois">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="80.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">rois</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_sauron_configs">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="160.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">sauron_configs</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_saurons">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="104.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">saurons</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_sauronx_submission_history">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="256.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">sauronx_submission_history</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_sauronx_submission_params">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="248.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">sauronx_submission_params</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_sauronx_submissions">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="200.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">sauronx_submissions</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_sauronx_tomls">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="152.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">sauronx_tomls</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_sensor_data">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="136.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">sensor_data</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_sensors">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="104.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">sensors</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_stimuli">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="104.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">stimuli</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_stimulus_frames">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="168.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">stimulus_frames</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_superprojects">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="152.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">superprojects</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_template_assays">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="168.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">template_assays</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_template_plates">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="168.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">template_plates</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_template_stimulus_frames">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="240.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">template_stimulus_frames</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_template_treatments">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="200.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">template_treatments</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_template_wells">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="160.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">template_wells</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_users">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="88.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">users</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_well_features">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="152.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">well_features</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_well_treatments">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="168.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">well_treatments</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<node id="valar_wells">
+<data key="d0">
+<y:ShapeNode>
+<y:Geometry height="30.0" width="88.0" x="0.0" y="0.0"/>
+<y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
+<y:BorderStyle color="#000000" type="line" width="1.0"/>
+<y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="19.92626953125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="37.0" x="5.5" y="5.036865234375">wells</y:NodeLabel>
+<y:Shape type="rectangle"/>
+<y:DropShadow color="#B3A691" offsetX="2" offsetY="2"/>
+</y:ShapeNode>
+</data>
+</node>
+<edge id="valar_stimulus_frames_assays" source="valar_stimulus_frames" target="valar_assays">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_concerns_assays" source="valar_concerns" target="valar_assays">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_assay_params_assays" source="valar_assay_params" target="valar_assays">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_assays_in_protocols_assays" source="valar_assays_in_protocols" target="valar_assays">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_stimuli_audio_files" source="valar_stimuli" target="valar_audio_files">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_sauron_configs_camera_configs" source="valar_sauron_configs" target="valar_camera_configs">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_camera_configs_cameras" source="valar_camera_configs" target="valar_cameras">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_data_carp_data_tasks" source="valar_carp_data" target="valar_carp_data_tasks">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_data_tasks_carp_data_types" source="valar_carp_data_tasks" target="valar_carp_data_types">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_projects_carp_project_types" source="valar_carp_projects" target="valar_carp_project_types">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_tanks_carp_projects" source="valar_carp_tanks" target="valar_carp_projects">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_projects_carp_projects" source="valar_carp_projects" target="valar_carp_projects">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_scans_carp_tanks" source="valar_carp_scans" target="valar_carp_tanks">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_data_carp_tanks" source="valar_carp_data" target="valar_carp_tanks">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_tank_tasks_carp_tanks" source="valar_carp_tank_tasks" target="valar_carp_tanks">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_tank_tasks_carp_tasks" source="valar_carp_tank_tasks" target="valar_carp_tasks">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_data_tasks_carp_tasks" source="valar_carp_data_tasks" target="valar_carp_tasks">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_ordered_compounds_compound_sources" source="valar_ordered_compounds" target="valar_compound_sources">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_mandos_associations_compounds" source="valar_mandos_associations" target="valar_compounds">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_compound_names_compounds" source="valar_compound_names" target="valar_compounds">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_ordered_compounds_compounds" source="valar_ordered_compounds" target="valar_compounds">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_genes_in_constructs_constructs" source="valar_genes_in_constructs" target="valar_constructs">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_oligos_constructs" source="valar_oligos" target="valar_constructs">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_mutations_constructs" source="valar_mutations" target="valar_constructs">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_template_wells_control_types" source="valar_template_wells" target="valar_control_types">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_wells_control_types" source="valar_wells" target="valar_control_types">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_mandos_associations_data_sources" source="valar_mandos_associations" target="valar_data_sources">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_compound_ids_data_sources" source="valar_compound_ids" target="valar_data_sources">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_compound_names_data_sources" source="valar_compound_names" target="valar_data_sources">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_mandos_keys_data_sources" source="valar_mandos_keys" target="valar_data_sources">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_mandos_modes_data_sources" source="valar_mandos_modes" target="valar_data_sources">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_ordered_compounds_data_sources" source="valar_ordered_compounds" target="valar_data_sources">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_mandos_chem_info_data_sources" source="valar_mandos_chem_info" target="valar_data_sources">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_well_features_features" source="valar_well_features" target="valar_features">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_mutations_fish_variants" source="valar_mutations" target="valar_fish_variants">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_tanks_fish_variants" source="valar_carp_tanks" target="valar_fish_variants">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_fish_variants_fish_variants" source="valar_fish_variants" target="valar_fish_variants">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_wells_fish_variants" source="valar_wells" target="valar_fish_variants">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_genes_in_constructs_genes" source="valar_genes_in_constructs" target="valar_genes">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_genes_in_mutations_genes" source="valar_genes_in_mutations" target="valar_genes">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_mutations_genes" source="valar_mutations" target="valar_genes">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_locations_locations" source="valar_locations" target="valar_locations">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_well_features_lorien_configs" source="valar_well_features" target="valar_lorien_configs">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_mandos_associations_mandos_keys" source="valar_mandos_associations" target="valar_mandos_keys">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_mandos_associations_mandos_modes" source="valar_mandos_associations" target="valar_mandos_modes">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_oligos_mutations" source="valar_oligos" target="valar_mutations">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_genes_in_mutations_mutations" source="valar_genes_in_mutations" target="valar_mutations">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_compound_ids_ordered_compounds" source="valar_compound_ids" target="valar_ordered_compounds">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_well_treatments_ordered_compounds" source="valar_well_treatments" target="valar_ordered_compounds">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_plate_run_info_plate_runs" source="valar_plate_run_info" target="valar_plate_runs">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_sensor_data_plate_runs" source="valar_sensor_data" target="valar_plate_runs">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_wells_plate_runs" source="valar_wells" target="valar_plate_runs">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_data_plate_runs" source="valar_carp_data" target="valar_plate_runs">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_concerns_plate_runs" source="valar_concerns" target="valar_plate_runs">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_plates_plate_types" source="valar_plates" target="valar_plate_types">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_template_plates_plate_types" source="valar_template_plates" target="valar_plate_types">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_plate_runs_plates" source="valar_plate_runs" target="valar_plates">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_plates_projects" source="valar_plates" target="valar_projects">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_sauronx_submissions_projects" source="valar_sauronx_submissions" target="valar_projects">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_plate_runs_projects" source="valar_plate_runs" target="valar_projects">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_projects_protocols" source="valar_projects" target="valar_protocols">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_assays_in_protocols_protocols" source="valar_assays_in_protocols" target="valar_protocols">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_component_checks_sauron_configs" source="valar_component_checks" target="valar_sauron_configs">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_plate_runs_sauron_configs" source="valar_plate_runs" target="valar_sauron_configs">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_sauron_configs_saurons" source="valar_sauron_configs" target="valar_saurons">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_sauronx_submission_history_saurons" source="valar_sauronx_submission_history" target="valar_saurons">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_sauronx_submission_history_sauronx_submissions" source="valar_sauronx_submission_history" target="valar_sauronx_submissions">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_sauronx_submissions_sauronx_submissions" source="valar_sauronx_submissions" target="valar_sauronx_submissions">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_concerns_sauronx_submissions" source="valar_concerns" target="valar_sauronx_submissions">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_sauronx_submission_params_sauronx_submissions" source="valar_sauronx_submission_params" target="valar_sauronx_submissions">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_plate_runs_sauronx_submissions" source="valar_plate_runs" target="valar_sauronx_submissions">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_plate_runs_sauronx_tomls" source="valar_plate_runs" target="valar_sauronx_tomls">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_sensor_data_sensors" source="valar_sensor_data" target="valar_sensors">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_component_checks_sensors" source="valar_component_checks" target="valar_sensors">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_component_checks_stimuli" source="valar_component_checks" target="valar_stimuli">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_stimulus_frames_stimuli" source="valar_stimulus_frames" target="valar_stimuli">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_template_stimulus_frames_stimuli" source="valar_template_stimulus_frames" target="valar_stimuli">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_projects_superprojects" source="valar_projects" target="valar_superprojects">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_template_assays_template_assays" source="valar_template_assays" target="valar_template_assays">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_assays_template_assays" source="valar_assays" target="valar_template_assays">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_template_stimulus_frames_template_assays" source="valar_template_stimulus_frames" target="valar_template_assays">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_template_wells_template_plates" source="valar_template_wells" target="valar_template_plates">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_projects_template_plates" source="valar_projects" target="valar_template_plates">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_template_plates_template_plates" source="valar_template_plates" target="valar_template_plates">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_template_treatments_template_plates" source="valar_template_treatments" target="valar_template_plates">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_audio_files_users" source="valar_audio_files" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_plates_users" source="valar_plates" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_scans_users" source="valar_carp_scans" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_template_plates_users" source="valar_template_plates" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_template_assays_users" source="valar_template_assays" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_concerns_users" source="valar_concerns" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_constructs_users" source="valar_constructs" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_projects_users" source="valar_carp_projects" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_oligos_users" source="valar_oligos" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_mutations_users" source="valar_mutations" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_superprojects_users" source="valar_superprojects" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_condition_types_users" source="valar_condition_types" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_sauronx_submissions_users" source="valar_sauronx_submissions" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_project_types_users" source="valar_carp_project_types" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_fish_variants_users" source="valar_fish_variants" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_carp_data_users" source="valar_carp_data" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_ordered_compounds_users" source="valar_ordered_compounds" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_protocols_users" source="valar_protocols" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_plate_runs_users" source="valar_plate_runs" target="valar_users">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_rois_wells" source="valar_rois" target="valar_wells">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_well_treatments_wells" source="valar_well_treatments" target="valar_wells">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_well_features_wells" source="valar_well_features" target="valar_wells">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<edge id="valar_concerns_wells" source="valar_concerns" target="valar_wells">
+<data key="d2">
+<y:PolyLineEdge>
+<y:Path sx="0.0" sy="13.5" tx="0.0" ty="-15.0"/>
+<y:LineStyle color="#000000" type="line" width="1.0"/>
+<y:Arrows source="none" target="crows_foot_many_mandatory"/>
+<y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="six_pos" modelPosition="tail" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="4.0" x="2.0000069969042897" y="18.5"/>
+<y:BendStyle smoothed="false"/>
+</y:PolyLineEdge>
+</data>
+</edge>
+<data key="d4">
+    <y:Resources/>
+  </data>
+  </graph>
+</graphml>

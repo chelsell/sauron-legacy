@@ -1,0 +1,178 @@
+[metadata]
+description-file = "README.md"
+
+[build-system]
+requires = ["poetry>=1,<2", "coverage[toml]>=5,<6", "virtualenv>=20.2"]
+build-backend = "poetry.masonry.api"
+
+
+#########################################################################################
+# Poetry metadata
+#########################################################################################
+
+[tool.poetry]
+name = "sauronlab"
+version = "0.1.0+dev.snapshot"
+description = "Zebrafish behavioral profiling and visualization in Python."
+authors = ["Douglas Myers-Turnbull"]
+maintainers = ["Douglas Myers-Turnbull"]
+license = "Apache-2.0"
+readme = "README.md"
+keywords = ["zebrafish", "behavior", "data science", "bioinformatics", "cheminformatics"]
+homepage = "https://github.com/dmyersturnbull/sauronlab"
+repository = "https://github.com/dmyersturnbull/sauronlab"
+documentation = "https://github.com/dmyersturnbull/sauronlab"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Cheminformatics",
+    "Typing :: Typed"
+]
+
+[tool.poetry.urls]
+CI = "https://github.com/dmyersturnbull/sauronlab/actions"
+Issues = "https://github.com/dmyersturnbull/sauronlab/issues"
+Download = "https://pypi.org/project/sauronlab/"
+Changelog = "https://github.com/dmyersturnbull/sauronlab/blob/main/CHANGELOG.md"
+
+[tool.poetry.scripts]
+sauronlab = "sauronlab.cli:cli"
+
+
+#########################################################################################
+# Poetry build & dependencies
+#########################################################################################
+
+[tool.poetry.dependencies]
+python                         = ">=3.9, <3.11"
+clana                          = "~0.4"
+cycler                         = ">=0.10, <1.0"
+decorateme                     = "^0.3"
+loguru                         = ">=0.6, <1.0"
+joblib                         = "^1.1"
+matplotlib                     = "^3.5"
+moviepy                        = "^1"
+natsort                        = ">=8"
+numpy                          = "^1.23"
+pandas                         = "^1.4"
+peewee                         = "^3.15"
+pillow                         = "^9"
+pocketutils                    = {version="^0.9", extras=["tools", "notebooks", "plotting"]}
+pydub                          = ">=0.25, <1.0"
+python-dateutil                = ">=2"
+rapidfuzz                      = "^2.3"
+regex                          = ">=2022"
+requests                       = "^2.26"
+scipy                          = "^1.9"
+scikit-learn                   = "^1.1"
+seaborn                        = ">=0.11, <1.0"
+soundfile                      = ">=0.10, <1.0"
+typeddfs                       = {version=">=0.14.3, <0.16", extras=["feather", "parquet", "excel", "xml"]}
+typer                          = ">=0.6, <1.0"
+
+ipympl                         = {optional = true, version=">=0.8"}
+jupyterlab                     = {optional = true, version=">=3"}
+valarpy                        = {git="https://github.com/dmyersturnbull/valarpy.git", tag = "v3.0.0-alpha.2"}
+
+[tool.poetry.dev-dependencies]
+pre-commit               = "^2.20"
+tomlkit                  = ">=0.11, <1.0"
+
+[tool.poetry.extras]
+extras = ["jupyterlab", "ipympl", "moviepy"]
+
+
+#########################################################################################
+# Tyrannosaurus
+#########################################################################################
+
+[tool.tyrannosaurus.sources]
+doc_license        = "'CC BY 4.0'"
+doc_license_url    = "'https://creativecommons.org/licenses/by/4.0'"
+status             = "'Development'"
+date               = "'${today}'"
+version            = "tool.poetry.version"
+release            = "tool.poetry.version"
+devdeps            = "tool.poetry.dev-dependencies"
+precommitvr        = "tool.poetry.dev-dependencies"
+precommitconfigvr  = "tool.poetry.dev-dependencies"
+linelength         = "tool.black.line-length"
+copyright          = "'Douglas Myers-Turnbull 2016–2021'"
+authors            = [
+    "Douglas Myers-Turnbull <github:dmyersturnbull,orcid:0000-0003-3610-4808>"
+]
+contributors = [
+	"Chris S Ki <github:chriski777>",
+	"Cole Helsell <github:chelsell,orcid:0000-0002-8869-3125>"
+]
+
+maintainers        = "tool.tyrannosaurus.sources.authors"
+
+[tool.tyrannosaurus.sources.flake8skip]
+# 212 and 213 contradict; 203 and 204 contradict; D302 is not relevant in Py3
+# D107 isn't needed sometimes; and the rest are overly picky
+all   = "'W503,E203,E225,E301,E302,E501,D107,D200,D205,D400,D403,D409,D410,D411,D212,W391,W293'"
+test  = "'D100,D101,D102,D103,D104,S101,W503,E203,E225,E301,E302,E501,D107,D200,D205,D400,D403,D409,D410,D411,D212,W391,W293'"
+
+[tool.tyrannosuarus.paths]
+recipe             = "'recipes/sauronlab/meta.yaml'"
+environment        = "'environment.yml'"
+
+[tool.tyrannosaurus.targets]
+pyproject    = true
+init         = true
+precommit    = true
+tox          = true
+docs         = true
+recipes      = true
+license      = true
+authors      = true
+github       = true
+travis       = true
+scrutinizer  = true
+dockerfile   = true
+readme       = true
+changelog    = true
+citation     = true
+codemeta     = true
+headers      = false
+environment  = false
+
+
+#########################################################################################
+# Testing
+#########################################################################################
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(name)s: %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+#########################################################################################
+# Style checking
+#########################################################################################
+
+[tool.coverage.paths]
+source = ["sauronlab"]
+
+[tool.coverage.run]
+source = ["sauronlab"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[tool.isort]
+line_length = 100

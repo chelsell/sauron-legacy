@@ -1,0 +1,58 @@
+ # This is a list of substrings of chemical names that can be disregarded.
+ # These are removed in order, so the order of the lines is very important:
+ # Always replace superstrings before substrings, such as 'disodium salt' before 'disodium'.
+ sesquifumarate
+ hydrochloride
+ bitartrate
+ maleate salt
+ hydrochloride preservative free
+ hydrochloride preservative plain
+ hydrochloride plain
+ hemifumerate
+ triethiodide
+ hemisulfate
+ dimaleate
+ hydrochloride dihydrate
+ fortis
+ ethyl ester
+ maleate salt
+ hemifumarate
+ methbromide
+ hexasodium
+ hemisulfate
+ monohydrate
+ hemitartrate
+ {malonate}
+ malonate
+ hydr
+ monosulfate
+ hydrobromide
+ dihydrochloride
+ disodium salt
+ dihydrate
+ plain
+ diacetate
+ (salt)
+ disodium
+ methyl ester
+ bisulfate
+ diphosphate
+ k salt
+ acetate
+ mesilate
+ diacetate
+ chloride
+ sulfate
+ potassium
+ succinate
+ tartrate
+ (preservative-free)
+ maleate
+ iodide
+ bromide
+ hcl
+ mesylate
+ fumerate
+ methyl
+ salt
+ chloride

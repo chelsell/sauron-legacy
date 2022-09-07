@@ -1,0 +1,21 @@
+@import kokellab.valar.core.Tables.BatchesRow
+@import kokellab.valar.core.Tables.CompoundsRow
+@(oc: BatchesRow, c: Option[CompoundsRow], defaultConcentration: String, username: Option[String])
+
+@main(username) {
+
+	<h4>Almost ready</h4>
+
+	<div class="alert alert-success">
+		<p class="lead">
+			Your compound @oc.lookupHash is ready to add. Please enter the solvent concentration you used.
+		</p>
+		@bit_submit_form(s"/concentration", editable = true) {
+			<input name="oc_id" type="hidden" value="@oc.id"/>
+			<input name="hash" type="hidden" value="@oc.lookupHash"/>
+			@bit_columned_row("Concentration (mM)") {
+				<input id="concentration" name="concentration" type="number" min="0" max="1000" step="0.000001" value="@defaultConcentration" class="form-control" />
+			}
+		}
+	</div>
+}

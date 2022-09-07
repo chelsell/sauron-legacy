@@ -1,0 +1,12 @@
+{
+  "crf": 15,
+  "shasum_filename": ".sha256sum",
+  "shasum_algorithm": "sha256",
+  "ext": ".mkv",
+  "codec": "libx265",
+  "bitrate": "500M",
+  "filename": "x265-crf.mkv",
+  "path": "camera/x265-crf15/x265-crf15.mkv",
+  "hevc_params": "-c:v libx265 -vf scale=1280:trunc(ow/a/2)*2 -crf 15 -pix_fmt yuv420p -y",
+  "mp4_params": "-vf scale=1280:trunc(ow/a/2)*2 -pix_fmt yuv420p -y"
+}

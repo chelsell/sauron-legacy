@@ -1,0 +1,10 @@
+@(n: Int, name: String, description: String, username: Option[String] = None)
+
+@main(username) {
+	<h1>@n—@name</h1>
+	<div class="alert alert-danger" role="alert">
+		<strong>Error:</strong>
+		@description
+	</div>
+}
+

@@ -1,0 +1,107 @@
+@import kokellab.valar.core.DateTimeUtils._
+@import kokellab.valar.core.Tables.SubmissionsRow
+@import kokellab.valar.core.Tables.RunsRow
+@import kokellab.valar.core.Tables.AnnotationsRow
+
+@import java.time.ZoneId
+@import java.time.format.DateTimeFormatter
+@import kokellab.valar.core.Tables.SubmissionRecordsRow
+@import kokellab.valar.core.Tables.ExperimentsRow
+@import kokellab.valar.core.Tables.UsersRow
+
+@(submission: SubmissionsRow, project: ExperimentsRow, experimentalist: UsersRow, history: Seq[SubmissionRecordsRow], concerns: Seq[AnnotationsRow], usernames: Map[Int, String], userId: Option[Int], username: Option[String])(implicit request: RequestHeader, messages: Messages)
+
+@main(username) {
+	<h4>Submission @submission.lookupHash @bit_clipboard_icon(submission.lookupHash)</h4>
+	<p>
+		This submission, @submission.description, belongs to @experimentalist.firstName @experimentalist.lastName for project <em>@project.name</em>.
+		The plate @if(submission.continuingId.isDefined) {was} else {was not} previously used for another submission.
+	</p>
+	@if(history.isEmpty) {
+		@if(!(history forall (h => (h.status contains "failed") || (h.status contains "cancelled")))) {
+			This submission is currently running.
+		} else {
+			This submission has not been run yet.
+		}
+	} else {
+		This submission was run but has not completed.
+		@bit_separator()
+		<table class="table table-md table-hover">
+			<thead>
+				<tr>
+					<th class="col-sm-2">Sauron</th>
+					<th class="col-sm-2">Started</th>
+					<th class="col-sm-2">Status</th>
+					<th class="col-sm-2">Updated</th>
+				</tr>
+			</thead>
+			<tbody>
+			@for(h <- history) {
+				<tr>
+					<td class="col-sm-2">@h.sauronId</td>
+					<td class="col-sm-2">@h.created.toLocalDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))</td>
+					<td class="col-sm-2">@h.status</td>
+					<td class="col-sm-2">@h.created.toLocalDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))</td>
+				</tr>
+			}
+			</tbody>
+		</table>
+	}
+	@if(history forall (h => Set("starting","capturing","failed","cancelled","extracting","compressing","uploading") contains h.status.getOrElse(""))) {
+		@if(!(history forall (h => (h.status contains "failed") || (h.status contains "cancelled")))) {
+			<div class="alert alert-warning">
+				<strong>This submission appears to be running.</strong> Please make sure that you want to delete this.
+			</div>
+		}
+		<form action="/delete_submission" method="POST">
+			<input name="submission" type="hidden" value="@submission.id"/>
+			<input name="hash" type="hidden" value="@submission.lookupHash"/>
+			<button type="submit" class="btn btn-warning">Delete</button>
+		</form>
+	}
+
+	
+	@bit_separator()
+	@bit_subsection_header("Current concerns and notes")
+	<table class="table table-md table-hover">
+		<thead>
+			<tr>
+				<th class="col-sm-2">Annotator</th>
+				<th class="col-sm-2">Level</th>
+				<th class="col-sm-2">Name/key</th>
+				<th class="col-sm-2">Explanation</th>
+				<th class="col-sm-2">Created</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for(c <- concerns) {
+				<tr>
+					<td class="col-sm-2">@c.annotatorId</td>
+					<td class="col-sm-2">@c.level</td>
+					<td class="col-sm-2">@c.name</td>
+					<td class="col-sm-2">@c.description</td>
+					<td class="col-sm-2">@c.created</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+
+	@bit_separator()
+	@bit_subsection_header("Add a new concern or note")
+	@bit_submit_form(s"/runs/concern", editable = true) {
+		<input id="plate_run" name="plate_run" type="hidden" value="" />
+		<input id="creator" name="creator" type="hidden" value="@{userId}" />
+		<input id="submission" name="submission" type="hidden" value="@submission.id" />
+		@bit_textarea_row("Description", value = None, placeholder = "Write a description here.")
+		@bit_columned_row("Standard key") {
+			<input id="name" name="name" type="text" placeholder="If a standard concern name applies" class="form-control" />
+		}
+		@bit_select_row("Level") {
+			@for(choice <- Seq("0:good", "1:note", "2:caution", "3:warning", "4:danger", "9:deleted", "to_fix", "fixed")) {
+				<option value="@choice" @if(choice=="1:note") {selected="selected"}>@choice</option>
+			}
+		}
+	}
+
+}

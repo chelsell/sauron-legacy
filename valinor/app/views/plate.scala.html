@@ -1,0 +1,83 @@
+
+@import kokellab.valar.core.Tables.AnnotationsRow
+@import kokellab.valar.insertion.AnnotationData
+@import kokellab.valar.core.Tables.UsersRow
+@import model.SubmissionInfo
+@import java.time.ZoneId
+@import java.time.format.DateTimeFormatter
+@(info: SubmissionInfo, form: Form[AnnotationData], concerns: Seq[AnnotationsRow], usernames: Map[Int, String], userId: Option[Int], username: Option[String])(implicit request: RequestHeader, messages: Messages)
+
+
+@main(username) {
+
+	<h3>Viewing run @info.run.id @if(info.submission.isDefined){from submission @info.submission.get.lookupHash} else {from legacy data}</h3>
+
+	@bit_separator()
+	@bit_subsection_header("Submission history")
+	<table class="table table-md table-hover">
+		<thead>
+			<tr>
+				<th class="col-sm-2">Sauron</th>
+				<th class="col-sm-2">Started</th>
+				<th class="col-sm-2">Status</th>
+				<th class="col-sm-2">Updated</th>
+			</tr>
+		</thead>
+		<tbody>
+		@for(h <- info.history) {
+			<tr>
+				<td class="col-sm-2">@h.sauronId</td>
+				<td class="col-sm-2">@h.created.toLocalDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))</td>
+				<td class="col-sm-2">@h.status</td>
+				<td class="col-sm-2">@h.created.toLocalDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+
+
+	@bit_separator()
+	@bit_subsection_header("Current concerns and notes")
+	<table class="table table-md table-hover">
+		<thead>
+			<tr>
+				<th class="col-sm-2">Annotator</th>
+				<th class="col-sm-2">Level</th>
+				<th class="col-sm-2">Name/key</th>
+				<th class="col-sm-2">Explanation</th>
+				<th class="col-sm-2">Created</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for(c <- concerns) {
+				<tr>
+					<td class="col-sm-2">@c.annotatorId</td>
+					<td class="col-sm-2">@c.level</td>
+					<td class="col-sm-2">@c.name</td>
+					<td class="col-sm-2">@c.description</td>
+					<td class="col-sm-2">@c.created</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+@bit_separator() @bit_subsection_header("Add a new annotation")
+	@bit_submit_form(s"/runs/concern", editable = true) {
+		<input id="plate_run" name="plate_run" type="hidden" value="@info.run.id" />
+		<input type="hidden" id="creator" name="creator" value="@{userId.get}" />
+		<input id="submission" name="submission" type="hidden" value="" />
+		@bit_textarea_row("Description", value = None, placeholder = "Write a description here.")
+		@bit_columned_row("Name or standard key") {
+			<input id="name" name="name" type="text" placeholder="If a standard concern name applies" class="form-control" />
+		}
+		@bit_select_row("Level") {
+			@for(choice <- AnnotationData.levels) {
+				<option value="@choice" @if(choice=="1:note") {selected="selected"}>@choice</option>
+			}
+		}
+	}
+
+	@bit_errors(form.errors)
+
+}
+
