@@ -10,6 +10,15 @@ class SubmissionLookups(LookupTool):
 
     @classmethod
     def tags(cls, wheres: Union[ExpressionsLike, RunTags] = None) -> Lookup:
+        """
+
+
+        Args:
+            wheres:
+
+        Returns:
+
+        """
         query = RunTags.select(RunTags, Runs).join(Runs)
         if isinstance(wheres, (int, str, Runs, Submissions)):
             wheres = Runs.id == Tools.run(wheres).id
@@ -28,6 +37,15 @@ class SubmissionLookups(LookupTool):
 
     @classmethod
     def tag_summary(cls, wheres: Union[ExpressionsLike, RunTags] = None) -> Lookup:
+        """
+
+
+        Args:
+            wheres:
+
+        Returns:
+
+        """
         return (
             SubmissionLookups.tags(wheres)
             .drop("id", axis=1)
@@ -39,7 +57,65 @@ class SubmissionLookups(LookupTool):
         )
 
     @classmethod
+    def unique_tags(cls) -> Set[str]:
+        """ """
+        return {r.name for r in RunTags.select(RunTags.name).distinct()}
+
+    @classmethod
+    def records_on(cls, wheres: Union[ExpressionsLike, Submissions, str]) -> Lookup:
+        """
+
+
+        Args:
+            wheres:
+
+        Returns:
+
+        """
+        wheres = InternalTools.flatten_smart(wheres)
+        query = (
+            SubmissionRecords.select(SubmissionRecords, Submissions, Saurons, Users)
+            .join(Submissions)
+            .join(Experiments)
+            .switch(Submissions)
+            .join(Users, on=Submissions.user_id == Users.id)
+            .switch(SubmissionRecords)
+            .join(Saurons)
+        )
+        df = SubmissionLookups._simple(
+            Submissions,
+            query,
+            False,
+            False,
+            wheres,
+            ("record_id", "id"),
+            ("when_run", "datetime_modified"),
+            ("when_updated", "created"),
+            "status",
+            ("submission", "submission.lookup_hash"),
+            ("submission_created", "submission.created"),
+            ("sauron", "sauron.name"),
+        )
+        return df
+
+    # TODO
+    # if len(df) == 0: return df
+    # subs = {int(s) for s in df['submission_id'].unique().tolist() if s is not None}
+    # runs = {s.submission: s.id for s in Runs.select(Runs, Runs.submission).where(Runs.submission << subs)}
+    # df['associated_run'] = df.apply(lambda row: runs[row['submission_id']] if row['submission_id'] in runs and row['status'] == 'available' else None, axis=1)
+    # return Lookup(df)
+
+    @classmethod
     def params_on(cls, wheres: Union[ExpressionsLike, int, str, Submissions]) -> Lookup:
+        """
+
+
+        Args:
+            wheres:
+
+        Returns:
+
+        """
         wheres = InternalTools.flatten_smart(wheres)
         query = (
             SubmissionParams.select(SubmissionParams, Submissions, Experiments)

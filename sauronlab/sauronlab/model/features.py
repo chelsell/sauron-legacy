@@ -7,7 +7,6 @@ from sauronlab.core.core_imports import *
 @dataclass(frozen=True)
 class FeatureType:
     """
-    A type of video feature.
 
     Attributes:
         valar_feature: The Features row instance in Valar
@@ -54,7 +53,15 @@ class FeatureType:
         """
         Calculates the feature values.
 
-        ``frame_timestamps`` and ``stim_timestamps`` are required if ``is_interpolated``.
+        Args:
+            wf: WellFeatures:
+            frame_timestamps: Required if is_interpolated
+            stim_timestamps: Required if is_interpolated
+            well:
+            stringent:
+
+        Returns:
+
         """
         if self.is_interpolated and (frame_timestamps is None or stim_timestamps is None):
             raise ValueError(
@@ -77,6 +84,7 @@ class FeatureType:
 
     @abcd.abstractmethod
     def to_blob(self, arr: np.array) -> None:
+        """"""
         raise NotImplementedError()
 
     @abcd.abstractmethod
@@ -117,11 +125,12 @@ class FeatureType:
 
 
 class _ConsecutiveFrameFeature(FeatureType, metaclass=abcd.ABCMeta):
+    """"""
+
     @classmethod
     def finalize_floats(cls, floats: np.array) -> np.array:
         """
         Performs last-minute modifications to the floats the end of ``calc``, right before it returns.
-
         Args:
             floats: Raw data converted from the blob; could be float16, float32, int32, ..., whatever.
 
@@ -187,18 +196,22 @@ class _Float16Div8Cff(_ConsecutiveFrameFeature):
 
 
 class _Mi(_Float16Div8Cff):
+    """"""
+
     def __init__(self, interpolated: bool):
         v = Features.select().where(Features.name == "MI").first()
         super().__init__(v, True, 4, 1000, "(10³)", interpolated, DataGeneration.all_generations())
 
 
 class _Diff(_Float16Div8Cff):
+    """"""
+
     def __init__(
         self, name: str, tau: int, recommended_scale: int, recommended_unit: str, interpolated: bool
     ):
         v = Features.select().where(Features.name == f"{name}({tau})").first()
         generations = (
-            {g for g in DataGeneration.all_generations() if g.is_pointgrey}
+            DataGeneration.pointgrey_generations()
             if interpolated
             else DataGeneration.all_generations()
         )
@@ -225,6 +238,10 @@ class FeatureTypes:
 
         Args:
             f: A value in FeatureType.internal_name in one of the FeatureType entries in ``FeatureTypes.known``
+
+        Returns:
+            The FeatureType
+
         """
         if isinstance(f, Features):
             raise TypeError(

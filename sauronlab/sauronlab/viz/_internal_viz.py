@@ -13,8 +13,20 @@ FigureSeqLike = Union[Figure, Iterator[Figure], Iterator[Tup[str, Figure]], Mapp
 
 
 class InternalVizTools:
+    """"""
+
     @classmethod
     def preferred_units_per_sec(cls, mark_every_ms: int, total_ms: float) -> Tup[str, float]:
+        """
+
+
+        Args:
+            mark_every_ms: int:
+            total_ms: float:
+
+        Returns:
+
+        """
         if sauronlab_rc.trace_force_time_units is not None:
             return (
                 sauronlab_rc.trace_force_time_units.abbrev,
@@ -31,6 +43,15 @@ class InternalVizTools:
 
     @classmethod
     def preferred_tick_ms_interval(cls, n_ms_total):
+        """
+
+
+        Args:
+            n_ms_total:
+
+        Returns:
+
+        """
         alloweds = sauronlab_rc.trace_pref_tick_ms_interval
         n_ms = n_ms_total / sauronlab_rc.trace_pref_n_ticks
         closest_choice, closest_val = None, 100000000000
@@ -42,6 +63,15 @@ class InternalVizTools:
 
     @classmethod
     def assign_colors(cls, categories: Sequence[str]) -> Sequence[str]:
+        """
+
+
+        Args:
+            categories:
+
+        Returns:
+
+        """
         dct = InternalVizTools.assign_color_dict(categories)
         return [dct[c] for c in categories]
 
@@ -49,6 +79,17 @@ class InternalVizTools:
     def assign_colors_x(
         cls, names: Sequence[str], controls: Sequence[Optional[str]], recycle_ok: bool = False
     ) -> Sequence[str]:
+        """
+
+
+        Args:
+            names:
+            controls:
+            recycle_ok:
+
+        Returns:
+
+        """
         dct = InternalVizTools.assign_color_dict_x(names, controls, recycle_ok=recycle_ok)
         return [dct[c] for c in names]
 
@@ -56,6 +97,17 @@ class InternalVizTools:
     def assign_color_dict_x(
         cls, names: Sequence[str], controls: Sequence[Optional[str]], recycle_ok: bool = False
     ) -> Mapping[str, str]:
+        """
+
+
+        Args:
+            names:
+            controls:
+            recycle_ok:
+
+        Returns:
+
+        """
         dct = {}
         if len(names) != len(controls):
             raise LengthMismatchError(f"{len(names)} names but {len(controls)} controls")
@@ -87,19 +139,56 @@ class InternalVizTools:
 
     @classmethod
     def assign_color_dict(cls, categories: Sequence[str]) -> Mapping[str, str]:
+        """
+
+
+        Args:
+            categories:
+
+        Returns:
+
+        """
         return InternalVizTools.assign(categories, sauronlab_rc.pref_treatment_colors)
 
     @classmethod
     def assign_markers(cls, categories: Sequence[str]) -> Sequence[str]:
+        """
+
+
+        Args:
+            categories:
+
+        Returns:
+
+        """
         dct = InternalVizTools.assign_marker_dict(categories)
         return [dct[c] for c in categories]
 
     @classmethod
     def assign_marker_dict(cls, categories: Sequence[str]) -> Mapping[str, str]:
+        """
+
+
+        Args:
+            categories:
+
+        Returns:
+
+        """
         return InternalVizTools.assign(categories, sauronlab_rc.pref_markers)
 
     @classmethod
     def assign(cls, categories: Sequence[str], available: Sequence[str]) -> Mapping[str, str]:
+        """
+
+
+        Args:
+            categories:
+            available:
+
+        Returns:
+
+        """
         unique = Tools.unique(categories)
         if len(unique) > len(available):
             logger.warning(
@@ -112,6 +201,7 @@ class InternalVizTools:
 
 
 class KvrcPlotting:
+    """"""
 
     pass
 

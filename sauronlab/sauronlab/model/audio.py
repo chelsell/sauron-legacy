@@ -8,6 +8,8 @@ from sauronlab.core.core_imports import *
 
 
 class AudioTools:
+    """ """
+
     @classmethod
     def save(
         cls, audio_segment: pydub.AudioSegment, path: PathLike, audio_format: str = "flac"
@@ -27,6 +29,7 @@ class Waveform:
     """
     Contains an array representing an audio waveform.
     Aso has a sampling rate, a name, an optional description, and optional file path.
+
     """
 
     name: str
@@ -41,7 +44,7 @@ class Waveform:
 
     @property
     def n_ms(self) -> float:
-
+        """"""
         return len(self.data) / self.sampling_rate * 1000
 
     def standardize(
@@ -51,6 +54,15 @@ class Waveform:
 
         Downsampling to **1000 Hz** and normalizes to between 0 and 255.
         This is useful for various purposes in Sauronlab, such as embedding into plots.
+
+
+        Args:
+            minimum:
+            maximum:
+            ms_freq:
+
+        Returns:
+
         """
         if minimum < 0 or maximum > 255:
             raise OutOfRangeError("Must be between 0 and 255")
@@ -71,6 +83,7 @@ class Waveform:
 
         Returns:
             The same Waveform as a copy
+
         """
         y = (self.data - self.data.min()) * (maximum - minimum) / (
             self.data.max() - self.data.min()
@@ -122,6 +135,7 @@ class Waveform:
 
         Returns:
           The same Waveform as a copy
+
         """
         a = int(round(self.sampling_rate * start_ms / 1000))
         b = int(round(self.sampling_rate * end_ms / 1000))

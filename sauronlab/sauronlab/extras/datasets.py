@@ -11,6 +11,8 @@ from sauronlab.model.well_names import *
 
 
 class SauronlabDatasetTools:
+    """"""
+
     @classmethod
     def filter_fewer(cls, df: WellFrame, cutoff: int) -> WellFrame:
         """
@@ -43,6 +45,8 @@ class SauronlabDatasetTools:
 @abcd.auto_hash()
 @abcd.auto_repr_str()
 class OptisepDataset(Dataset, metaclass=abc.ABCMeta):
+    """ """
+
     def __init__(self, training_experiment: int, is_test_set: bool):
         self.training_experiment = training_experiment
         self.is_test_set = is_test_set
@@ -75,7 +79,10 @@ class OptisepDataset(Dataset, metaclass=abc.ABCMeta):
 
 
 class LeoDataset1(Dataset):
+    """ """
+
     def _download(self):
+        """ """
         today = datetime(2019, 6, 17)
         wheres = [Projects.name == "reference :: Leo BIOMOL", ~(Runs.id << [5315, 6315])]
         return Datasets.create(
@@ -89,7 +96,10 @@ class LeoDataset1(Dataset):
 
 
 class Nt650Flames(Dataset):
+    """ """
+
     def _download(self):
+        """ """
         pattern = regex.compile(r".*BM ([0-9]{1,2})\.([1-9]{1,2}).*", flags=regex.V1)
         today = datetime(2019, 10, 30)
         cache = WellCache("cd(10)-i", sensor_cache=SensorCache())
@@ -131,30 +141,38 @@ class Nt650Flames(Dataset):
 
 
 class SauronlabDatasets:
+    """ """
+
     @classmethod
     @abcd.copy_docstring(LeoDataset1)
     def leo_biomol(cls) -> WellFrame:
+        """ """
         return LeoDataset1().fetch()
 
     @classmethod
     @abcd.copy_docstring(Nt650Flames)
     def nt650_flames(cls) -> WellFrame:
+        """ """
         return Nt650Flames().fetch()
 
     @classmethod
     def opti_train_a(cls) -> WellFrame:
+        """ """
         return OptisepDataset(1231, False).fetch()
 
     @classmethod
     def opti_train_b(cls) -> WellFrame:
+        """ """
         return OptisepDataset(1238, False).fetch()
 
     @classmethod
     def opti_test_a(cls) -> WellFrame:
+        """ """
         return OptisepDataset(1238, True).fetch()
 
     @classmethod
     def opti_test_b(cls) -> WellFrame:
+        """ """
         return OptisepDataset(1231, True).fetch()
 
     @classmethod
@@ -235,12 +253,12 @@ class SauronlabDatasets:
 
     @classmethod
     def ref_capria(cls) -> WellFrame:
-
+        """"""
         return cls._mi_ref("capria", 6)
 
     @classmethod
     def ref_ashley(cls) -> WellFrame:
-
+        """"""
         return cls._mi_ref("ashley", 936)
 
     @classmethod

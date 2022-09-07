@@ -1,10 +1,12 @@
 from __future__ import annotations
 
-from typing import Set
+import enum
+from typing import Set, Union
 
 from pocketutils.core.enums import CleverEnum
 
 
+@enum.unique
 class DataGeneration(CleverEnum):
     """
     A broad type of Sauron data, including hardware and software.
@@ -19,19 +21,56 @@ class DataGeneration(CleverEnum):
 
     """
 
-    PIKE_MGH = ()
-    PIKE_LEGACY = ()
-    PIKE_SAURONX = ()
-    POINTGREY_ALPHA = ()
-    POINTGREY = ()
+    PIKE_MGH = enum.auto()
+    PIKE_LEGACY = enum.auto()
+    PIKE_SAURONX = enum.auto()
+    POINTGREY_ALPHA = enum.auto()
+    POINTGREY = enum.auto()
 
-    @property
+    def __repr__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
+
+    def is_pike(self) -> bool:
+        """ """
+        return self in DataGeneration.pike_generations()
+
     def is_pointgrey(self) -> bool:
-        return self in {DataGeneration.POINTGREY_ALPHA, DataGeneration.POINTGREY}
+        """ """
+        return self in DataGeneration.pointgrey_generations()
 
-    @property
     def is_sauronx(self) -> bool:
-        return self in {
+        """ """
+        return self in DataGeneration.sauronx_generations()
+
+    def is_mgh(self) -> bool:
+        """ """
+        return self == DataGeneration.PIKE_MGH
+
+    def is_ucsf(self) -> bool:
+        """ """
+        return self != DataGeneration.PIKE_MGH
+
+    @classmethod
+    def pike_generations(cls) -> Set[DataGeneration]:
+        """ """
+        return {
+            DataGeneration.PIKE_MGH,
+            DataGeneration.PIKE_LEGACY,
+            DataGeneration.PIKE_SAURONX,
+        }
+
+    @classmethod
+    def pointgrey_generations(cls) -> Set[DataGeneration]:
+        """ """
+        return {DataGeneration.POINTGREY_ALPHA, DataGeneration.POINTGREY}
+
+    @classmethod
+    def sauronx_generations(cls) -> Set[DataGeneration]:
+        """ """
+        return {
             DataGeneration.PIKE_SAURONX,
             DataGeneration.POINTGREY_ALPHA,
             DataGeneration.POINTGREY,
@@ -39,6 +78,7 @@ class DataGeneration(CleverEnum):
 
     @classmethod
     def all_generations(cls) -> Set[DataGeneration]:
+        """ """
         return set(DataGeneration.__members__.values())
 
 

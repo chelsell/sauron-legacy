@@ -7,6 +7,7 @@ from sauronlab.viz.figures import FigureTools
 
 @dataclass(frozen=True)
 class ConfusionPlotter(KvrcPlotting):
+    """"""
 
     vmin: float = 0
     vmax: float = 1
@@ -15,6 +16,16 @@ class ConfusionPlotter(KvrcPlotting):
     label_colorbar: Optional[str] = "predictions (%)"
 
     def plot(self, confusion, runs: Optional[Sequence[int]] = None) -> Figure:
+        """
+
+
+        Args:
+            confusion:
+            runs:
+
+        Returns:
+
+        """
         figure = plt.figure()
         ax = figure.add_subplot(111)
         data = confusion.values if hasattr(confusion, "values") else confusion
@@ -76,6 +87,8 @@ class ConfusionPlotter(KvrcPlotting):
 
 
 class ConfusionPlots:
+    """"""
+
     @classmethod
     def plot(
         cls,
@@ -86,6 +99,20 @@ class ConfusionPlots:
         renamer: Union[None, Mapping[str, str], Callable[[str], str]] = None,
         label_colors: Union[bool, Mapping[str, str]] = False,
     ) -> Figure:
+        """
+
+
+        Args:
+            confusion:
+            vmin:
+            vmax:
+            runs:
+            renamer:
+            label_colors:
+
+        Returns:
+
+        """
         # colors
         if label_colors is None or label_colors is False:
 

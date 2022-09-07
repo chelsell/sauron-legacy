@@ -100,10 +100,11 @@ class SauronlabEnvironment:
         - viz_file: Path to sauronlab-specific visualization options in the style of Matplotlib RC
         - n_cores: Default number of cores for some jobs, including with parallelize()
         - jupyter_template: Path to a Jupyter template text file
+
     """
 
     def __init__(self):
-
+        """"""
         self.config_file = Path(CONFIG_PATH).expanduser()
         if not self.config_file.exists():
             raise MissingResourceError(f"No config file at path {self.config_file}")

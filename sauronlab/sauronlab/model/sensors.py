@@ -10,6 +10,8 @@ from sauronlab.model.sensor_names import SensorNames
 
 
 class MicrophoneWaveform(Waveform):
+    """"""
+
     pass
 
 
@@ -23,18 +25,28 @@ class _AbsBatteryTimeData(metaclass=abc.ABCMeta):
     """
 
     def __init__(self, run: RunLike, start_ms: int, end_ms: int):
+        """
+
+        Args:
+            run:
+            start_ms: From the stimulus_millis sensor: specifically ``stimulus_millis[0]``
+            end_ms:From the stimulus_millis sensor: specifically ``stimulus_millis[-1]``
+        """
         self.run, self.start_ms, self.end_ms = Tools.run(run), int(start_ms), int(end_ms)
 
     @property
     def start_dt(self) -> datetime:
+        """"""
         raise NotImplementedError()
 
     @property
     def end_dt(self) -> datetime:
+        """"""
         raise NotImplementedError()
 
     @property
     def n_ms(self) -> int:
+        """"""
         return self.end_ms - self.start_ms
 
     def __len__(self) -> int:
@@ -49,25 +61,29 @@ class EmpiricalBatteryTimeData(_AbsBatteryTimeData):
 
     @property
     def start_dt(self) -> datetime:
+        """"""
         return self.run.datetime_run + timedelta(milliseconds=self.start_ms)
 
     @property
     def end_dt(self) -> datetime:
+        """"""
         return self.run.datetime_run + timedelta(milliseconds=self.end_ms)
 
 
 class ExpectedBatteryTimeData(_AbsBatteryTimeData):
     """
     BatteryTimeData object (contains start/end timestamps, length of battery, etc.) for a given run.
-    The start time is empirical.
+    The start time is empirical
     """
 
     @property
     def start_dt(self) -> datetime:
+        """"""
         return self.run.datetime_run + timedelta(milliseconds=self.start_ms)
 
     @property
     def end_dt(self) -> datetime:
+        """"""
         battery = self.run.experiment.battery
         return self.start_dt + timedelta(
             seconds=battery.length / ValarTools.battery_stimframes_per_second(battery)
@@ -75,6 +91,8 @@ class ExpectedBatteryTimeData(_AbsBatteryTimeData):
 
 
 class SauronlabSensor:
+    """"""
+
     def __init__(self, run: RunLike, sensor_data: Union[SensorDataLike, Image.Image]):
         """
         Sensor wrapper object that holds converted sensor_data for a given run.
@@ -82,28 +100,34 @@ class SauronlabSensor:
         Args:
             run: Run ID, Submission ID, Submission Object, or Run Object
             sensor_data: Converted Sensor_data
+
         """
         self._sensor_data = sensor_data
         self._run = Runs.fetch(run)
 
     @property
     def run(self) -> Runs:
+        """ """
         return self._run
 
     @property
     def data(self) -> Union[SensorDataLike, Image.Image]:
+        """ """
         return self._sensor_data
 
     @property
     def name(self) -> str:
+        """ """
         return Tools.strip_off_end(self.__class__.__name__.lower(), "sensor")
 
     @property
     def abbrev(self) -> str:
+        """ """
         raise NotImplementedError()
 
     @property
     def symbol(self) -> str:
+        """ """
         raise NotImplementedError()
 
     def __str__(self):
@@ -126,6 +150,7 @@ class TimeDataSensor(SauronlabSensor, metaclass=abc.ABCMeta):
     """
     BatteryTimeData object (contains start/end timestamps, length of battery, etc.) for a given run.
     These are the empirical values, not the expected ones!
+
     """
 
     def __init__(self, run: RunLike, battery_data: np.array):
@@ -133,26 +158,40 @@ class TimeDataSensor(SauronlabSensor, metaclass=abc.ABCMeta):
         self.planned_battery_n_ms = run.experiment.battery.length
 
     def timestamps(self) -> Sequence[datetime]:
+        """ """
         return [self.run.datetime_run + timedelta(milliseconds=int(ms)) for ms in self.data]
 
     def timestamp_at(self, ind: int) -> datetime:
+        """
+
+
+        Args:
+            ind: int:
+
+        Returns:
+
+        """
         return self.run.datetime_run + timedelta(milliseconds=int(self.data[ind]))
 
     @property
     def start_ms(self) -> int:
+        """ """
         return self._sensor_data[0]
 
     @property
     def end_ms(self) -> int:
+        """ """
         return self._sensor_data[-1]
 
     @property
     def n_ms(self) -> float:
+        """ """
         # noinspection PyUnresolvedReferences
         return (self._sensor_data[1] - self._sensor_data[0]).total_seconds() * 1000
 
     @property
     def start_end_dts(self) -> Tup[datetime, datetime]:
+        """ """
         return self.timestamp_at(0), self.timestamp_at(-1)
 
     def __len__(self) -> int:
@@ -160,26 +199,36 @@ class TimeDataSensor(SauronlabSensor, metaclass=abc.ABCMeta):
 
 
 class StimulusTimeData(TimeDataSensor):
+    """ """
+
     @property
     def abbrev(self) -> str:
+        """ """
         return "stim"
 
     @property
     def symbol(self) -> str:
+        """ """
         return "⚑"
 
 
 class CameraTimeData(TimeDataSensor):
+    """"""
+
     @property
     def abbrev(self) -> str:
+        """ """
         return "frame"
 
     @property
     def symbol(self) -> str:
+        """ """
         return "🎥"
 
 
 class RawDataSensor(SauronlabSensor):
+    """"""
+
     @property
     def abbrev(self) -> str:
         """ """
@@ -199,6 +248,9 @@ class ImageSensor(SauronlabSensor):
         Args:
             run: Run ID, Submission ID, Submission Object, or Run Object
             sensor_data: Converted image sensor data (Webcam/Preview)
+
+        Returns:
+
         """
         super().__init__(run, sensor_data)
 
@@ -220,6 +272,7 @@ class ImageSensor(SauronlabSensor):
 
         Returns:
             A copy of this ImageSensor
+
         """
         new = deepcopy(self)
         draw = ImageDraw.Draw(new.data)
@@ -329,10 +382,15 @@ class TimeDepSauronlabSensor(SauronlabSensor, metaclass=abc.ABCMeta):
 
     def slice_ms(self, start_ms: Optional[int], end_ms: Optional[int]) -> __qualname__:
         """
-        Slices Sensor data.
+        Slices Sensor data
+
+        Args:
+            start_ms:
+            end_ms:
 
         Returns:
             A copy of this class
+
         """
         started = self.bt_data.start_ms if start_ms is None else self.bt_data.start_ms + start_ms
         finished = self.bt_data.end_ms if end_ms is None else self.bt_data.end_ms + end_ms
@@ -365,6 +423,8 @@ class PhotosensorSensor(TimeDepSauronlabSensor):
 
 
 class ThermosensorSensor(TimeDepSauronlabSensor):
+    """"""
+
     @property
     def abbrev(self) -> str:
         return "therm"
@@ -447,6 +507,15 @@ class MicrophoneSensor(TimeDepSauronlabSensor):
         return 44.1  # TODO 44100 kHz
 
     def waveform(self, downsample_to_hertz: int) -> MicrophoneWaveformSensor:
+        """
+
+
+        Args:
+            downsample_to_hertz:
+
+        Returns:
+
+        """
         waveform = MicrophoneWaveform(
             name="r" + str(self.run.id),
             path=None,

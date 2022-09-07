@@ -1,9 +1,9 @@
 [
   {
-    "name": "MGH",
+    "name": "PIKE_MGH",
     "description": "Legacy data from Massachusetts General Hospital",
     "start_date": "2011-01-01",
-    "end_date": "2014-01-01",
+    "end_date": "2018-01-01",
     "has_submission": false,
     "quality": 1,
     "historical": true,

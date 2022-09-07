@@ -21,6 +21,12 @@ class StimframeCache(AStimCache):
         cache_dir: PathLike = None,
         waveform_loader: Optional[Callable[[str], Waveform]] = None,
     ):
+        """
+
+        Args:
+            cache_dir:
+            waveform_loader:
+        """
         self.waveform_loader = waveform_loader
         if cache_dir is None:
             cache_dir = (
@@ -30,10 +36,12 @@ class StimframeCache(AStimCache):
 
     @property
     def cache_dir(self) -> Path:
+        """"""
         return self._cache_dir
 
     @property
     def is_expanded(self) -> bool:
+        """"""
         return self.waveform_loader is not None
 
     @abcd.overrides
@@ -45,9 +53,7 @@ class StimframeCache(AStimCache):
     @abcd.overrides
     def key_from_path(self, path: PathLike) -> BatteryLike:
         path = Path(path).relative_to(self.cache_dir)
-        return int(
-            regex.compile(r"^([0-9]+)\.csv\.gz", flags=regex.V1).fullmatch(path.name).group(1)
-        )
+        return int(regex.compile(r"^([0-9]+)\.csv\.gz", flags=regex.V1).fullmatch(path.name).group(1))
 
     @abcd.overrides
     def load(self, battery: BatteryLike) -> BatteryStimFrame:
@@ -60,14 +66,10 @@ class StimframeCache(AStimCache):
             battery = Batteries.fetch(battery)
             is_legacy = ValarTools.battery_is_legacy(battery)
             if battery not in self:
-                logger.trace(
-                    f"Downloading battery {battery.id} ({battery.name})"
-                )  # No logging.minor can be found -CH
+                logger.trace(f"Downloading battery {battery.id} ({battery.name})") #No logging.minor can be found -CH
                 stimframes = BatteryStimFrame.of(battery)
                 if self.is_expanded:
-                    logger.trace(
-                        f"Inserting waveform into battery {battery.id} ({battery.name})"
-                    )  # No logging.minor can be found -CH
+                    logger.trace(f"Inserting waveform into battery {battery.id} ({battery.name})") #No logging.minor can be found -CH
                     stimframes.expand_audio_inplace(self.waveform_loader, is_legacy=is_legacy)
                 # noinspection PyTypeChecker
                 self._save(battery, stimframes)

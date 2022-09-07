@@ -9,6 +9,8 @@ from sauronlab.viz.accuracy_plots import *
 
 
 class AccuracyCountFrame(BaseScoreFrame):
+    """ """
+
     pass
 
 
@@ -22,22 +24,59 @@ class AccuracyFrame(ScoreFrameWithPrediction):
         return DfTyping(_required_columns=["label", "prediction", "score", "score_for_prediction"])
 
     def counts(self) -> AccuracyCountFrame:
+        """"""
         df = self.copy()
         df["score"] = df["label"] == df["prediction"]
         df = self.groupby("label").sum()[["score"]]
         return AccuracyCountFrame(AccuracyCountFrame(df.reset_index()))
 
     def means(self) -> AccuracyCountFrame:
+        """"""
         df = self.copy()
         df["score"] = df["label"] == df["prediction"]
         df = self.groupby("label").mean()[["score"]] * 100.0
         return AccuracyCountFrame(AccuracyCountFrame(df.reset_index()))
 
     def with_label(self, label: Union[str, Iterable[str]]) -> AccuracyFrame:
+        """
+
+
+        Args:
+            label:
+
+        Returns:
+
+        """
         if isinstance(label, str):
             return self.__class__.retype(self[self["label"] == label])
         else:
             return self.__class__.retype(self[self["label"].isin(label)])
+
+    def rocc(self, control_label: str) -> Figure:
+        """
+
+
+        Args:
+            control_label: str:
+
+        Returns:
+
+        """
+        data = self.rocs(control_label)
+        return MetricPlotter(MetricInfo.roc()).plot(data)
+
+    def prc(self, control_label: str) -> Figure:
+        """
+
+
+        Args:
+            control_label: str:
+
+        Returns:
+
+        """
+        data = self.prs(control_label)
+        return MetricPlotter(MetricInfo.pr()).plot(data)
 
     def swarm(self, renamer: Optional[Callable[[str], str]] = None) -> Figure:
         """
@@ -45,6 +84,10 @@ class AccuracyFrame(ScoreFrameWithPrediction):
 
         Args:
             renamer: A function mapping class labels to more human-friendly class labels
+
+        Returns:
+            A Matplotlib Figure
+
         """
         return AccuracyPlotter("swarm").plot(self, renamer=renamer)
 
@@ -54,6 +97,10 @@ class AccuracyFrame(ScoreFrameWithPrediction):
 
         Args:
             renamer: A function mapping class labels to more human-friendly class labels
+
+        Returns:
+            A Matplotlib Figure
+
         """
         return AccuracyPlotter("violin").plot(self, renamer=renamer)
 
@@ -67,6 +114,10 @@ class AccuracyFrame(ScoreFrameWithPrediction):
             renamer: A function mapping class labels to more human-friendly class labels
             ci: Confidence interval 0.0-1.0
             boot: Number of bootstarp samples
+
+        Returns:
+          A Matplotlib Figure
+
         """
         return AccuracyPlotter("bar").plot(
             self.summarize(ci=ci, center_fn=np.median, boot=boot), renamer=renamer
@@ -82,6 +133,7 @@ class AccuracyFrame(ScoreFrameWithPrediction):
 
         Returns:
             A DataFrame with columns 'label', 'lower', and 'upper'.
+
         """
         data = []
         for repeat in range(b):

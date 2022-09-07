@@ -51,6 +51,15 @@ class AppFrame(TypedDf):
 
     @classmethod
     def of(cls, battery: Union[AppFrame, Batteries, int, str, pd.DataFrame]) -> AppFrame:
+        """
+
+
+        Args:
+            battery:
+
+        Returns:
+
+        """
         if isinstance(battery, AppFrame):
             return battery
         if isinstance(battery, pd.DataFrame):
@@ -80,17 +89,45 @@ class AppFrame(TypedDf):
         )
 
     def ms_off(self, any_of_stimuli: Union[str, Sequence[str]]) -> Sequence[int]:
+        """
+
+
+        Args:
+            any_of_stimuli:
+
+        Returns:
+
+        """
         return self.ms_on(any_of_stimuli, lambda x: x == 0)
 
     def ms_on(
         self,
         any_of_stimuli: Union[str, Sequence[str]],
     ) -> Sequence[int]:
+        """
+
+
+        Args:
+            any_of_stimuli:
+
+        Returns:
+
+        """
         return self._ms_on(any_of_stimuli, lambda x: x > 0)
 
     def _ms_on(
         self, any_of_stimuli: Union[str, Sequence[str]], accept_value: Callable[[int], bool]
     ) -> Sequence[int]:
+        """
+
+
+        Args:
+            any_of_stimuli:
+            accept_value:
+
+        Returns:
+
+        """
         if isinstance(any_of_stimuli, str):
             any_of_stimuli = [any_of_stimuli]
         bits = []
@@ -103,17 +140,54 @@ class AppFrame(TypedDf):
         return [i for j in bits for i in j]
 
     def by_stimulus(self, stimulus: Union[str, int, Stimuli]) -> AppFrame:
+        """
+
+
+        Args:
+            stimulus:
+
+        Returns:
+
+        """
         stimulus = stimulus if isinstance(stimulus, str) else Stimuli.fetch(stimulus).name
         return AppFrame.of(self[self["stimulus"] == stimulus].reset_index(drop=True))
 
     def by_start_ms(self, start_ms: int) -> AppFrame:
+        """
+
+
+        Args:
+          start_ms: int:
+
+        Returns:
+
+        """
         return AppFrame.of(self[self["start_ms"] == start_ms].reset_index(drop=True))
 
     def by_assay(self, assay: Union[str, int, Assays]) -> AppFrame:
+        """
+
+
+        Args:
+            assay:
+
+        Returns:
+
+        """
         assay = assay if isinstance(assay, str) else Assays.fetch(assay).name
         return AppFrame.of(self[self["assay"] == assay].reset_index(drop=True))
 
     def slice_ms(self, start_ms: Optional[int] = None, end_ms: Optional[int] = None) -> AppFrame:
+        """
+
+
+        Args:
+            start_ms:
+            end_ms:
+
+        Returns:
+
+        """
         if start_ms is None:
             start_ms = 0
         if end_ms is None:
@@ -124,7 +198,7 @@ class AppFrame(TypedDf):
 
     def insight_at_index(self, index: int) -> InsightFrame:
         """
-        Generates something like template_stimulus_frames for legacy protocols and assays.
+        Generates something like template_stimulus_frames for legacy protocols and assays
 
         Args:
             index: A row index, starting at 0
@@ -138,13 +212,18 @@ class AppFrame(TypedDf):
 
     def insight(self) -> InsightFrame:
         """
-        Generates something like template_stimulus_frames for legacy or SauronX batteries and assays.
+        Generates something like template_stimulus_frames for legacy or SauronX batteries and assays
 
         Returns:
             A DataFrame of start, end, and value for changes
         """
-        concat = pd.concat([AppFrame._insight(z) for z in self.itertuples()], sort=False)
-        return InsightFrame(InsightFrame.convert(concat.sort_values("start_ms")))
+        return InsightFrame(
+            InsightFrame.convert(
+                pd.concat(
+                    [AppFrame._insight(z) for z in self.itertuples()], sort=False
+                ).sort_values("start_ms")
+            )
+        )
 
     @classmethod
     def _insight(cls, frames_row: pd.Series) -> InsightFrame:

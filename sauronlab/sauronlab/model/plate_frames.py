@@ -11,16 +11,38 @@ class PlateFrame(UntypedDf):
 
     @classmethod
     def mean(cls, run: RunLike, feature: FeatureType) -> PlateFrame:
+        """
+
+
+        Args:
+            run:
+            feature:
+        """
         return cls.of(run, feature, np.mean)
 
     @classmethod
     def sum(cls, run: RunLike, feature: FeatureType) -> PlateFrame:
+        """
+
+
+        Args:
+            run: RunLike:
+            feature: FeatureType:
+        """
         return cls.of(run, feature, np.sum)
 
     @classmethod
     def of(
         cls, run: RunLike, feature: FeatureType, stat: Callable[[np.array], Union[float, str]]
     ) -> PlateFrame:
+        """
+
+
+        Args:
+            run:
+            feature:
+            stat:
+        """
         run = Tools.run(run)
         feature = FeatureTypes.of(feature)
         wb1 = Tools.wb1_from_run(run)

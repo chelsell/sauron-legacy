@@ -27,10 +27,20 @@ class TreatmentNamer:
 
         Returns:
             The display name of the Treatment
+
         """
         raise NotImplementedError()
 
     def __call__(self, treatment: Treatment, name: Union[None, str, Mapping[int, str]]) -> str:
+        """
+
+        Args:
+            treatment:
+            name:
+
+        Returns:
+
+        """
         return self.display(treatment, name)
 
     def _convert(self, t: Treatment, names: Union[None, str, Mapping[int, str]]) -> Optional[str]:
@@ -154,6 +164,23 @@ class StringTreatmentNamer(TreatmentNamer):
         inchikey,
         chembl,
     ) -> str:
+        """
+
+
+        Args:
+          t_str: str:
+          bid: int:
+          cid: int:
+          tag: Optional[str]:
+          dose: float:
+          name: Optional[str]:
+          inchikey:
+          chembl:
+
+        Returns:
+
+        """
+
         def inchikeyit(gs):
             return self._fall(gs[0], cid, bid) if inchikey is None else inchikey
 
@@ -169,17 +196,16 @@ class StringTreatmentNamer(TreatmentNamer):
         def idit(gs):
             return "b" + str(bid) if cid is None else ("c" + str(cid))
 
-        def get_dose_kwargs(gs) -> dict:
-            return dict(
-                n_sigfigs=5 if gs[1] is None else int(gs[1]),
-                use_sigfigs=gs[0] == ":",
-            )
+        def get_dose_kwargs(gs) -> Tup[Optional[int], Optional[bool]]:
+            use_sigfigs = gs[0] == ":"
+            round_figs = None if gs[1] is None else int(gs[1])
+            return use_sigfigs, round_figs
 
         def doseit(gs):
-            return Tools.format_micromolar(dose, adjust_units=True, **get_dose_kwargs(gs))
+            return self._dosify(dose, True, *get_dose_kwargs(gs))
 
         def rumit(gs):
-            return Tools.format_micromolar(dose, adjust_units=False, **get_dose_kwargs(gs))
+            return self._dosify(dose, False, *get_dose_kwargs(gs))
 
         e = self.expression
         e = self._replace(e, rtreatment, lambda g: t_str)
@@ -194,8 +220,18 @@ class StringTreatmentNamer(TreatmentNamer):
         e = self._replace(e, rumdose, rumit)
         return e
 
-    def _fall(self, allowed, cid, bid) -> Optional[str]:
+    def _dosify(self, dose, adjust, use_sigfigs, round_figs) -> Optional[str]:
+        """"""
+        if round_figs is None:
+            round_figs = 5
+        elif round_figs == "*":
+            round_figs = 100  # reserved
+        round_figs = int(round_figs)
+        #return Tools.nice_dose(dose, round_figs, adjust_units=adjust, use_sigfigs=use_sigfigs) #Tools.nice_dose can't be found -CH
+        return dose
 
+    def _fall(self, allowed, cid, bid) -> Optional[str]:
+        """"""
         if allowed is None:
             return
         fallback = None if allowed is None else allowed.rstrip("|")
@@ -205,7 +241,7 @@ class StringTreatmentNamer(TreatmentNamer):
             return "b" + str(bid)
 
     def _replace(self, e0, reg, rep) -> Optional[str]:
-
+        """"""
         for match in reg.finditer(e0):
             rep1 = rep(match.groups())
             e0 = e0.replace(match[0], "" if rep1 is None else str(rep1))
@@ -221,7 +257,7 @@ class StringTreatmentNamer(TreatmentNamer):
         cap_rule: Optional[str],
         if_null_rule: Optional[str],
     ) -> str:
-
+        """"""
         if_null_rule = "" if if_null_rule is None else if_null_rule
         if name is None:
             name = self._fall(fallback_rule, cid, bid)
@@ -235,7 +271,7 @@ class StringTreatmentNamer(TreatmentNamer):
         return name
 
     def _capitalize(self, name: str, rule: Optional[str]) -> str:
-
+        """"""
         if rule is None:
             return name
         if rule == "lower":
@@ -267,43 +303,52 @@ class StringTreatmentNamer(TreatmentNamer):
 
 
 class TreatmentNamers:
+    """"""
+
     @classmethod
     def of(cls, s: str) -> StringTreatmentNamer:
+        """
+
+
+        Args:
+            s: str:
+
+        """
         return StringTreatmentNamer(s)
 
     @classmethod
     def id(cls) -> StringTreatmentNamer:
-
+        """"""
         return StringTreatmentNamer("${id}")
 
     @classmethod
     def id_with_dose(cls) -> StringTreatmentNamer:
-
+        """"""
         return StringTreatmentNamer("${id} (${dose})")
 
     @classmethod
     def name_with_dose(cls) -> StringTreatmentNamer:
-
+        """"""
         return StringTreatmentNamer("${id|name} (${dose})")
 
     @classmethod
     def name(cls) -> StringTreatmentNamer:
-
+        """"""
         return StringTreatmentNamer("${id|name}")
 
     @classmethod
     def name_with_id(cls) -> StringTreatmentNamer:
-
+        """"""
         return StringTreatmentNamer("${name} [${id}]")
 
     @classmethod
     def name_with_id_with_dose(cls) -> StringTreatmentNamer:
-
+        """"""
         return StringTreatmentNamer("${name} [${id}] (${dose})")
 
     @classmethod
     def chembl(cls) -> StringTreatmentNamer:
-
+        """"""
         return StringTreatmentNamer("${id|chembl}")
 
 

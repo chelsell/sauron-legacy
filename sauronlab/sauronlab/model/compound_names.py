@@ -16,11 +16,22 @@ class CompoundNamer(metaclass=abc.ABCMeta):
     """
 
     def __init__(self, as_of: Optional[datetime] = datetime.now()):
+        """
+
+        Args:
+            as_of:
+        """
         self.as_of = as_of
 
     def get(self, compound: NullableCompoundLike) -> Optional[str]:
         """
         Get a single name for a single compound, or None if a name wasn't found.
+
+        Args:
+            compound: NullableCompoundLike:
+
+        Returns:
+
         """
         if compound is None:
             return None
@@ -33,11 +44,15 @@ class CompoundNamer(metaclass=abc.ABCMeta):
         """
         Maps each compound (or null) in a (non-nested) sequence to its name or None.
 
-        Example:
-            .. code-block::
+        For example::
+            namer.map([1, 1, None])
+            # returns ['water', 'water', None]
 
-                namer.map([1, 1, None])
-                # returns ['water', 'water', None]
+        Args:
+            compounds: NullableCompoundsLike:
+
+        Returns:
+
         """
         dct = self.fetch(compounds)
         return [
@@ -51,12 +66,15 @@ class CompoundNamer(metaclass=abc.ABCMeta):
         """
         Maps a list of lists/tuples of compounds.
         This is notably useful for processing wells on a plate, where each well has a list of compounds.
+        For example::
+            namer.map_2d([1, [1, Compounds.fetch(126)], [], None])
+            # returns [['water'], ['water', 'Haloperidol'], [], [None]]
 
-        Example:
-            .. code-block::
+        Args:
+            compounds: Iterable[Iterable[Optional[CompoundLike]]]:
 
-                namer.map_2d([1, [1, Compounds.fetch(126)], [], None])
-                # returns [['water'], ['water', 'Haloperidol'], [], [None]]
+        Returns:
+
         """
         dct = self.fetch(self._flatten_to_id_set(compounds))
         lst = []
@@ -87,6 +105,15 @@ class BatchNamer(metaclass=abc.ABCMeta):
 
     @abcd.abstractmethod
     def fetch(self, batches: BatchesLike) -> Mapping[int, str]:
+        """
+
+
+        Args:
+            batches: BatchesLike:
+
+        Returns:
+
+        """
         raise NotImplementedError()
 
     def _flatten_to_id_set(self, batches):
@@ -102,6 +129,12 @@ class BatchNamerWrapping(BatchNamer):
     """
 
     def __init__(self, compound_namer: CompoundNamer, use_bid_if_empty: bool = False):
+        """
+
+        Args:
+            compound_namer:
+            use_bid_if_empty:
+        """
         super().__init__(compound_namer.as_of)
         self.compound_namer = compound_namer
         self.use_bid_if_empty = use_bid_if_empty
@@ -120,17 +153,29 @@ class BatchNamerWrapping(BatchNamer):
 
 
 class BatchNamerTag(BatchNamer):
+    """"""
+
     def fetch(self, batches: BatchesLike) -> Mapping[int, str]:
         return {b.id: b.tag for b in Batches.fetch_all(self._flatten_to_id_set(batches))}
 
 
 class CidCompoundNamer(CompoundNamer):
+    """"""
+
     def fetch(self, compound_ids: CompoundsLike) -> Mapping[int, str]:
         return {c: c for c in self._flatten_to_id_set(compound_ids)}
 
 
 class SingleThingCompoundNamer(CompoundNamer):
+    """"""
+
     def __init__(self, attribute: str, as_of: datetime = datetime.now()):
+        """
+
+        Args:
+            attribute:
+            as_of:
+        """
         super().__init__(as_of)
         self.attribute = attribute
 
@@ -208,17 +253,23 @@ class TieredCompoundNamer(CompoundNamer):
 
 
 class CompoundNamerEmpty(BatchNamer):
+    """"""
+
     def fetch(self, compound_ids: CompoundsLike) -> Mapping[int, str]:
         return {}
 
 
 class BatchNamerEmpty(BatchNamer):
+    """"""
+
     def fetch(self, batches: BatchesLike) -> Mapping[int, str]:
         return {}
 
 
 @abcd.copy_docstring(TieredCompoundNamer)
 class CleaningTieredCompoundNamer(TieredCompoundNamer):
+    """"""
+
     def __init__(
         self,
         sources: Sequence[int] = None,
@@ -252,14 +303,29 @@ class CompoundNameCleaner:
     Contains an ordered list of substrings of compound names to discard.
     By default, will use resources/chem/unimportant_substrings.lines
     Also replaces names of Greek letters with their Unicode equivalents.
+
     """
 
     def __init__(self, to_discard: Optional[Set[str]] = None):
+        """
+
+        Args:
+            to_discard:
+        """
         self.to_discard = to_discard
         if self.to_discard is None:
             self.to_discard = InternalTools.load_resource("chem", "unimportant_substrings.lines")
 
     def clean(self, thestring: Optional[str]) -> Optional[str]:
+        """
+
+
+        Args:
+            thestring:
+
+        Returns:
+
+        """
         if thestring is None:
             return None
         if not isinstance(thestring, str):
@@ -304,19 +370,21 @@ class CompoundNameCleaner:
 
 
 class CompoundNamers:
+    """"""
+
     @classmethod
     def empty(cls) -> CompoundNamerEmpty:
-
+        """"""
         return CompoundNamerEmpty()
 
     @classmethod
     def inchikey(cls, as_of: Optional[datetime] = None) -> CompoundNamer:
-
+        """"""
         return SingleThingCompoundNamer("inchikey", as_of)
 
     @classmethod
     def chembl(cls, as_of: Optional[datetime] = None) -> CompoundNamer:
-
+        """"""
         return SingleThingCompoundNamer("chembl", as_of)
 
     @classmethod
@@ -326,7 +394,7 @@ class CompoundNamers:
         max_length: int = 30,
         as_of: Optional[datetime] = None,
     ) -> CompoundNamer:
-
+        """"""
         return TieredCompoundNamer(sources, max_length=max_length, as_of=as_of)
 
     @classmethod
@@ -336,7 +404,7 @@ class CompoundNamers:
         max_length: int = 30,
         as_of: Optional[datetime] = None,
     ) -> CompoundNamer:
-
+        """"""
         return TieredCompoundNamer(
             sources, max_length=max_length, as_of=as_of, fallback_to_cid=True
         )
@@ -348,7 +416,7 @@ class CompoundNamers:
         max_length: int = 30,
         as_of: Optional[datetime] = None,
     ) -> CompoundNamer:
-
+        """"""
         return CleaningTieredCompoundNamer(
             sources, max_length=max_length, as_of=as_of, fall_back_to_cid=True
         )
@@ -374,7 +442,7 @@ class BatchNamers:
         max_length: int = 30,
         as_of: Optional[datetime] = None,
     ) -> BatchNamerWrapping:
-
+        """"""
         return BatchNamerWrapping(
             TieredCompoundNamer(sources, max_length=max_length, as_of=as_of, fallback_to_cid=False),
             use_bid_if_empty=True,
@@ -387,7 +455,7 @@ class BatchNamers:
         max_length: int = 30,
         as_of: Optional[datetime] = None,
     ) -> BatchNamerWrapping:
-
+        """"""
         return BatchNamerWrapping(
             CleaningTieredCompoundNamer(
                 sources, max_length=max_length, as_of=as_of, fall_back_to_cid=False

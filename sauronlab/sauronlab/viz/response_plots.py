@@ -16,6 +16,7 @@ class UnsupportedPlotOption(UnsupportedOpError):
 
 @dataclass(frozen=True)
 class Position:
+    """"""
 
     left: bool
     right: bool
@@ -26,11 +27,32 @@ class Position:
 
 
 class Miniaxis:
+    """"""
+
     def __init__(self, ax: Axes, position: Position):
+        """
+
+        Args:
+            ax:
+            position:
+        """
         self.ax, self.position = ax, position
         self.twin = self.ax.twinx()
 
     def plot(self, x, mean, upper, lower, label: str, color: str, twin: bool) -> None:
+        """
+
+
+        Args:
+            x:
+            mean:
+            upper:
+            lower:
+            label: str:
+            color: str:
+            twin: bool:
+
+        """
         x, mean, upper, lower = self._mk2(x, mean, upper, lower)
         ax = self.twin if twin else self.ax
         if sauronlab_rc.response_bound_alpha > 0:
@@ -51,6 +73,15 @@ class Miniaxis:
     def _mk2(self, x, v, u, w):
         """
         When there's only 1 point, turn it into 2 so we still get a line.
+
+        Args:
+            x:
+            v:
+            u:
+            w:
+
+        Returns:
+
         """
         if len(x) == len(v) == len(u) == len(w) == 1:
             x0 = next(iter(x))
@@ -60,6 +91,19 @@ class Miniaxis:
         return x, v, u, w
 
     def _plot(self, x, v, label, color, marker, alpha, twin) -> None:
+        """
+
+
+        Args:
+            x:
+            v:
+            label:
+            color:
+            marker:
+            alpha:
+            twin:
+
+        """
         ax = self.twin if twin else self.ax
         if v is not None and alpha > 0:
             if sauronlab_rc.response_bound_marker != "":
@@ -84,6 +128,23 @@ class Miniaxis:
         right_tick_labels: Sequence[str],
         force_ylim=None,
     ) -> None:
+        """
+
+
+        Args:
+            label: str:
+            x_label: str:
+            left_label: str:
+            right_label: str:
+            x_ticks: Sequence[float]:
+            x_tick_labels: Sequence[str]:
+            y_ticks: Sequence[float]:
+            y_tick_labels: Sequence[str]:
+            right_ticks: Sequence[float]:
+            right_tick_labels: Sequence[str]:
+            force_ylim:  (Default value = None)
+
+        """
         if right_label is None:
             right_label = ""
         if right_ticks is None:
@@ -140,6 +201,8 @@ class Miniaxis:
 
 
 class Grid:
+    """"""
+
     def __init__(
         self,
         n_rows: int,
@@ -156,6 +219,23 @@ class Grid:
         summary: pd.DataFrame,
         figure: Figure,
     ):
+        """
+
+        Args:
+            n_rows:
+            n_columns:
+            x_label:
+            left_label:
+            right_label
+            y_ticks:
+            y_tick_labels:
+            right_ticks:
+            right_tick_labels:
+            force_ylim:
+            rotate_x_ticks:
+            summary:
+            figure:
+        """
         self.n_rows, self.n_columns = n_rows, n_columns
         self.x_label, self.left_label, self.right_label = x_label, left_label, right_label
         y_tick_labels = [
@@ -181,6 +261,12 @@ class Grid:
         self._i = 0
 
     def spawn(self) -> Axes:
+        """
+
+        Returns:
+
+        """
+        """ """
         i, row, col = self._i + 1, self._i // self.n_columns + 1, self._i % self.n_columns + 1
         drug = self._drugs[self._i]
         data = self.summary[self.summary["label"] == drug].copy()
@@ -264,6 +350,19 @@ class DoseResponsePlotter:
         ylim: Optional[Tup[float, float]] = None,
         rotate_x_ticks: bool = False,
     ):
+        """
+
+        Args:
+            x_label:
+            left_label:
+            right_label:
+            y_ticks
+            right_ticks:
+            n_rows:
+            n_cols:
+            ylim:
+            rotate_x_ticks:
+        """
         self.x_label, self.left_label, self.right_label, self.y_ticks, self.right_ticks = (
             x_label,
             left_label,
@@ -284,6 +383,7 @@ class DoseResponsePlotter:
 
         Returns:
             A Figure
+
         """
         n_rows, n_cols = self.n_rows, self.n_cols
         summary = summary.sort_values(["label", "x_value"])
@@ -291,6 +391,15 @@ class DoseResponsePlotter:
         if self.y_ticks is None:
 
             def get_ticks(n) -> np.array:
+                """
+
+
+                Args:
+                    n:
+
+                Returns:
+
+                """
                 print(n)
                 top = np.max(
                     [

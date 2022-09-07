@@ -16,6 +16,8 @@ from sauronlab.viz.stim_plots import *
 @abcd.auto_eq()
 @abcd.auto_repr_str()
 class TraceBase(CakeLayer, KvrcPlotting):
+    """"""
+
     def __init__(
         self,
         top_bander: Callable[[WellFrame], pd.DataFrame] = (
@@ -29,6 +31,16 @@ class TraceBase(CakeLayer, KvrcPlotting):
         with_bar: bool = False,
         feature: FeatureType = FeatureTypes.MI,
     ):
+        """
+
+        Args:
+            top_bander:
+            bottom_bander:
+            mean_bander:
+            mean_band_color:
+            with_bar:
+            feature:
+        """
         self._banded = top_bander is None or bottom_bander is None or mean_bander is None
         self._top_bander = top_bander
         self._bottom_bander = bottom_bander
@@ -55,6 +67,23 @@ class TraceBase(CakeLayer, KvrcPlotting):
         starts_at_ms: int,
         run_dict: Optional[Mapping[str, str]],
     ) -> Axes:
+        """
+
+
+        Args:
+            subdf:
+            s: str:
+            control_names:
+            ax1:
+            colors:
+            alphas:
+            y_bounds:
+            starts_at_ms:
+            run_dict:
+
+        Returns:
+
+        """
         ax1.set_rasterization_zorder(1)
         ax1.grid(b=False)
         ax1.set_facecolor("white")
@@ -101,6 +130,20 @@ class TraceBase(CakeLayer, KvrcPlotting):
         return ax1
 
     def _plot_single(self, group, name, color, alpha, ax1, y_bounds):
+        """
+
+
+        Args:
+            group:
+            name:
+            color:
+            alpha:
+            ax1:
+            y_bounds:
+
+        Returns:
+
+        """
         viz_name = FigureTools.fix_labels(name)
         if self._banded and len(group) > 2:
             if self._mean_bander is None:
@@ -158,6 +201,8 @@ class TraceBase(CakeLayer, KvrcPlotting):
 @abcd.auto_eq()
 @abcd.auto_repr_str()
 class TracePlotter(KvrcPlotting):
+    """"""
+
     @classmethod
     def default_top_bander(cls, group: AbsWellFrame):
         return group.agg_by_name("quantile", q=0.8).smooth(window_size=10)
@@ -184,6 +229,21 @@ class TracePlotter(KvrcPlotting):
         feature: FeatureType = FeatureTypes.MI,
         extra_gridspec_slots: Optional[Sequence[float]] = None,
     ):
+        """
+
+        Args:
+            stimframes_plotter:
+            y_bounds:
+            trace_to_stimuli_height_ratio:
+            always_plot_control:
+            top_bander:
+            bottom_bander:
+            mean_bander:
+            mean_band_color:
+            with_bar:
+            feature:
+            extra_gridspec_slots:
+        """
         self._stimframes_plotter = (
             stimframes_plotter if stimframes_plotter is not None else StimframesPlotter()
         )
@@ -213,7 +273,17 @@ class TracePlotter(KvrcPlotting):
         battery: Union[None, Batteries, int, str] = None,
     ) -> Generator[Tup[str, Figure], None, None]:
         """
-        Plots.
+
+
+        Args:
+            df: WellFrame:
+            stimframes:
+            control_names:
+            starts_at_ms:
+            extra:
+            assays:
+            run_dict:
+            battery:
 
         Yields:
             Tuples mapping the name (from ``df['name']``) to figures
@@ -272,6 +342,16 @@ class TracePlotter(KvrcPlotting):
     def _assign_control_names(
         self, df: Union[WellFrame, Sequence[str], Set[str], str], control_names
     ) -> Mapping[str, Sequence[str]]:
+        """
+
+
+        Args:
+            df:
+            control_names:
+
+        Returns:
+
+        """
         if control_names is None:
             cn = {n: [] for n in df.names().unique()}
         elif isinstance(control_names, list) or isinstance(control_names, set):
@@ -290,6 +370,15 @@ class TracePlotter(KvrcPlotting):
         return cn
 
     def _assign_sizes(self, n_extra_slots: int) -> Tup[Tup[float, float], float, float]:
+        """
+
+
+        Args:
+            n_extra_slots: int:
+
+        Returns:
+
+        """
         trace_height, stim_height = (
             sauronlab_rc.trace_height,
             sauronlab_rc.trace_layer_const_height + sauronlab_rc.trace_layer_height * n_extra_slots,
@@ -313,12 +402,33 @@ class TracePlotter(KvrcPlotting):
         y_bounds,
         battery,
     ):
+        """
+
+
+        Args:
+            sub:
+            name:
+            starts_at_ms:
+            control_names:
+            stimframes:
+            assays:
+            run_dict:
+            extra:
+            figsize:
+            trace_height:
+            stim_height:
+            y_bounds:
+            battery:
+
+        Returns:
+
+        """
         logger.debug(f"Plotting trace for {name}")
         all_names = [*sub.unique_names(), *control_names]
         all_is_control = [s if s in control_names else None for s in all_names]
         the_colors = InternalVizTools.assign_color_dict_x(all_names, all_is_control)
         the_alphas = self._assign_alphas(control_names, name)
-        figure = plt.figure(figsize=figsize, num=1, clear=True)
+        figure = plt.figure(figsize=figsize,num=1,clear=True)
         n_gridspec_slots = 2 + len(self._extra_gridspec_slots)
         height_ratios = [trace_height] + self._extra_gridspec_slots + [stim_height]
         gs = GridSpec(n_gridspec_slots, 1, height_ratios=height_ratios, figure=figure)
@@ -348,6 +458,17 @@ class TracePlotter(KvrcPlotting):
     def _select(
         self, df: WellFrame, name: str, control_names: Mapping[str, Sequence[str]]
     ) -> AbsWellFrame:
+        """
+
+
+        Args:
+            df: WellFrame:
+            name: str:
+            control_names:
+
+        Returns:
+
+        """
         z = AbsWellFrame.of(
             pd.concat(
                 [
@@ -363,6 +484,16 @@ class TracePlotter(KvrcPlotting):
         return z
 
     def _assign_alphas(self, control_names: Sequence[str], name: str) -> Dict[str, float]:
+        """
+
+
+        Args:
+            control_names: Sequence[str]:
+            name: str:
+
+        Returns:
+
+        """
         return {
             **{
                 control_name: sauronlab_rc.band_control_alpha

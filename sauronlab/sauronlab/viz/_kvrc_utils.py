@@ -18,6 +18,8 @@ from sauronlab.viz import plt
 
 @total_ordering
 class TimeUnit:
+    """"""
+
     def __init__(self, unit: str, abbrev: str, singlular: str, n_ms: int):
         self.unit, self.abbrev, self.singular, self.plural, self.n_ms = (
             unit,
@@ -53,6 +55,7 @@ class TimeUnit:
 
 
 class TimeUnits:
+    """"""
 
     MS = TimeUnit("ms", "ms", "millisecond", 1)
     SEC = TimeUnit("s", "sec", "second", 1000)
@@ -63,7 +66,7 @@ class TimeUnits:
 
     @classmethod
     def values(cls):
-
+        """"""
         return [
             TimeUnits.MS,
             TimeUnits.SEC,
@@ -75,6 +78,15 @@ class TimeUnits:
 
     @classmethod
     def of(cls, s: Union[TimeUnit, str]) -> TimeUnit:
+        """
+
+
+        Args:
+            s:
+
+        Returns:
+
+        """
         if isinstance(s, TimeUnit):
             return s
         s = s.lower().strip()
@@ -121,6 +133,7 @@ class Key:
     If ``is_resolved``, ``value`` is the ultimate value after reading the config file.
     Otherwise, ``value`` will be None.
     (Note that the ``value`` may actually be None when resolved.)
+
     """
 
     __slots__ = ["key", "kind", "fallback", "nullable", "desc", "value", "is_resolved"]
@@ -135,6 +148,17 @@ class Key:
         value: Optional[T] = None,
         is_resolved: bool = False,
     ):
+        """
+
+        Args:
+            key:
+            kind:
+            fallback:
+            nullable:
+            desc:
+            value:
+            is_resolved:
+        """
         self.key, self.kind, self.fallback, self.nullable, self.desc = (
             key,
             kind,
@@ -157,6 +181,7 @@ class Key:
 
         Raises:
             OpStateError: If it has a non-None ``Key.value`` (it's already been resolved)
+
         """
         if self.value is not None:
             raise OpStateError(f"Cannot resolve {self.key} again")
@@ -176,6 +201,15 @@ class Key:
         return self.key < other.key
 
     def _parse(self, value: str) -> Optional[T]:
+        """
+
+
+        Args:
+            value: str:
+
+        Returns:
+
+        """
         assert value is not None
         value = self._strip(value)
         if self.nullable and value.strip().lower() == "none":
@@ -184,6 +218,15 @@ class Key:
             return self.kind(value)
 
     def _strip(self, value: str) -> str:
+        """
+
+
+        Args:
+            value: str:
+
+        Returns:
+
+        """
         return value.strip().strip('"').strip("'")
 
 
@@ -237,7 +280,7 @@ class KvrcConfig:
         key_obj = key_obj.resolved(self.passed.get(key))
         self.collection[key] = key_obj
         if key in self.passed:
-            logger.trace(key, key_obj.value, self.passed)
+            logger.debug(key, key_obj.value, self.passed)
         return key_obj.value
 
     def __len__(self):
@@ -246,11 +289,35 @@ class KvrcConfig:
     def new_str(
         self, key: str, fallback: Optional[str], desc: Optional[str] = None
     ) -> Optional[str]:
+        """
+
+
+        Args:
+            key: str:
+            fallback: Optional[str]:
+            desc:
+
+        Returns:
+
+        """
         return self.key(key, lambda v: v, fallback, d=desc)
 
     def new_classmethod(
         self, key: str, fallback: Optional[List[str]], inclass: Type, desc: Optional[str] = None
     ) -> Optional[Callable[[], None]]:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            inclass:
+            desc:
+
+        Returns:
+
+        """
+
         def find(v):
             return getattr(FancyColorSchemes, v)
 
@@ -259,6 +326,19 @@ class KvrcConfig:
     def new_enum(
         self, key: str, fallback: Optional[str], choices: Set[str], desc: Optional[str] = None
     ) -> Optional[str]:
+        """
+
+
+        Args:
+            key: str:
+            fallback: Optional[str]:
+            choices: Set[str]:
+            desc:
+
+        Returns:
+
+        """
+
         def en(v):
             if v not in choices:
                 raise ConfigError(f"{v} is not in {choices}")
@@ -269,21 +349,66 @@ class KvrcConfig:
     def new_str_list(
         self, key: str, fallback: Optional[List[str]], desc: Optional[str] = None
     ) -> Optional[List[str]]:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(key, lambda v: self._eval_list(v, str), fallback, d=desc)
 
     def new_raw_dict(
         self, key: str, fallback: Optional[Dict[str, Any]], desc: Optional[str] = None
     ) -> Optional[Dict[Any]]:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(key, lambda v: self._eval_dict(v, str), fallback, d=desc)
 
     def new_str_dict(
         self, key: str, fallback: Optional[Dict[str, str]], desc: Optional[str] = None
     ) -> Optional[Dict[str]]:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(key, lambda v: self._eval_dict(v, str), fallback, d=desc)
 
     def new_marker(
         self, key: str, fallback: Optional[str], desc: Optional[str] = None
     ) -> Optional[str]:
+        """
+
+
+        Args:
+            key: str:
+            fallback: Optional[str]:
+            desc:
+
+        Returns:
+
+        """
+
         def lam(v):
             if v not in MarkerStyle.markers.keys():
                 raise ConfigError(f"{v} is not a valid marker style")
@@ -293,11 +418,33 @@ class KvrcConfig:
     def new_marker_list(
         self, key: str, fallback: Optional[List[str]], desc: Optional[str] = None
     ) -> Optional[List[str]]:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(key, lambda v: self._eval_list(v, str), fallback, d=desc)
 
     def new_marker_dict(
         self, key: str, fallback: Optional[Dict[str, str]], desc: Optional[str] = None
     ) -> Optional[Dict[str]]:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(
             key, lambda v: self._eval_dict(v, str), fallback, d=desc
         )  # exact Python syntax
@@ -305,6 +452,17 @@ class KvrcConfig:
     def new_color_dict(
         self, key: str, fallback: Optional[Dict[str, str]], desc: Optional[str] = None
     ) -> Optional[Dict[str]]:
+        """
+
+
+        Args:
+            key:
+            fallback
+            desc:
+
+        Returns:
+
+        """
         return self.key(
             key,
             lambda values: {k: mcolors.to_rgb(v) for k, v in ast.literal_eval(values)},
@@ -313,6 +471,17 @@ class KvrcConfig:
         )  # exact Python syntax
 
     def new_bool(self, key: str, fallback: bool, desc: Optional[str] = None) -> bool:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(key, lambda b: Tools.parse_bool(b), fallback, d=desc)
 
     def new_float(
@@ -323,6 +492,19 @@ class KvrcConfig:
         maximum: Optional[float] = None,
         desc: Optional[str] = None,
     ) -> Optional[float]:
+        """
+
+
+        Args:
+            key: str:
+            fallback: float:
+            minimum:
+            maximum:
+            desc:
+
+        Returns:
+
+        """
         return self.key(
             key,
             lambda v: self._conv_float(key=key, value=v, minimum=minimum, maximum=maximum),
@@ -333,16 +515,50 @@ class KvrcConfig:
     def new_time_unit(
         self, key: str, fallback: Optional[TimeUnit], desc: Optional[str] = None
     ) -> Optional[TimeUnit]:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(key, TimeUnits.of, fallback, d=desc)
 
     def new_float_list(
         self, key: str, fallback: List[float], desc: Optional[str] = None
     ) -> List[float]:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(key, lambda v: self._eval_list(v, float), fallback, d=desc)
 
     def new_float_tuple(
         self, key: str, fallback: Optional[Tup[float, float]], desc: Optional[str] = None
     ) -> Optional[Tup[float, float]]:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
+
         def ftup(v) -> Tup[float, float]:
             z = self._eval_list(v, float)
             a, b = float(z[0]), float(z[1])
@@ -358,6 +574,19 @@ class KvrcConfig:
         maximum: Optional[int] = None,
         desc: Optional[str] = None,
     ) -> Optional[int]:
+        """
+
+
+        Args:
+            key: str:
+            fallback: int:
+            minimum:
+            maximum:
+            desc:
+
+        Returns:
+
+        """
         return self.key(
             key,
             lambda v: self._conv_int(key=key, value=v, minimum=minimum, maximum=maximum),
@@ -366,9 +595,32 @@ class KvrcConfig:
         )
 
     def new_int_list(self, key: str, fallback: List[int], desc: Optional[str] = None) -> List[int]:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(key, lambda v: self._eval_list(v, int), fallback, d=desc)
 
     def new_font_weight(self, key: str, fallback: Optional[str], desc: Optional[str] = None) -> str:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
+
         def fw(value):
             if key not in {"normal", "bold", "heavy", "light", "ultrabold", "ultralight"}:
                 raise ConfigError(f"Font weight {value} not understood for {key}")
@@ -377,12 +629,45 @@ class KvrcConfig:
         return self.key(key, fw, fallback, d=desc)
 
     def new_rgb(self, key: str, fallback: str, desc: Optional[str] = None) -> str:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(key, lambda v: mcolors.to_rgb(v), fallback, d=desc)
 
     def new_rgb_list(self, key: str, fallback: List[str], desc: Optional[str] = None) -> List[str]:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(key, lambda v: mcolors.to_rgb(v), fallback, d=desc)
 
     def new_alpha(self, key: str, fallback: float, desc: Optional[str] = None) -> float:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(
             key,
             lambda v: self._conv_float(key=key, value=v, minimum=0, maximum=1),
@@ -391,6 +676,17 @@ class KvrcConfig:
         )
 
     def new_fraction(self, key: str, fallback: float, desc: Optional[str] = None) -> float:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(
             key,
             lambda v: self._conv_float(key=key, value=v, minimum=0, maximum=1),
@@ -401,6 +697,18 @@ class KvrcConfig:
     def new_alpha_list(
         self, key: str, fallback: List[float], desc: Optional[str] = None
     ) -> List[float]:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
+
         def alphas(v: str):
             z = self._eval_list(v, str)
             return [self._conv_float(key, x, minimum=0, maximum=1) for x in z]
@@ -408,6 +716,17 @@ class KvrcConfig:
         return self.key(key, alphas, fallback, d=desc)
 
     def new_font_size(self, key: str, fallback: float, desc: Optional[str] = None) -> float:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(
             key,
             lambda v: self._conv_float(key=key, value=v, minimum=0, maximum=100),
@@ -418,9 +737,31 @@ class KvrcConfig:
     def new_cmap(
         self, key: str, fallback: Optional[str], desc: Optional[str] = None
     ) -> Optional[str]:
+        """
+
+
+        Args:
+            key:
+            fallback:
+            desc:
+
+        Returns:
+
+        """
         return self.key(key, lambda v: v, fallback, d=desc)
 
     def new_length(self, key: str, fallback: float, desc: Optional[str] = None) -> float:
+        """
+
+
+        Args:
+            key: str:
+            fallback: float:
+            desc:
+
+        Returns:
+
+        """
         return self.key(
             key,
             lambda v: self._conv_float(key=key, value=v, minimum=0, maximum=None),
@@ -429,6 +770,17 @@ class KvrcConfig:
         )
 
     def new_line_width(self, key: str, fallback: float, desc: Optional[str] = None) -> float:
+        """
+
+
+        Args:
+            key: str:
+            fallback: float:
+            desc:
+
+        Returns:
+
+        """
         return self.key(
             key,
             lambda v: self._conv_float(key=key, value=v, minimum=0, maximum=None),
@@ -437,9 +789,31 @@ class KvrcConfig:
         )
 
     def new_line_style(self, key: str, fallback: Optional[str], desc: Optional[str] = None) -> str:
+        """
+
+
+        Args:
+            key: str:
+            fallback: Optional[str]:
+            desc:
+
+        Returns:
+
+        """
         return self.key(key, lambda v: v, fallback, d=desc)
 
     def new_point_size(self, key: str, fallback: float, desc: Optional[str] = None) -> float:
+        """
+
+
+        Args:
+            key: str:
+            fallback: float:
+            desc:
+
+        Returns:
+
+        """
         return self.key(
             key,
             lambda v: self._conv_float(key=key, value=v, minimum=0, maximum=None),
@@ -450,6 +824,18 @@ class KvrcConfig:
     def _conv_float(
         self, key: str, value: str, minimum: Optional[float], maximum: Optional[float]
     ) -> float:
+        """
+
+
+        Args:
+            key: str:
+            value: str:
+            minimum: Optional[float]:
+            maximum: Optional[float]:
+
+        Returns:
+
+        """
         f = float(value)
         if minimum is not None and f < minimum:
             raise ConfigError(f"Value for key {key} below minimum of {minimum}")
@@ -460,6 +846,18 @@ class KvrcConfig:
     def _conv_int(
         self, key: str, value: str, minimum: Optional[int], maximum: Optional[int]
     ) -> int:
+        """
+
+
+        Args:
+            key: str:
+            value: str:
+            minimum: Optional[int]:
+            maximum: Optional[int]:
+
+        Returns:
+
+        """
         if "." in str(value):
             raise ConfigError(f"Value for key {key} is not an integer")
         f = int(value)
@@ -474,6 +872,12 @@ class KvrcConfig:
         Parse a string into a dictionary where keys are strings and values are of the type ``vtypes``.
         Requires exact Python syntax using ``ast.literal_eval``.
 
+        Args:
+            value: str:
+            vtypes:
+
+        Returns:
+
         """
         raw = ast.literal_eval(value)  # exact Python syntax
         if vtypes is None:
@@ -485,6 +889,13 @@ class KvrcConfig:
         """
         Parse a string into a list where keys are strings and values are of the type ``vtypes``.
         Strips off any kind of bracket (if paired -- at both start and end), then splits by commas (,).
+
+        Args:
+            value: str:
+            vtypes:
+
+        Returns:
+
         """
         return [vtypes(v) for v in Tools.strip_brackets(value).split(",")]
 
@@ -497,6 +908,12 @@ class KvrcCore:
     def __init__(
         self, matplotlib_style_path: Optional[PathLike], kvrc_style_path: Optional[PathLike]
     ):
+        """
+
+        Args:
+            matplotlib_style_path:
+            kvrc_style_path:
+        """
         self.stimulus_names, self._stimulus_names = None, None
         self.stimulus_colors, self._stimulus_colors = None, None
         self.feature_names, self._feature_names = None, None
@@ -514,7 +931,13 @@ class KvrcCore:
 
     def search(self, s: str) -> Mapping[str, Any]:
         """
-        Finds keys with ``s`` as a substring, returning the current values.
+        Finds keys with 's' as a substring, returning the current values.
+
+        Args:
+            s: str:
+
+        Returns:
+
         """
         return {k: v for k, v in self.__dict__ if s in k}
 
@@ -525,6 +948,7 @@ class KvrcCore:
             - Reloads the sauronlab_rc settings from ``kvrc_style_path`` if it's not None
 
         Also sets the attributes ``matplotlib_style_path`` and ``kvrc_style_path``, only when they're not None.
+
         """
         self.load(self._matplotlib_style_path, self._kvrc_style_path)
 
@@ -533,6 +957,11 @@ class KvrcCore:
     ) -> None:
         """
         Reads and loads the matplotlib and sauronlab_rc style file, if they're not ``None``.
+
+        Args:
+            matplotlib_style_path: Optional[PathLike]:
+            kvrc_style_path: Optional[PathLike]:
+
         """
         if matplotlib_style_path is not None:
             self._load_mpl(matplotlib_style_path)
@@ -540,22 +969,33 @@ class KvrcCore:
             self._load_kvrc(kvrc_style_path)
 
     def _load_mpl(self, matplotlib_style_path: PathLike) -> None:
+        """
+
+
+        Args:
+            matplotlib_style_path: PathLike:
+
+        """
         self._matplotlib_style_path = matplotlib_style_path
         plt.style.use(str(matplotlib_style_path))
         # IT TURNS OUT WE NEED TO SET BOTH!!!!
         matplotlib.rcParams.update(plt.rcParams)
-        if matplotlib_style_path is None:
-            mpl_read = {}
-        else:
-            mpl_read = dict(
-                matplotlib.rc_params_from_file(
-                    str(matplotlib_style_path), use_default_template=False
-                )
-            )
+        mpl_read = (
+            []
+            if matplotlib_style_path is None
+            else Tools.read_lines_file(matplotlib_style_path, ignore_comments=True)
+        )
         logger.info(f"Loaded {len(mpl_read)} matplotlib RC settings from {matplotlib_style_path}")
         logger.debug(f"Set matplotlib settings {mpl_read}")
 
     def _load_kvrc(self, kvrc_style_path: PathLike) -> None:
+        """
+
+
+        Args:
+            kvrc_style_path: PathLike:
+
+        """
         self._kvrc_style_path = kvrc_style_path
         try:
             viz_params = Tools.read_properties_file(str(kvrc_style_path))
@@ -567,10 +1007,12 @@ class KvrcCore:
         # build our special dictionaries up specially
         # first, set them back to None so they'll be rebuilt (in case we're reloading)
         # then call the so-called 'get' functions to read and set them
-        self.stimulus_names = None
-        self.stimulus_colors = None
-        self.feature_names = None
-        self.control_names = None
+        self.stimulus_names, self.stimulus_colors, self.feature_names, self.control_names = (
+            None,
+            None,
+            None,
+            None,
+        )
         # set width and height reference dims
         for k, v in viz_params.items():
             if k.startswith("width_"):
@@ -606,6 +1048,12 @@ class KvrcCore:
     def _load_settings(self, config: KvrcConfig):
         """
         We'll override this in the subclass.
+
+        Args:
+            config: KvrcConfig:
+
+        Returns:
+
         """
         raise NotImplementedError()
 
@@ -616,6 +1064,9 @@ class KvrcCore:
         If ``feature_names`` is None, sets it in terms of ``_feature_names`` from the config file.
         The dict maps *internal names* (``Featuretype.internal_name``) to display names.
         If not set in ``_feature_names``, the display name will be ``FeatureType.feature_name``.
+
+        Returns:
+
         """
         if self.feature_names is None:
             self.feature_names = {}
@@ -631,6 +1082,12 @@ class KvrcCore:
         """
         Updates items in the ``feature_names`` dictionary, replacing them if they already exist.
         Note: Does not modify ``_feature_names`` (passed in the config file).
+
+        Args:
+            **dct:
+
+        Returns:
+
         """
         self.feature_names.update(dct)
 
@@ -641,6 +1098,9 @@ class KvrcCore:
         If ``stimulus_names`` is None, sets it in terms of ``_stimulus_names`` from the config file.
         The dict maps control_type names (``Stimuli.name``) to display names.
         If not set in ``_stimulus_names``, the display name will be ``ValarTools.stimulus_display_name(stimulus.name)``.
+
+        Returns:
+
         """
         if self.stimulus_names is None:
             self.stimulus_names = {}
@@ -653,6 +1113,10 @@ class KvrcCore:
         """
         Updates items in the ``stimulus_names`` dictionary, replacing them if they already exist.
         Note: Does not modify ``_stimulus_names`` (passed in the config file).
+
+        Args:
+            **dct:
+
         """
         self.stimulus_names.update(dct)
 
@@ -663,6 +1127,9 @@ class KvrcCore:
         If ``stimulus_colors`` is None, sets it in terms of ``_stimulus_colors`` from the config file.
         The dict maps control_type names (``Stimuli.name``) to colors.
         If not set in ``_stimulus_colors``, the color will be ``ValarTools.stimulus_display_color(stimulus.name)``.
+
+        Returns:
+
         """
         if self.stimulus_colors is None:
             self.stimulus_colors = dict(ValarTools.stimulus_display_colors())
@@ -677,29 +1144,56 @@ class KvrcCore:
         """
         Updates items in the ``stimulus_colors`` dictionary, replacing them if they already exist.
         Note: Does not modify ``_stimulus_colors`` (passed in the config file).
+
+        Args:
+            **dct:
+
         """
         self.stimulus_colors.update(dct)
 
     @property
     def width(self):
+        """
+
+        Returns:
+
+        """
         return plt.rcParams["figure.figsize"][0]
 
     @width.setter
     def width(self, value):
+        """
+
+
+        Args:
+            value:
+
+        Returns:
+
+        """
         raise UnsupportedOpError("Cannot modify width. Use sauronlab_rc['width']")
 
     @property
     def height(self):
-
+        """"""
         return plt.rcParams["figure.figsize"][1]
 
     @height.setter
     def height(self, value):
+        """
+
+
+        Args:
+            value:
+
+        Returns:
+
+        """
         raise UnsupportedOpError("Cannot modify height. Use sauronlab_rc['height']")
 
     @property
     def figsize(self):
-
+        """"""
         return plt.rcParams["figure.figsize"]
 
     @contextmanager
@@ -793,6 +1287,16 @@ class KvrcCore:
             raise UnrecognizedKeyError(f"No visualization setting {item}")
 
     def _update(self, item: str, value):
+        """
+
+
+        Args:
+            item: str:
+            value:
+
+        Returns:
+
+        """
         plt.rcParams[item] = value
         # IT TURNS OUT WE NEED TO SET BOTH!!!!
         # You can't just set plt.rcParams --- you also need to set matplotlib.rcParams
@@ -848,6 +1352,9 @@ class KvrcCore:
         Args:
             values: A string of a color (starting with #), a sequence of colors (each starting with #),
                     or the name of the sauronlab_rc setting (ex: pref_treatment_colors).
+
+        Returns:
+
         """
         if isinstance(values, str) and not values.startswith("#"):
             values = list(self[values])
@@ -884,10 +1391,13 @@ class KvrcCore:
 
     def print_wrapped(self, length: int = 75) -> None:
         """
-        Print a nice, long, wrapped string describing all the options and their values.
+        Print a nice, long, wrapped string describing all of the options and their values.
 
         Args:
             length: Max number of characters per line
+
+        Returns:
+
         """
         print(
             "\n".join(

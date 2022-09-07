@@ -25,6 +25,8 @@ V = TypeVar("V")
 
 
 class SauronlabValarTools:
+    """"""
+
     @classmethod
     def query(cls, query: peewee.BaseQuery) -> QueryFrame:
         """
@@ -39,6 +41,7 @@ class SauronlabValarTools:
             Getting all users::
 
                 SauronlabValarTools.query(Users.select())
+
         """
 
         def get_data(row):
@@ -70,14 +73,17 @@ class SauronlabValarTools:
 
     @classmethod
     def signed_floats_to_blob(cls, data: np.array) -> bytes:
+        """"""
         return SauronlabValarTools.array_to_blob(data, np.float32)
 
     @classmethod
     def blob_to_signed_floats(cls, data: bytes) -> np.array:
+        """"""
         return np.copy(np.frombuffer(data, dtype=">f4"))
 
     @classmethod
     def blob_to_signed_ints(cls, data: bytes) -> np.array:
+        """"""
         return np.copy(np.frombuffer(data, dtype=">i4"))
 
     @classmethod
@@ -107,7 +113,7 @@ class SauronlabValarTools:
     def runs(cls, runs: RunsLike) -> Sequence[Runs]:
         """
         Fetches one or more runs from flexible formats.
-        Currently performs one query on Valar per run. In the future will only perform one query for all them.
+        Currently performs one query on Valar per run. In the future will only perform one query for all of them.
 
         Args:
             runs: A run from a run ID, tag, name, instance, or submission hash or instance, or an iterable of any of these
@@ -200,6 +206,7 @@ class SauronlabValarTools:
 
         Returns:
             The Runs row instance
+
         """
         bq = lambda: (
             Runs.select(Runs, Submissions, Experiments, Plates, PlateTypes, Batteries)
@@ -268,6 +275,8 @@ class SauronlabValarTools:
 
 
 class Tools(_Tools, SauronlabValarTools):
+    """ """
+
     @classmethod
     def prepped_file(cls, path: PathLike, exist_ok: bool = True) -> Path:
         """

@@ -22,8 +22,11 @@ class ASauronxVideo(metaclass=ABCMeta):
 @abcd.auto_hash()
 @abcd.auto_eq()
 class ASauronlabCache(Generic[KEY, VALUE], metaclass=ABCMeta):
+    """ """
+
     @property
     def cache_dir(self) -> Path:
+        """ """
         raise NotImplementedError()
 
     def path_of(self, key: KEY) -> Path:
@@ -67,6 +70,8 @@ class ASauronlabCache(Generic[KEY, VALUE], metaclass=ABCMeta):
 
 
 class AWellCache(ASauronlabCache[RunLike, WellFrame], metaclass=ABCMeta):
+    """"""
+
     def load_multiple(self, runs: RunsLike) -> WellFrame:
         raise NotImplementedError()
 
@@ -83,14 +88,18 @@ class AAssayCache(ASauronlabCache[BatteryLike, AssayFrame], metaclass=ABCMeta):
 
 
 class AStimCache(ASauronlabCache[BatteryLike, BatteryStimFrame], metaclass=ABCMeta):
+    """"""
+
     @property
     def is_expanded(self):
-
+        """"""
         raise NotImplementedError()
 
 
 class StimulusWaveform(Waveform):
     """"""
+
+    pass
 
 
 class AVideoCache(ASauronlabCache[RunLike, ASauronxVideo], metaclass=ABCMeta):
@@ -98,6 +107,8 @@ class AVideoCache(ASauronlabCache[RunLike, ASauronxVideo], metaclass=ABCMeta):
 
 
 class AnAudioStimulusCache(ASauronlabCache[StimulusLike, Path], metaclass=ABCMeta):
+    """ """
+
     def load_pydub(self, name: str) -> pydub.AudioSegment:
         raise NotImplementedError()
 

@@ -46,6 +46,9 @@ class WellCache(AWellCache):
         """
         Returns a copy with dtype set.
         Features will be converted when loaded using ``pd.as_type(dtype)``.
+
+        Args:
+            dtype:
         """
         return WellCache(self.feature, self._cache_dir, dtype)
 
@@ -61,9 +64,7 @@ class WellCache(AWellCache):
     @abcd.overrides
     def key_from_path(self, path: PathLike) -> RunLike:
         path = Path(path).relative_to(self.cache_dir)
-        return int(
-            regex.compile(r"^([0-9]+)\.feather", flags=regex.V1).fullmatch(path.name).group(1)
-        )
+        return int(regex.compile(r"^([0-9]+)\.feather", flags=regex.V1).fullmatch(path.name).group(1))
 
     @abcd.overrides
     def load_multiple(self, runs: RunsLike) -> WellFrame:
@@ -81,6 +82,7 @@ class WellCache(AWellCache):
     def download(self, *runs: RunsLike) -> None:
         runs = {r for r in Tools.runs(runs) if r not in self}
         missing = {r for r in runs if not self.contains(r)}
+        logger.debug(f"got {missing} as missing runs")
         try:
             # TODO: if > 20 runs, split into multiple queries
             wf = (
@@ -95,7 +97,8 @@ class WellCache(AWellCache):
             logger.error(f"Failed on {missing}", exc_info=True)
             raise
         except EmptyCollectionError:
-            # just means nothing was missing
+            logger.debug(f"got empty collection, this could just mean nothing was missing from the cache")
+            #just means nothing was missing
             pass
 
     def _load(self, runs: RunsLike) -> WellFrame:
@@ -122,9 +125,7 @@ class WellCache(AWellCache):
         for run in df["run"].unique():
             dfc = WellFrame(df[df["run"] == run])
             saved_to = self.path_of(run)
-            logger.info(
-                f"Saving run {run} to {saved_to}"
-            )  #'Logger' object has no attribute 'minor' -CH
+            logger.info(f"Saving run {run} to {saved_to}") #'Logger' object has no attribute 'minor' -CH
             try:
                 dfc.serialize().to_feather(str(saved_to), version=2, compression="lz4")
             except Exception:

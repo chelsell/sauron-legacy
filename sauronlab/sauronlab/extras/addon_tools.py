@@ -2,10 +2,14 @@ import ast
 import shutil
 import subprocess
 
+import joblib
+
 from sauronlab.core._imports import *
 from sauronlab.core._tools import *
+from sauronlab.core.environment import sauronlab_env
 from sauronlab.core.tools import *
 from sauronlab.core.valar_singleton import *
+from sauronlab.core.valar_tools import ValarTools
 
 I = TypeVar("I")
 V = TypeVar("V")
@@ -16,13 +20,54 @@ class AddonTools:
     Miscellaneous user-facing tools specific to the data we have in Valar.
     For example, uses our definition of a library plate ID.
     Some of these functions simply call their equivalent Tools or InternalTools functions.
+
     """
+
+    @classmethod
+    def parallel(
+        cls,
+        things: Iterable[I],
+        function: Callable[[I], V],
+        n_jobs: Optional[int] = sauronlab_env.n_cores,
+        verbosity: int = 1,
+    ) -> V:
+        """
+        Trivially calls the function in a :class:``joblib.Parallel`` with :func:``joblib.delayed``.
+
+        Args:
+            things:
+            function:
+            n_jobs:
+            verbosity:
+
+        Returns:
+            The result returned from ``function``
+        """
+        return joblib.Parallel(n_jobs=n_jobs, verbose=verbosity)(
+            joblib.delayed(function)(i) for i in things
+        )
+
+    @classmethod
+    def stimulus_wavelength_colors(cls) -> Mapping[str, str]:
+        """
+        Gets a mapping from stimulus names to a good approximation as a single color.
+        *Only covers LED stimuli, plus the IR.*
+
+        Returns:
+            A mapping from (some) stimulus names to 6-digit RGB hex codes prefixed by ``#``
+        """
+        return dict(InternalTools.load_resource("core", "wavelength_colors.json")[0])
 
     @classmethod
     def download_file(cls, remote_path: PathLike, local_path: str, overwrite: bool = False) -> None:
         """
         Downloads a directory from a remote path.
         Tries, in order: shutil, rsync, scp.
+
+        Args:
+            remote_path:
+            local_path:
+            overwrite:
         """
         remote_path = str(remote_path)
         try:
@@ -37,6 +82,12 @@ class AddonTools:
         """
         Downloads a directory from a remote path.
         Tries, in order: shutil, rsync, scp.
+
+        Args:
+            remote_path:
+            local_path:
+            overwrite:
+
         """
         try:
             remote_path = str(remote_path)
@@ -50,6 +101,13 @@ class AddonTools:
     def _download(cls, remote_path: str, path: PathLike, is_dir: bool, overwrite: bool) -> None:
         """
         Downloads via shutil or rsync, falling back to scp if rsync fails.
+
+        Args:
+            remote_path: str:
+            path: PathLike:
+            is_dir: bool:
+            overwrite: bool:
+
         """
         path = str(path)
         logger.debug(f"Downloading {remote_path} -> {path}")
@@ -84,6 +142,41 @@ class AddonTools:
             subprocess.check_output(["scp", remote_path, path])
 
     @classmethod
+    def determine_solvents(cls, before: datetime) -> Mapping[int, Optional[str]]:
+        """
+        Queries valar to determine names of solvents used in batches and map them to their names with ref manual:high.
+        This is very slow and should be used only to update the known list.
+        See ``known_solvent_names`` instead.
+
+        Args:
+            before: Ignore all solvents after this datetime
+
+        Returns:
+            A mapping from compound IDs to names
+
+        """
+
+        def get_label(solvent):
+            row = (
+                CompoundLabels.select()
+                .where(CompoundLabels.compound == solvent)
+                .where(
+                    CompoundLabels.ref
+                    == (
+                        ValarTools.MANUAL_REF
+                        if ValarTools.MANUAL_HIGH_REF is None
+                        else ValarTools.MANUAL_HIGH_REF
+                    )
+                )
+                .where(CompoundLabels.created < before)
+                .where(Compounds.created < before)
+                .order_by(CompoundLabels.id)
+            ).first()
+            return None if row is None else row.name
+
+        return {b: get_label(b.solvent) for b in Batches.select()}
+
+    @classmethod
     def generate_batch_hash(cls) -> str:
         """
         Generates a batch lookup_hash as an 8-digit lowercase alphanumeric string.
@@ -101,10 +194,45 @@ class AddonTools:
 
     @classmethod
     def generate_submission_hash(cls) -> str:
-        return "%012x" % (random.randrange(16**12))
+        """
+
+        Returns:
+
+        """
+        return "%012x" % (random.randrange(16 ** 12))
+
+    @classmethod
+    def generate_batch_hash_legacy(cls, batch_id: int) -> str:
+        """
+        Generates a batch lookup_hash as 'oc_' plus the first 11 characters the sha1 of its ID.
+        This is the previous way to generate hashes, but it has problems:
+            1. If there's a hash collision, we're stuck.
+            2. If we need to reset the IDs, there will be overlap between new and old
+            3. We waste 3 characters at the beginning and need 11 random characters
+
+        Args:
+            batch_id: int:
+
+        Returns:
+
+        """
+        assert batch_id is not None, "Batch ID cannot be None"
+        if isinstance(batch_id, Batches):
+            batch_id = batch_id.id
+        return "oc_" + Tools.hash_hex(batch_id, "sha1")[:11]
 
     @classmethod
     def storage_path(cls, run: Union[int, str, Runs, Submissions], shire_path: str) -> PurePath:
+        """
+
+
+        Args:
+            run:
+            shire_path: str:
+
+        Returns:
+
+        """
         run = Tools.run(run)
         year = str(run.datetime_run.year).zfill(4)
         month = str(run.datetime_run.month).zfill(2)
@@ -136,7 +264,8 @@ class AddonTools:
             param_name: Ex '$...drug'
 
         Returns:
-            Submission Parameter value
+            Submission Paramater value
+
         """
         submission = Submissions.fetch(submission)
         params = Tools.query(
@@ -201,6 +330,7 @@ class AddonTools:
 
         Returns:
             The unique library plate IDs, from the legacy_internal fields
+
         """
         ref = Refs.fetch(ref)
         s = set([])
@@ -227,6 +357,7 @@ class AddonTools:
 
         Returns:
             library plate id for new style submissions and truncated legacy_internal_id values for old style submissions.
+
         """
         submission = Submissions.fetch(submission)
         if var_name is None:
@@ -271,6 +402,9 @@ class AddonTools:
             feature: The FeatureType to select
             start_frame: Starts at 0 as per our convention (note that MySQL itself starts at 1)
             end_frame: Starts at 0 as per our convention (note that MySQL itself starts at 1)
+
+        Returns:
+
         """
         well = Wells.fetch(well)
         feature = Features.fetch(feature)

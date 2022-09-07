@@ -42,12 +42,8 @@ class SensorCache(ASensorCache):
     @abcd.overrides
     def key_from_path(self, path: PathLike) -> Tup[SensorNames, RunLike]:
         path = Path(path).relative_to(self.cache_dir)
-        run = int(
-            regex.compile(r"^r([0-9]+)$", flags=regex.V1).fullmatch(path.parent.name).group(1)
-        )
-        sensor = (
-            regex.compile(r"^r([a-z0-9\-_]+)\..+$", flags=regex.V1).fullmatch(path.name).group(1)
-        )
+        run = int(regex.compile(r"^r([0-9]+)$", flags=regex.V1).fullmatch(path.parent.name).group(1))
+        sensor = regex.compile(r"^r([a-z0-9\-_]+)\..+$", flags=regex.V1).fullmatch(path.name).group(1)
         return SensorNames[sensor.upper()], run
 
     @abcd.overrides
@@ -74,6 +70,15 @@ class SensorCache(ASensorCache):
 
     @abcd.overrides
     def load_microphone(self, run: RunLike) -> MicrophoneSensor:
+        """
+
+
+        Args:
+            run:
+
+        Returns:
+
+        """
         # noinspection PyTypeChecker
         return self.load((SensorNames.MICROPHONE, run))
 
@@ -182,7 +187,7 @@ class SensorCache(ASensorCache):
             else:
                 return np.load(str(path))
                 # return ValarTools.convert_sensor_data_from_bytes(sensor, path.read_bytes())
-        Tools.prep_file(path, exist_ok=False)
+        Tools.prep_file(path, exist_ok=True)
         logger.debug(f"Downloading {sensor.name} for run r{run.id} from Valar...")
         data = (
             SensorData.select(SensorData)
@@ -205,7 +210,7 @@ class SensorCache(ASensorCache):
         if sensor.is_audio_composite or sensor is SensorNames.RAW_MICROPHONE_RECORDING:
             return ".flac"
         elif sensor == SensorNames.MICROPHONE_WAVEFORM:
-            return ".pkl"  # TODO: really?
+            return ".pkl"
         elif sensor.is_image:
             return ".jpg"
         else:

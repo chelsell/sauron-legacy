@@ -59,6 +59,16 @@ class StimFrame(TypedDf, metaclass=abc.ABCMeta):
     def with_at_least(
         self, stim_or_type: Union[str, Stimuli, StimulusType], byteval: int
     ) -> StimFrame:
+        """
+
+
+        Args:
+            stim_or_type:
+            byteval:
+
+        Returns:
+
+        """
         if byteval < 0 or byteval > 255:
             raise OutOfRangeError(f"{byteval} is not a byte", value=byteval)
         real_stim = Stimuli.fetch_or_none(stim_or_type)
@@ -202,6 +212,9 @@ class BatteryStimFrame(StimFrame):
         """
         Returns a new stimframe with value 1 at the time the stimulus changed and 0 elsewhere.
         Calculates independently per stimulus.
+
+        Returns:
+
         """
         # noinspection PyTypeChecker,PyUnresolvedReferences
         df = (self.diff() > 0).astype(np.float32).fillna(0)

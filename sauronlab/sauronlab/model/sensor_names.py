@@ -4,10 +4,10 @@ from sauronlab.core.core_imports import *
 
 
 @enum.unique
-class SensorNames(CleverEnum):
+class SensorNames(SmartEnum):
     """
     These are standard sensors.
-    Any ``SensorCache`` is required to handle all them exactly.
+    Any ``SensorCache`` is required to handle all of them exactly.
     However, a ``SauronlabSensor`` class might handle a more general case than called for here.
     For example, the current implementation of ``MicrophoneWaveformSensor`` can handle any sampling rate,
     whereas ``SensorNames.MICROPHONE_WAVEFORM`` here specifically uses 1000 Hz, as does the current implementation
@@ -32,27 +32,27 @@ class SensorNames(CleverEnum):
     ``RAW_MICROPHONE_RECORDING``, ``RAW_MICROPHONE_MILLIS``, and ``RAW_STIMULUS_MILLIS``.
     """
 
-    PHOTOSENSOR = ()
-    THERMOSENSOR = ()
-    MICROPHONE = ()
-    MICROPHONE_WAVEFORM = ()
-    SECONDARY_CAMERA = ()
-    PREVIEW_FRAME = ()
-    STIMULUS_MILLIS = ()
-    CAMERA_MILLIS = ()
+    PHOTOSENSOR = enum.auto()
+    THERMOSENSOR = enum.auto()
+    MICROPHONE = enum.auto()
+    MICROPHONE_WAVEFORM = enum.auto()
+    SECONDARY_CAMERA = enum.auto()
+    PREVIEW_FRAME = enum.auto()
+    STIMULUS_MILLIS = enum.auto()
+    CAMERA_MILLIS = enum.auto()
     #
-    RAW_SECONDARY_CAMERA = ()
-    RAW_PREVIEW_FRAME = ()
-    RAW_MICROPHONE_RECORDING = ()
-    RAW_MICROPHONE_MILLIS = ()
-    RAW_CAMERA_MILLIS = ()
-    RAW_STIMULUS_MILLIS = ()
-    RAW_STIMULUS_VALUES = ()
-    RAW_STIMULUS_IDS = ()
-    RAW_PHOTOSENSOR_MILLIS = ()
-    RAW_PHOTOSENSOR_VALUES = ()
-    RAW_THERMOSENSOR_MILLIS = ()
-    RAW_THERMOSENSOR_VALUES = ()
+    RAW_SECONDARY_CAMERA = enum.auto()
+    RAW_PREVIEW_FRAME = enum.auto()
+    RAW_MICROPHONE_RECORDING = enum.auto()
+    RAW_MICROPHONE_MILLIS = enum.auto()
+    RAW_CAMERA_MILLIS = enum.auto()
+    RAW_STIMULUS_MILLIS = enum.auto()
+    RAW_STIMULUS_VALUES = enum.auto()
+    RAW_STIMULUS_IDS = enum.auto()
+    RAW_PHOTOSENSOR_MILLIS = enum.auto()
+    RAW_PHOTOSENSOR_VALUES = enum.auto()
+    RAW_THERMOSENSOR_MILLIS = enum.auto()
+    RAW_THERMOSENSOR_VALUES = enum.auto()
 
     @property
     def is_raw(self) -> bool:
@@ -158,11 +158,14 @@ class SensorNames(CleverEnum):
         Returns True if this is a composite sensor that has matching vectors of values and milliseconds.
         (It might also have other accompanying sensors.)
         Always returns False for raw sensors.
+
+        Returns:
+            Obvious
         """
         return (
-            self is SensorNames.PHOTOSENSOR
-            or self is SensorNames.THERMOSENSOR
-            or self is SensorNames.MICROPHONE
+            self == SensorNames.PHOTOSENSOR
+            or self == SensorNames.THERMOSENSOR
+            or self == SensorNames.MICROPHONE
         )
 
     @property

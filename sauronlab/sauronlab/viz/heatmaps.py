@@ -69,6 +69,18 @@ class HeatPlotter(CakeComponent, KvrcPlotting):
         starts_at_ms: int = 0,
         battery: Union[None, Batteries, int, str] = None,
     ) -> Figure:
+        """
+
+
+        Args:
+            df:
+            stimframes:
+            starts_at_ms:
+            battery:
+
+        Returns:
+
+        """
         t0 = time.monotonic()
         battery = Batteries.fetch(battery)
         n_plots = len(df)
@@ -91,6 +103,16 @@ class HeatPlotter(CakeComponent, KvrcPlotting):
         return figure
 
     def _figure(self, n_rows: int, with_stimframes: bool):
+        """
+
+
+        Args:
+            n_rows: int:
+            with_stimframes: bool:
+
+        Returns:
+
+        """
         figure = plt.figure(
             figsize=(sauronlab_rc.heatmap_width, sauronlab_rc.heatmap_row_height * n_rows)
         )
@@ -116,6 +138,16 @@ class HeatPlotter(CakeComponent, KvrcPlotting):
         return figure, ax1, ax2
 
     def _adjust(self, df, ax1):
+        """
+
+
+        Args:
+            df:
+            ax1:
+
+        Returns:
+
+        """
         ax1.xaxis.set_ticklabels([])
         ax1.xaxis.set_ticks([])
         ax1.margins(0, 0)
@@ -147,6 +179,15 @@ class HeatPlotter(CakeComponent, KvrcPlotting):
             self._add_lines(df["control_type"], ax1, params)
 
     def _get_label_names(self, df):
+        """
+
+
+        Args:
+            df:
+
+        Returns:
+
+        """
         label_names = []
         last_label_name = ""
         for ell in df.names():
@@ -158,6 +199,14 @@ class HeatPlotter(CakeComponent, KvrcPlotting):
         return label_names
 
     def _vmin_max(self, df):
+        """
+
+        Args:
+            df:
+
+        Returns:
+
+        """
         if self._symmetric:
             highest = df.abs().quantile(self._vmax_quantile, axis=1).quantile(self._vmax_quantile)
             return -highest, highest
@@ -167,6 +216,16 @@ class HeatPlotter(CakeComponent, KvrcPlotting):
             return vmin, vmax
 
     def _add_lines(self, vals, ax1, sep_line):
+        """
+
+        Args:
+            vals:
+            ax1:
+            sep_line:
+
+        Returns:
+
+        """
         if sep_line is None:
             return
         prev_name = -1

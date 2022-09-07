@@ -36,6 +36,20 @@ class StimframesPlotter(CakeLayer, KvrcPlotting):
         assays: AssayFrame = None,
         starts_at_ms: int = 0,
     ) -> Axes:
+        """
+
+
+        Args:
+             stimframes:
+             battery:
+             ax:
+             assays:
+             starts_at_ms:
+             battery:
+
+        Returns:
+
+        """
         # prep / define stuff
         t0 = time.monotonic()
         battery = Batteries.fetch(battery)
@@ -56,20 +70,16 @@ class StimframesPlotter(CakeLayer, KvrcPlotting):
         # Unfortunately, if the stimframes are always 0 or 1 in a range of 0-255, this will be wrong
         if stimframes.max().max() > 1:
             # noinspection PyTypeChecker
-            # stimframes /= 255.0 #this happens each loop iteration causing the stimframes to become tiny
+            #stimframes /= 255.0 #this happens each loop iteration causing the stimframes to become tiny
             scaleframes = stimframes / 255.0
             pass
         all_stims = {s.name: s for s in Stimuli.select()}
         # plot all the stimuli
         ordered = []
         # sort by type first; this affects which appears on top; also skip 'none'
-        # logger.debug(f"Got stimuli: {stimframes.columns}")
+        #logger.debug(f"Got stimuli: {stimframes.columns}")
         stimulus_list = sorted(
-            [
-                (ValarTools.stimulus_type(s).value, s)
-                for s in scaleframes.columns
-                if s not in ["none", "ms"]
-            ]
+            [(ValarTools.stimulus_type(s).value, s) for s in scaleframes.columns if s not in ["none","ms"]]
         )
         for kind, c in stimulus_list:
             stim = all_stims[c]
@@ -82,9 +92,7 @@ class StimframesPlotter(CakeLayer, KvrcPlotting):
         if assays is not None:
             self._plot_assays(assays, starts_at_ms, n_ms, ax, battery)
         # set the axis labels and legend
-        self._axis_labels(
-            scaleframes, ax, starts_at_ms=starts_at_ms, total_ms=n_ms, battery=battery
-        )
+        self._axis_labels(scaleframes, ax, starts_at_ms=starts_at_ms, total_ms=n_ms, battery=battery)
         if sauronlab_rc.stimplot_legend_on:
             ordered_names, ordered_colors = [k[1] for k in ordered], [k[2] for k in ordered]
             FigureTools.manual_legend(
@@ -114,6 +122,17 @@ class StimframesPlotter(CakeLayer, KvrcPlotting):
     def _plot_stim(
         self, stim: Stimuli, r: pd.Series, ax: Axes
     ) -> Tup[Axes, Optional[str], Optional[str]]:
+        """
+
+
+        Args:
+            stim:
+            r:
+            ax:
+
+        Returns:
+
+        """
         c = stim.name
         n_stimframes = len(r)
         if isinstance(r, pd.Series):
@@ -169,6 +188,18 @@ class StimframesPlotter(CakeLayer, KvrcPlotting):
     def _plot_assays(
         self, assays: pd.DataFrame, starts_at_ms: int, n_ms: int, ax: Axes, battery: Batteries
     ) -> None:
+        """
+
+
+        Args:
+            assays:
+            starts_at_ms:
+            n_ms:
+            ax:
+
+        Returns:
+
+        """
         if not self.assay_labels and not sauronlab_rc.assay_lines_without_text:
             return
         sfps = ValarTools.battery_stimframes_per_second(battery)
@@ -221,6 +252,18 @@ class StimframesPlotter(CakeLayer, KvrcPlotting):
                 )
 
     def _axis_labels(self, stimframes, ax, starts_at_ms, total_ms, battery):
+        """
+
+
+        Args:
+            stimframes:
+            ax:
+            starts_at_ms:
+            total_ms:
+
+        Returns:
+
+        """
         if self.should_label:
             self._label_x(stimframes, ax, starts_at_ms, total_ms, battery)
             ax.grid(False)
@@ -237,6 +280,18 @@ class StimframesPlotter(CakeLayer, KvrcPlotting):
         total_ms: int,
         battery: Batteries,
     ) -> None:
+        """
+
+
+        Args:
+            stimframes:
+            ax2:
+            starts_at_ms:
+            total_ms:
+
+        Returns:
+
+        """
         sfps = ValarTools.battery_stimframes_per_second(battery)
         mark_every = self._best_marks(stimframes, sfps)
         units, units_per_sec = InternalVizTools.preferred_units_per_sec(mark_every, total_ms)
@@ -254,6 +309,15 @@ class StimframesPlotter(CakeLayer, KvrcPlotting):
         )
 
     def _best_marks(self, stimframes, sfps):
+        """
+
+
+        Args:
+            stimframes:
+
+        Returns:
+
+        """
         return InternalVizTools.preferred_tick_ms_interval(len(stimframes) / sfps * 1000)
 
 

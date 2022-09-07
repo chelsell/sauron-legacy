@@ -4,8 +4,7 @@ import matplotlib.legend as mlegend
 from matplotlib import patches
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from pocketutils.plotting.color_schemes import FancyCmaps, FancyColorSchemes
-
-# from pocketutils.plotting.corners import Corner, Corners # Can't be found -CH
+#from pocketutils.plotting.corners import Corner, Corners # Can't be found -CH
 from pocketutils.plotting.fig_savers import FigureSaver
 from pocketutils.plotting.fig_tools import FigureTools as _FigureTools
 
@@ -14,6 +13,7 @@ from sauronlab.viz._internal_viz import *
 
 
 class FigureTools(_FigureTools):
+    """"""
 
     darken_palette = FancyColorSchemes.darken_palette
     darken_color = FancyColorSchemes.darken_color
@@ -30,6 +30,7 @@ class FigureTools(_FigureTools):
 
         Yields:
             A context manager
+
         """
         path, hide, clear, reload = (
             str(kwargs.get("path")),
@@ -55,6 +56,14 @@ class FigureTools(_FigureTools):
         """
         Save a figure or sequence of figures to ``FigureSaver``.
         See that class for more info.
+
+        Args:
+            figure: FigureSeqLike:
+            path: PathLike:
+            names:
+            clear: After every save
+            **kwargs:
+
         """
         path = str(path).replace("/", os.sep)
         FigureSaver(clear=clear, **kwargs).save(figure, path, names=names)
@@ -75,6 +84,9 @@ class FigureTools(_FigureTools):
             mat: This must be the return value from ``matshow`` or ``imshow``
             size: The width of the colorbar
             number_format: Formatting string for the text labels on the colorbar (passed to ``ax.figure.colorbar``)
+
+        Returns:
+
         """
         #
         # of ax and the padding between cax and ax will be fixed at 0.05 inch.
@@ -108,6 +120,17 @@ class FigureTools(_FigureTools):
         Creates legend handles manually and adds them as the legend on the Axes.
         This is unfortunately necessary in cases where, for ex, only a handle per color is wanted -- not a handle per color and marker shape.
         Applies ``cls.fix_labels`` and applies sauronlab_rc defaults unless they're overridden in kwargs.
+
+        Args:
+            ax: Axes:
+            labels: Sequence[str]:
+            colors: Sequence[str]:
+            patch_size: float:  (Default value = sauronlab_rc.legend_marker_size)
+            patch_alpha:  (Default value = 1.0)
+            **kwargs:
+
+        Returns:
+
         """
         labels, colors = list(labels), list(colors)
         kwargs = copy(kwargs)
@@ -138,6 +161,16 @@ class FigureTools(_FigureTools):
         Also see ``cls.manual_legend``.
         This is unfortunately necessary in cases where, for ex, only a handle per color is wanted -- not a handle per color and marker shape.
         Applies ``cls.fix_labels``.
+
+        Args:
+            labels:
+            colors:
+            patch_size:
+            patch_alpha:
+            **patch_properties:
+
+        Returns:
+
         """
         assert len(labels) == len(colors), f"{len(labels)} labels but {len(colors)} colors"
         legend_dict = {e: colors[i] for i, e in enumerate(labels)}
@@ -165,11 +198,18 @@ class FigureTools(_FigureTools):
             - --> is changed to →
             - __a and __b are made nicer
             - math is escaped in TeX if necessary
+
+        Args:
+            name:
+            inplace:
+
+        Returns:
+
         """
 
         # noinspection PyProtectedMember
         def fix_u(s: str) -> str:
-
+            """"""
             return (
                 str(s)
                 .replace("(-)", "(−)")
@@ -182,7 +222,7 @@ class FigureTools(_FigureTools):
             )
 
         def fix_ltext(s: str) -> str:
-
+            """"""
             # escape: # $ % & ~ _ ^ \ { } \( \) \[ \]
             return (
                 Tools.strip_paired(s, [("$", "$")])
@@ -197,7 +237,7 @@ class FigureTools(_FigureTools):
             )
 
         def fix_lmath(s: str) -> str:
-
+            """"""
             return (
                 ("$" + Tools.strip_paired(s, [("$", "$")]) + "$")
                 .replace("killed (+)", "lethal (+)")
@@ -213,7 +253,7 @@ class FigureTools(_FigureTools):
             )
 
         def choose_fix(s: str) -> str:
-
+            """"""
             if not plt.rcParams["text.usetex"]:
                 return fix_u(s)
             elif (
@@ -234,7 +274,7 @@ class FigureTools(_FigureTools):
                 return s
 
         def fix(s0: str) -> str:
-
+            """"""
             is_label = hasattr(s0, "get_text")
             if is_label:
                 # noinspection PyUnresolvedReferences
@@ -264,6 +304,13 @@ class FigureTools(_FigureTools):
         """
         Stamps the run ID(s) in the upper-left corner.
         Only shows if sauronlab_rc.stamp_on is True AND len(run_ids) <= sauronlab_rc.stamp_max_runs.
+
+        Args:
+            ax: Axes:
+            run_ids: Iterable[int]:
+
+        Returns:
+
         """
         if sauronlab_rc.stamp_on:
             run_ids = InternalTools.fetch_all_ids_unchecked(Runs, run_ids)
@@ -276,6 +323,12 @@ class FigureTools(_FigureTools):
     def stamp_time(cls, ax: Axes) -> Axes:
         """
         If sauronlab_rc.stamp_on is on, stamps the datetime to the top right corner.
+
+        Args:
+            ax: Axes:
+
+        Returns:
+
         """
         if sauronlab_rc.stamp_on:
             text = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -288,6 +341,7 @@ class _Pub:
     Provides a context manager that yields a FigureSaver.
     Clears all figures (inc. pre-existing) before entering and on every save.
     Hides all display.
+
     """
 
     @contextmanager
@@ -303,6 +357,8 @@ class _Pub:
             save_under: Save everything under this directory (but passing absolute paths will invalidate this)
             args: Functions of sauronlab_rc passed to ``sauronlab_rc.using``
             kwargs: Kwargs of sauronlab_rc and matplotlib params passed to ``sauronlab_rc.using``.
+
+        Returns:
         """
         save_under = str(save_under).replace("/", os.sep)
         save_under = Tools.prepped_dir(save_under)

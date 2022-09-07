@@ -14,6 +14,7 @@ class DecisionFrame(TypedDf):
     The single index column is named 'correct_label', and the single column name is named 'label'.
     Practically, this is a Pandas wrapper around a scikit-learn decision_function
     that also has the predicted and correct class labels.
+
     """
 
     @classmethod
@@ -41,6 +42,7 @@ class DecisionFrame(TypedDf):
 
         Returns:
             A DecisionFrame
+
         """
         decision_function = pd.DataFrame(decision_function)
         decision_function.index = [correct_labels, sample_ids]
@@ -49,6 +51,11 @@ class DecisionFrame(TypedDf):
         return cls.convert(decision_function)
 
     def confusion(self) -> ConfusionMatrix:
+        """
+
+        Returns:
+
+        """
         labels = self.columns
         correct_labels = self.index.get_level_values("label")
         if self.shape[0] != len(correct_labels):
@@ -70,6 +77,11 @@ class DecisionFrame(TypedDf):
         return ConfusionMatrix(correct_confused_with)
 
     def accuracy(self) -> AccuracyFrame:
+        """
+
+        Returns:
+
+        """
         actual_labels = self.index.get_level_values("label").values
         sample_ids = self.index.get_level_values("sample_id").values
         stripped = self.reset_index().drop("sample_id", axis=1).set_index("label")

@@ -12,13 +12,13 @@ from sauronlab.core.core_imports import *
 class AssayFrame(TypedDf):
     """
     A Pandas DataFrame that has one row per assay in a battery.
-
     Each row has:
-        - assay_positions ID,
-        - assay name
-        - simplified assay name
-        - start time
-        - end time
+    - assay_positions ID,
+    - assay name
+    - simplified assay name
+    - start time
+    - end time
+
     """
 
     @classmethod

@@ -3,6 +3,8 @@ from sauronlab.model.audio import Waveform
 
 
 class WaveformEmbedding:
+    """"""
+
     @classmethod
     def expand(
         cls,
@@ -13,6 +15,15 @@ class WaveformEmbedding:
     ) -> np.array:
         """
         Embeds a waveform into a stimframes array.
+
+        Args:
+            stimseries:
+            stim:
+            waveform:
+            is_legacy:
+
+        Returns:
+
         """
         stim = Stimuli.fetch(stim)
         logger.info(f"Expanding audio on {stim.name}{'(legacy)' if is_legacy else ''}")

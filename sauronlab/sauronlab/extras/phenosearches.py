@@ -13,6 +13,8 @@ from sauronlab.model.wf_builders import *
 
 
 class HitFrame(TypedDf):
+    """"""
+
     @classmethod
     def reserved_columns(cls):
         """ """
@@ -37,7 +39,7 @@ class HitSearch:
     Whether called with search(), will save every n results as a DataFrame .csv to disk (1000 by default).
 
     Example:
-        .. code-block::
+        Like this::
 
             search = HitSearch()\
                     .set_feature('MI')\
@@ -52,6 +54,12 @@ class HitSearch:
     """
 
     def __init__(self, as_of: datetime):
+        """
+
+        Args:
+            as_of:
+
+        """
         self.as_of = as_of
         self.feature = FeatureTypes.MI
         self.wheres = []
@@ -64,6 +72,12 @@ class HitSearch:
     def set_save_every(self, n: int) -> HitSearch:
         """
         Save every ``n`` number of iterations. The default is 1000.
+
+        Args:
+            n: int:
+
+        Returns:
+
         """
         self.save_every = n
         return self
@@ -77,6 +91,9 @@ class HitSearch:
                      These are not just the feature names in Valar.
                      For example: "MI" is just non-interpolated MI, but "cd(10)_i" is interpolated cd(10).
                      When in doubt, you can pass in ``quick.feature``.
+
+        Returns:
+
         """
         self.feature = FeatureTypes.of(feature)
         return self
@@ -87,8 +104,10 @@ class HitSearch:
 
         Args:
           expression: A peewee WHERE expression such as ``Experiments.id == 1``
-                      Can be an expression of Runs, Plates, Experiments, Projects, PlateTypes, Batteries,
-                      SauronConfigs, or Saurons.
+                      Can be an expression of Runs, Plates, Experiments, Projects, PlateTypes, Batteries, SauronConfigs, or Saurons.
+
+        Returns:
+
         """
         self.wheres.append(expression)
         return self
@@ -102,6 +121,9 @@ class HitSearch:
                     Make sure the function returns HIGHER values for BETTER scores.
                     If necessary you can modify the function to return the negative; ex
                     ``set_primary_score(lambda arr, well: -my_scoring_fn(arr, well))``
+
+        Returns:
+
         """
         self.primary_score_fn = function
         return self
@@ -115,6 +137,9 @@ class HitSearch:
         Args:
             function: The same format as in ``set_primary_score``
             name: The name that will be given to the column
+
+        Returns:
+
         """
         if name in HitFrame.reserved_columns():
             raise ReservedError("Cannot use the name 'score', which is reserved")
@@ -129,8 +154,11 @@ class HitSearch:
 
         Args:
             value: The minimum value. For primary scores, higher should always be better.
-            name: score: for the primary score or the name of a secondary score
+            name: score' for the primary score or the name of a secondary score
             value: float:
+
+        Returns:
+
         """
         if name != "score" and (name not in self.secondary_score_fns):
             raise LookupFailedError(f"Score {name} was not found")
@@ -141,6 +169,12 @@ class HitSearch:
         """
         Only search this number of wells. Stop abruptly after.
         This function is generally only used to help debug a phenosearch.
+
+        Args:
+            n: int:
+
+        Returns:
+
         """
         if n < 0:
             raise XValueError(f"Limit {n} is negative")
@@ -157,6 +191,7 @@ class HitSearch:
 
         Returns:
             A HitFrame, a subclass of DataFrame
+
         """
         if self.primary_score_fn is None:
             raise OpStateError("Primary scoring function is not set")
@@ -174,6 +209,16 @@ class HitSearch:
         return self._save_hits(results, path)
 
     def _save_hits(self, results, path: Optional[str]) -> HitFrame:
+        """
+
+
+        Args:
+            results:
+            path:
+
+        Returns:
+
+        """
         df = HitFrame(results)
         if path is not None:
             df.to_csv(path)
@@ -191,6 +236,9 @@ class HitSearch:
 
                 for series in search.iterate():
                     do_something(series)
+
+        Returns:
+
         """
         for i, wf in enumerate(self._build_query()):
             for row in range(len(wf)):
@@ -214,6 +262,7 @@ class HitSearch:
                     yield pd.Series(dct)
 
     def _build_query(self):
+        """ """
         builder = WellFrameBuilder(self.as_of)
         for where in self.wheres:
             builder = builder.where(where)
@@ -229,6 +278,13 @@ class HitWellFrame(WellFrame):
     def build(cls, hits: HitFrame, namer: WellNamer = WellNamers.general()) -> HitWellFrame:
         """
         Converts a HitFrame into a HitWellFrame, which contains well info.
+
+        Args:
+            hits: HitFrame:
+            namer:
+
+        Returns:
+
         """
         hitwells = set(hits.reset_index()["well_id"].unique())
         scores = hits.reset_index().set_index("well_id")["score"].to_dict()
@@ -299,6 +355,16 @@ class HitSearchTools:
 
     @classmethod
     def triangle_weights(cls, stimframes: BatteryStimFrame, win_size: int = 1000) -> np.array:
+        """
+
+
+        Args:
+            stimframes: BatteryStimFrame:
+            win_size:
+
+        Returns:
+
+        """
         return stimframes.triangles(win_size).sum(axis=0).values
 
 
@@ -306,9 +372,12 @@ class TruncatingScorer:
     """
     Wraps a similarity score to a query trace into an HitSearch scoring function that truncates to min(query length, target length),
     and warning if the lengths differ by more than 3.
+    :return: A function mapping a feature array and a well row into a float where higher is better (more similar).
+
+    Args:
 
     Returns:
-        A function mapping a feature array and a well row into a float where higher is better (more similar).
+
     """
 
     def __init__(self, query: np.array, similarity: Callable[[np.array, Wells], float]):
@@ -326,6 +395,12 @@ class TruncatingScorer:
         self._max_missing = 3
 
     def __call__(self, target: np.array, well: Wells) -> float:
+        """
+
+        Args:
+            target:
+            well:
+        """
         n = min(len(target), len(self.query))
         if abs(len(target) - len(self.query)) > self._max_missing:
             if well.run not in self.problematic_runs:
@@ -356,10 +431,23 @@ class TruncatingScorer:
 
 
 class HitScores:
+    """"""
+
     @classmethod
     def pearson(
         cls, query: np.array, weights: Optional[np.array] = None
     ) -> Callable[[np.array, Wells], float]:
+        """
+
+
+        Args:
+            query: np.array:
+            weights:
+
+        Returns:
+
+        """
+
         def pearson(x, y):
             return distance.correlation(x, y, weights)
 
@@ -379,6 +467,13 @@ class HitScores:
             - p=3 is a cubic distance
             - p=np.inf is the maximum
             - p=-np.inf is the minimum
+
+        Args:
+            query: np.array:
+            p: float:
+            weights:
+
+        Returns:
 
         """
         if weights is None:

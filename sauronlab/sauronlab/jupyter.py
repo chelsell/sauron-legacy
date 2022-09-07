@@ -5,15 +5,17 @@ import logging
 import sys
 
 import IPython
-import matplotlib.pyplot as plt
 from IPython.display import HTML, Markdown, display
-from matplotlib.figure import Figure
 from pandas.plotting import register_matplotlib_converters
 from pocketutils.misc.j import J, JFonts
-from pocketutils.misc.magic_template import MagicTemplate
 
 from sauronlab.core.core_imports import *
 from sauronlab.startup import *
+
+pd.Series.reverse = pd.DataFrame.reverse = lambda self: self[::-1]
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from pocketutils.misc.magic_template import MagicTemplate
 
 (
     MagicTemplate.from_path(sauronlab_env.jupyter_template, prefix="${", suffix="}")

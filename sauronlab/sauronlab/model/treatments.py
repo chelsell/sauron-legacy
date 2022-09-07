@@ -66,6 +66,15 @@ class Treatment:
 
     @classmethod
     def from_well_treatment(cls, condition: WellTreatments) -> Treatment:
+        """
+
+
+        Args:
+            condition: WellTreatments:
+
+        Returns:
+
+        """
         batch = condition.batch
         compound = batch.compound
         return Treatment(
@@ -80,6 +89,16 @@ class Treatment:
 
     @classmethod
     def from_info(cls, batch: Union[Batches, int, str], dose: float) -> Treatment:
+        """
+
+
+        Args:
+            batch:
+            dose: float:
+
+        Returns:
+
+        """
         batch = Batches.fetch(batch)
         compound = batch.compound
         return Treatment(
@@ -121,6 +140,7 @@ class Treatments:
     Any duplicate Treatment instances (determined by Treatment.__eq__ will be removed,
     and the instances will be sorted by Treatment.__lt__.
     This has a __str__ and __repr__ that simplify the Treatment contents.
+
     """
 
     def __init__(self, treatments: Collection[Treatment]):
@@ -142,7 +162,7 @@ class Treatments:
         return '{"treatments":[' + ",".join([t.serialize() for t in self.treatments]) + "]}"
 
     def single(self) -> Treatment:
-
+        """"""
         return Tools.only(self.treatments, name="treatments")
 
     def __eq__(self, other):
@@ -158,7 +178,7 @@ class Treatments:
         return self._format(lambda t: "b" + str(t.bid))
 
     def str_with_hash(self):
-
+        """"""
         return self._format(lambda t: t.bhash)
 
     def _format(self, function: Callable[[Treatment], Any]) -> str:

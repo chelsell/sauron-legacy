@@ -17,17 +17,18 @@ _stimulus_display_colors.update(InternalTools.load_resource("core", "stim_colors
 _stimulus_replace = {s.name: s.name for s in Stimuli.select()}
 _stimulus_replace.update(InternalTools.load_resource("core", "stim_names.json"))
 
-_problematic_controls = frozenset(ControlTypes.fetch_all(["near-WT (-)", "low drug transfer"]))
-_trash_controls = frozenset(ControlTypes.fetch_all(["ignore", "no drug transfer"]))
+_problematic_controls = frozenset(ControlTypes.fetch_all(["low drug transfer"]))
+_trash_controls = frozenset(ControlTypes.fetch_all(["no drug transfer"]))
 
 
 class StimulusType(CleverEnum):
+    """"""
 
-    LED = ()
-    AUDIO = ()
-    SOLENOID = ()
-    NONE = ()
-    IR = ()
+    LED = enum.auto()
+    AUDIO = enum.auto()
+    SOLENOID = enum.auto()
+    NONE = enum.auto()
+    IR = enum.auto()
 
 
 class ValarTools:
@@ -48,6 +49,14 @@ class ValarTools:
 
     @classmethod
     def required_sensors(cls, generation: DataGeneration) -> Mapping[str, Sensors]:
+        """
+
+        Args:
+            generation:
+
+        Returns:
+
+        """
         gens = {x["name"]: x for x in InternalTools.load_resource("core", "generations.json")}
         sensors = gens[generation.name]["sensors"]
         kmap = {s.name: s for s in Sensors.fetch_all(sensors.values())}
@@ -57,6 +66,15 @@ class ValarTools:
     def standard_sensor(
         cls, sensor_name: Union[str, SensorNames], generation: DataGeneration
     ) -> Sensors:
+        """
+
+        Args:
+            sensor_name: sensor name (key in ``generations.json``)
+            generation:
+
+        Returns:
+
+        """
         if isinstance(sensor_name, SensorNames):
             sensor_name = sensor_name.json_name
         gens = {x["name"]: x for x in InternalTools.load_resource("core", "generations.json")}
@@ -69,10 +87,10 @@ class ValarTools:
         """
         Convert the sensor data to its appropriate type as defined by ``sensors.data_type``.
 
-        .. warning::
+        Warning:
             Currently does not handle ``sensors.data_type=='utf8_char'``. Currently there are no sensors in Valar with this data type.
 
-        .. note::
+        Note:
             This function will probably be deprecated soon, replaced by valarpy model methods
 
         Args:
@@ -92,19 +110,19 @@ class ValarTools:
         if dt == "byte":
             return np.frombuffer(data, dtype=np.byte).astype(np.int16)
         if dt == "unsigned_byte":
-            return np.frombuffer(data, dtype=np.byte).astype(np.int16) + 2**7
+            return np.frombuffer(data, dtype=np.byte).astype(np.int16) + 2 ** 7
         if dt == "short":
             return np.frombuffer(data, dtype=">i2").astype(np.int32)
         if dt == "unsigned_short":
-            return np.frombuffer(data, dtype=">i2").astype(np.int32) + 2**15
+            return np.frombuffer(data, dtype=">i2").astype(np.int32) + 2 ** 15
         if dt == "int":
             return np.frombuffer(data, dtype=">i4").astype(np.int64)
         if dt == "unsigned_int":
-            return np.frombuffer(data, dtype=">i4").astype(np.int64) + 2**31
+            return np.frombuffer(data, dtype=">i4").astype(np.int64) + 2 ** 31
         if dt == "long":
             return np.frombuffer(data, dtype=">i8").astype(np.longlong)
         if dt == "unsigned_long":
-            return np.frombuffer(data, dtype=">i8").astype(np.ulonglong) + 2**63
+            return np.frombuffer(data, dtype=">i8").astype(np.ulonglong) + 2 ** 63
         if dt == "float":
             return np.frombuffer(data, dtype=">f4").astype(np.float64)
         if dt == "double":
@@ -126,7 +144,7 @@ class ValarTools:
     def stimulus_display_colors(cls) -> Mapping[str, str]:
         """
         Returns a mapping from stimulus names to preferred colors.
-        See :meth:`stimulus_display_color`.
+        See :meth:``stimulus_display_color``.
 
         Returns:
             A mapping from stimulus names to 6-digit RGB hex codes prefixed by ``#``
@@ -148,6 +166,15 @@ class ValarTools:
     def sort_controls_first(
         cls, df: pd.DataFrame, column: str, more_controls: Optional[Set[str]] = None
     ) -> pd.DataFrame:
+        """
+
+
+        Args:
+            df:
+            column:
+            more_controls:
+
+        """
         first = ValarTools.controls_first(df[column], more_controls=more_controls)
         return ValarTools.sort_first(df, column, first)
 
@@ -158,6 +185,12 @@ class ValarTools:
         """
         Partially sorts the rows of a DataFrame by column ``column``, such that the items in ``first`` appear first.
         The rest of the rows keep the same sorting.
+
+        Args:
+            df:
+            column:
+            first:
+
         """
         if isinstance(column, str) or isinstance(column, int):
             column = df[column]
@@ -174,10 +207,18 @@ class ValarTools:
     ) -> Sequence[str]:
         """
         Sorts a set of names, putting control types first.
-        Controls are sorted by: positive/negative (+ first), then name.
+        Controls are sorted by: positve/negative (+ first), then name.
         Both controls and their display values are included.
         After the controls, sorts the remainder by name.
         This can be very useful for plotting.
+
+        Args:
+            names:
+            sorting:
+            more_controls:
+
+        Returns:
+
         """
         names = set(names)
         query = list(
@@ -202,7 +243,7 @@ class ValarTools:
             stimulus: Stimulus ID, name, or instance
 
         Returns:
-            A :class:`StimulusType` enum value
+            A :class:``StimulusType`` enum value
         """
         stimulus = Stimuli.fetch(stimulus)
         if stimulus.audio_file_id is not None:
@@ -220,14 +261,14 @@ class ValarTools:
     @classmethod
     def toml_file(cls, run: RunLike) -> NestedDotDict:
         """
-        Get the SauronX TOML config file for a run.
-        Is guaranteed to exist for SauronX data, but won't for legacy.
+        Get the SauronX TOML config file for a run. Is guaranteed to exist for SauronX data, but won't for legacy.
 
         Args:
             run: A run ID, name, tag, instance, or submission instance or hash
 
         Returns:
             The wrapped text of the config file
+
         """
         run = Tools.run(run)
         if run.submission is None:
@@ -267,7 +308,6 @@ class ValarTools:
     def wait_sec(cls, run: RunLike) -> float:
         """
         Time between plating and either running or plating.
-        The rule is:
             - If dose time < plate time: wait_sec is negative
             - If not dosed: wait_sec = run time - plate time
 
@@ -291,6 +331,7 @@ class ValarTools:
 
         Returns:
             A mapping from compound IDs to names
+
         """
         data = InternalTools.load_resource("core", "solvents.json")
         return {int(k): v for k, v in data.items()}
@@ -302,16 +343,20 @@ class ValarTools:
         **attributes,
     ) -> Set[ControlTypes]:
         """
-        Return the control types matching ALL the specified criteria.
+        Return the control types matching ALL of the specified criteria.
 
         Args:
             names: The set of allowed control_types
             attributes: Any key-value pairs mapping an attribute of ControlTypes to a required value
-            names: TODO
-            attributes: TODO
+            names:
+            **attributes:
+
+        Returns:
+
         """
         if names is not None and not Tools.is_true_iterable(names):
             names = [names]
+        InternalTools.verify_class_has_attrs(ControlTypes, attributes)
         allowed_controls = (
             list(ControlTypes.select())
             if names is None
@@ -333,8 +378,11 @@ class ValarTools:
         Args:
             names: A set of control_types
             attributes: Any key-value pairs mapping an attribute of ControlTypes to a required value
-            names: TODO
-            **attributes: TODO
+            names:
+            **attributes:
+
+        Returns:
+
         """
         if names is None and len(attributes) == 0:
             by_name = list(ControlTypes.select())
@@ -344,6 +392,7 @@ class ValarTools:
             by_name = ControlTypes.fetch_all(names)
         else:
             by_name = [ControlTypes.fetch(names)]
+        InternalTools.verify_class_has_attrs(ControlTypes, attributes)
         by_other = {
             c
             for c in ControlTypes.select()
@@ -361,6 +410,7 @@ class ValarTools:
 
         Returns:
             A DataGeneration instance
+
         """
         run = Runs.fetch(run)
         sauronx = run.submission_id is not None
@@ -398,7 +448,8 @@ class ValarTools:
             run: A run ID, name, tag, instance, or submission hash or instance
 
         Returns:
-            The set of features involved in a given run
+            The set of features involved in a given run.
+
         """
         run = Runs.fetch(run)
         pt = run.plate.plate_type
@@ -427,7 +478,8 @@ class ValarTools:
             run: A run ID, name, tag, instance, or submission hash or instance
 
         Returns:
-            The set of sensor names that have sensor data for a given run
+            The set of sensor names that have sensor data for a given run.
+
         """
         run = Runs.fetch(run)
         return {
@@ -442,20 +494,21 @@ class ValarTools:
     @classmethod
     def looks_like_submission_hash(cls, submission_hash: str) -> bool:
         """
-        TODO.
+        X.
 
         Args:
             submission_hash: Any string
 
         Returns:
             Whether the string could be a submission hash (is formatted correctly)
+
         """
         return InternalTools.looks_like_submission_hash(submission_hash)
 
     @classmethod
     def battery_is_legacy(cls, battery: Union[Batteries, str, int]) -> bool:
         """
-        TODO.
+        X.
 
         Args:
             battery: The battery ID, name, or instance
@@ -470,7 +523,7 @@ class ValarTools:
     @classmethod
     def assay_is_legacy(cls, assay: Union[Assays, str, int]) -> bool:
         """
-        TODO.
+        X.
 
         Args:
             assay: The assay ID, name, or instance
@@ -485,7 +538,7 @@ class ValarTools:
     @classmethod
     def assay_is_background(cls, assay: Union[Assays, str, int]) -> bool:
         """
-        TODO.
+        X.
 
         Args:
             assay: The assay ID, name, or instance
@@ -509,6 +562,9 @@ class ValarTools:
 
         Args:
             sauron: A Sauron instance, ID, or name
+
+        Returns:
+
         """
         sauron = Saurons.fetch(sauron)
         if regex.compile(r"[0-9]+", flags=regex.V1).fullmatch(sauron.name) is None:
@@ -518,6 +574,15 @@ class ValarTools:
 
     @classmethod
     def sauron_config_name(cls, sauron_config: Union[str, int, SauronConfigs]) -> str:
+        """
+        X.
+
+        Args:
+            sauron_config:
+
+        Returns:
+
+        """
         if isinstance(sauron_config, str) and sauron_config.isdigit():
             sauron_config = int(sauron_config)
         sc = SauronConfigs.fetch(sauron_config)
@@ -526,8 +591,16 @@ class ValarTools:
     @classmethod
     def sauron_config(cls, config: SauronConfigLike) -> SauronConfigs:
         """
-        Fetches a sauron_configs row.
-        Will accept a sauron_config or its ID, or a tuple of (sauron ID/instance/name, datetime modified).
+        Fetches a sauron_configs row from a sauron_config or its ID, or a tuple of (sauron ID/instance/name, datetime modified).
+
+        Args:
+            config: SauronConfigLike:
+
+        Returns:
+
+        Raises:
+            ValarLookupError: if it's not found
+
         """
         if isinstance(config, (int, SauronConfigs)):
             return SauronConfigs.fetch(config)
@@ -550,6 +623,16 @@ class ValarTools:
 
     @classmethod
     def hardware_setting(cls, config: SauronConfigLike, key: str) -> Union[str]:
+        """
+
+
+        Args:
+            config: SauronConfigLike:
+            key: str:
+
+        Returns:
+
+        """
         config = ValarTools.sauron_config(config)
         setting = (
             SauronSettings.select(SauronSettings, SauronConfigs)
@@ -562,6 +645,15 @@ class ValarTools:
 
     @classmethod
     def hardware_settings(cls, config: SauronConfigLike) -> Mapping[str, str]:
+        """
+
+
+        Args:
+            config: SauronConfigLike:
+
+        Returns:
+
+        """
         config = ValarTools.sauron_config(config)
         return {
             s.name: s.value
@@ -581,6 +673,7 @@ class ValarTools:
 
         Returns:
             The value as an str
+
         """
         run = Runs.fetch(run)
         t = RunTags.select().where(RunTags.run_id == run.id).where(RunTags.name == tag_name).first()
@@ -598,7 +691,8 @@ class ValarTools:
             tag_name: The value in run_tags.name
 
         Returns:
-            The value as a str, or None if it doesn't exist
+            The value as an str, or None if it doesn't exist
+
         """
         run = Runs.fetch(run)
         t = RunTags.select().where(RunTags.run_id == run.id).where(RunTags.name == tag_name).first()
@@ -619,6 +713,7 @@ class ValarTools:
 
         Returns:
             The name as a string
+
         """
         stimulus = stimulus if isinstance(stimulus, str) else Stimuli.fetch(stimulus)
         return _stimulus_replace[stimulus]
@@ -626,7 +721,13 @@ class ValarTools:
     @classmethod
     def datetime_capture_finished(cls, run) -> datetime:
         """
-        Only works for SauronX runs.-
+        Only works for SauronX runs.
+
+        Args:
+            run:
+
+        Returns:
+
         """
         run = Tools.run(run)
         if run.submission is not None:
@@ -648,6 +749,7 @@ class ValarTools:
 
         Returns:
             The unique frame seconds, unique, in order
+
         """
         return np.unique([int(np.round(x * fps / 1000)) for x in ms])
 
@@ -655,6 +757,12 @@ class ValarTools:
     def fetch_toml(cls, run: Union[int, str, Runs, Submissions]) -> NestedDotDict:
         """
         Parse NestedDotDict from config_files.
+
+        Args:
+            run:
+
+        Returns:
+
         """
         run = Runs.fetch(run)
         sxt = ConfigFiles.fetch(run.config_file_id)
@@ -664,6 +772,12 @@ class ValarTools:
     def parse_toml(cls, sxt: Union[ConfigFiles, Runs]) -> NestedDotDict:
         """
         Parse NestedDotDict from config_files.
+
+        Args:
+            sxt:
+
+        Returns:
+
         """
         if isinstance(sxt, Runs):
             sxt = ConfigFiles.fetch(sxt.config_file_id)
@@ -680,6 +794,7 @@ class ValarTools:
 
         Returns:
             The initials as a string, in caps
+
         """
         if isinstance(user, int):
             user = Users.select().where(Users.id == user).first()
@@ -702,6 +817,7 @@ class ValarTools:
 
         Returns:
             ValarTools.frames_per_second.
+
         """
         run = Runs.fetch(run)
         run = (
@@ -722,6 +838,15 @@ class ValarTools:
 
     @classmethod
     def fps_of_sauron_config(cls, sauron_config: Union[SauronConfigs, int]) -> Optional[int]:
+        """
+
+
+        Args:
+            sauron_config:
+
+        Returns:
+
+        """
         fps = (
             SauronSettings.select()
             .where(SauronSettings.sauron_config == sauron_config)
@@ -734,12 +859,33 @@ class ValarTools:
     def sauron_configs_with_fps(
         cls, sauron: Union[Saurons, int, str], fps: int
     ) -> Sequence[SauronConfigs]:
+        """
+
+
+        Args:
+            sauron:
+            fps: int:
+
+        Returns:
+
+        """
         return ValarTools.sauron_configs_with_setting(sauron, "fps", fps)
 
     @classmethod
     def sauron_configs_with_setting(
         cls, sauron: Union[Saurons, int, str], name: str, value: Any
     ) -> Sequence[SauronConfigs]:
+        """
+
+
+        Args:
+            sauron:
+            name: str:
+            value: Any:
+
+        Returns:
+
+        """
         query = (
             SauronSettings.select(SauronSettings, SauronConfigs)
             .join(SauronConfigs)
@@ -753,24 +899,40 @@ class ValarTools:
 
     @classmethod
     def toml_data(cls, run: RunLike) -> NestedDotDict:
+        """
+
+
+        Args:
+            run: RunLike:
+
+        Returns:
+
+        """
         run = Runs.fetch(run)
         t = ConfigFiles.fetch(run.config_file_id)
         return NestedDotDict.parse_toml(t.toml_text)
 
     @classmethod
     def toml_item(cls, run: RunLike, item: str) -> Any:
+        """
+
+
+        Args:
+            run: RunLike:
+            item: str:
+
+        Returns:
+
+        """
         return cls.toml_data(run)[item]
 
     @classmethod
     def frames_per_second(cls, run: RunLike) -> int:
         """
         Determines the main camera framerate used in a run.
-
-        .. note::
+        NOTE:
             This is the IDEAL framerate: The one that was configured.
-            To get the emperical framerate for PointGrey data, download the timestamps.
-            (The empirical framerate is unknown for pre-PointGrey data.)
-
+            To get the emperical framerate for PointGrey data, download the timestamps. (The emperical framerate is unknown for pre-PointGrey data.)
         For legacy data, always returns 25. Note that for some MGH data it might actually be a little slower or faster.
         For SauronX data, fetches the TOML data from Valar and looks up sauron.hardware.camera.frames_per_second .
 
@@ -779,6 +941,7 @@ class ValarTools:
 
         Returns:
           A Python int
+
         """
         run = Tools.run(run)
         if run.submission is None:
@@ -789,10 +952,28 @@ class ValarTools:
 
     @classmethod
     def battery_stimframes_per_second(cls, battery: Union[int, str, Batteries]) -> int:
+        """
+
+
+        Args:
+            battery:
+
+        Returns:
+
+        """
         return cls.LEGACY_FRAMERATE if ValarTools.battery_is_legacy(battery) else 1000
 
     @classmethod
     def assay_ms_per_stimframe(cls, assay: Union[int, str, Assays]) -> int:
+        """
+
+
+        Args:
+            assay:
+
+        Returns:
+
+        """
         return 1000 / 25 if ValarTools.assay_is_legacy(assay) else 1
 
     @classmethod
@@ -802,6 +983,9 @@ class ValarTools:
 
         Args:
             run: A run ID, name, tag, instance, or submission hash or instance
+
+        Returns:
+
         """
         run = Runs.fetch(run)
         if run.submission is None:
@@ -822,6 +1006,7 @@ class ValarTools:
 
         Returns:
             An iterable consisting of runs associated with given run identifiers.
+
         """
         return Tools.runs(runs)
 
@@ -835,6 +1020,7 @@ class ValarTools:
 
         Returns:
           A run associated with the given ID, name, tag, instance, or submission hash or instance
+
         """
         return Tools.run(run)
 
@@ -842,6 +1028,12 @@ class ValarTools:
     def simplify_assay_name(cls, assay: Union[Assays, int, str]) -> str:
         """
         See ``ValarTools.assay_name_simplifier``, which is faster for many assay names.
+
+        Args:
+            assay:
+
+        Returns:
+
         """
         name = assay if isinstance(assay, str) else Assays.fetch(assay).name
         return ValarTools._assay_name_simplifier()(name)
@@ -849,17 +1041,17 @@ class ValarTools:
     @classmethod
     def _assay_name_simplifier(cls) -> Callable[[str], str]:
         """
-        Strips out the legacy assay qualifiers like ``(variant:...)`` and the user/experiment info.
-        Also removes text like '#legacy' and 'sauronx-', and 'sys :: light ::'.
+            Strips out the legacy assay qualifiers like ``(variant:...)`` and the user/experiment info.
+            Also removes text like '#legacy' and 'sauronx-', and 'sys :: light ::'.
 
         Returns:
             A function mapping assay names to new names
+
         """
         _usernames = {u.username for u in Users.select(Users.username)}
         _qualifier = regex.compile("-\\(variant:.*\\)", flags=regex.V1)
         _end = regex.compile(
-            "-(?:" + "|".join(_usernames) + ")" + """-[0-9]{4}-[0-9]{2}-[0-9]{2}-0x[0-9a-h]{4}$""",
-            flags=regex.V1,
+            "-(?:" + "|".join(_usernames) + ")" + """-[0-9]{4}-[0-9]{2}-[0-9]{2}-0x[0-9a-h]{4}$""", flags=regex.V1
         )
 
         def _simplify_name(name: str) -> str:

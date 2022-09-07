@@ -178,6 +178,7 @@ class WellFrameColumns:
 
 
 class WellFrameColumnTools:
+    """"""
 
     int32_cols = {
         "well",
@@ -313,6 +314,12 @@ class WellFrameColumnTools:
     def from_nan(cls, df: pd.DataFrame):
         """
         Temporarily replace NaNs and Nones to little-used values.
+
+        Args:
+            df:
+
+        Returns:
+
         """
         for c in WellFrameColumnTools._o_int_cols:
             if c in df.columns:
@@ -329,7 +336,13 @@ class WellFrameColumnTools:
     @classmethod
     def to_nan(cls, df: pd.DataFrame):
         """
-        Undoes WellFrameColumnTools._from_nan.
+        Undoes WellFrameColumnTools._from_nan
+
+        Args:
+            df:
+
+        Returns:
+
         """
         for c in WellFrameColumnTools._o_int_cols:
             if c in df.columns:

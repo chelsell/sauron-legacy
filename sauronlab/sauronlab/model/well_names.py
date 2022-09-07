@@ -11,7 +11,7 @@ class WellNamer:
 
     @abcd.abstractmethod
     def __call__(self, df: pd.DataFrame) -> Sequence[str]:
-
+        """"""
         raise NotImplementedError()
 
     def name(self) -> str:
@@ -20,16 +20,30 @@ class WellNamer:
 
 @dataclass(frozen=True)
 class CompositeWellNamer(WellNamer):
+    """"""
 
     namers: Sequence[WellNamer]
 
     def __call__(self, df) -> Sequence[str]:
+        """
+
+        Args:
+            df:
+
+        Returns:
+
+        """
         names = ["" for _ in df]
         for namer in self.namers:
             names += namer(df)
         return names
 
     def __add__(self, other):
+        """
+
+        Args:
+            other:
+        """
         if not isinstance(other, WellNamer):
             raise XTypeError(f"Got {type(other)}, not namer")
         return CompositeWellNamer([*self.namers, other])
@@ -41,22 +55,40 @@ class SimpleMappingWellNamer(WellNamer):
     A namer for discrete categories of some column.
     Useful for machine learning classifiers.
     For example, we can get a simple string like "etomidate+mk-801" from the c_ids.
+
     """
 
     column: str
     mapping: Mapping[[Any], str]
 
     def __call__(self, df) -> Sequence[str]:
+        """
+
+        Args:
+            df:
+
+        Returns:
+        """
         return df[self.column].map(lambda c: self.mapping[c])
 
 
 class BuiltWellNamer(WellNamer):
+    """"""
+
     def __init__(self):
         self._bits = []
         self._labels = []
         self._modification = None
 
     def __call__(self, df) -> Sequence[str]:
+        """
+
+        Args:
+            df:
+
+        Returns:
+
+        """
         names = ["" for _ in df.iterrows()]
         for bit in self._bits:
             names = [name + bt for name, bt in zip(names, bit(df))]
@@ -102,12 +134,17 @@ class WellNamerBuilder(BuiltWellNamer):
 
         Args:
             txt: The string to append
-            if_missing_col: Only append for rows that have this column empty ('none', 'nan', or ''; lowercase)
-            if_missing_col: Use this if the field is missing
+            if_missing_col: Only append for rows that have this column empty ('none', 'nan', or ''; lowercased)
+            txt: str:
+            if_missing_col: Optional[str]:  (Default value = None)
+
+        Returns:
+            This builder
+
         """
 
         def function(df):
-
+            """"""
             missing_col = ([""] * len(df)) if if_missing_col is None else df[if_missing_col]
             return [(txt if WellNamerBuilder._is_null(x) else "") for x in missing_col]
 
@@ -125,6 +162,10 @@ class WellNamerBuilder(BuiltWellNamer):
 
         Args:
             suffix: A suffix like ': '
+
+        Returns:
+            This builder
+
         """
         self.column("run", 0, prefix="r", suffix=suffix)
         self._labels[-1] = Chars.angled("run")  # simplify what .column just added
@@ -133,6 +174,17 @@ class WellNamerBuilder(BuiltWellNamer):
     def control_type(
         self, prefix: str = "", suffix: str = "", clean: bool = False
     ) -> WellNamerBuilder:
+        """
+
+
+        Args:
+            prefix:
+            suffix:
+            clean:
+
+        Returns:
+
+        """
         # TODO: move _clean elsewhere
         def _clean(s):
             s = s.replace("solvent", "vehicle")
@@ -154,6 +206,13 @@ class WellNamerBuilder(BuiltWellNamer):
     ) -> WellNamerBuilder:
         """
         Convenience function that adds control_type, variant_name, age, n_fish, and well_group as necessary, using nice delimiters.
+
+        Args:
+            displayer: TreatmentNamer:
+            variant_and_treatments_for_controls: bool:  (Default value = False)
+
+        Returns:
+
         """
         missing = None if variant_and_treatments_for_controls else "control_type"
         self.column("control_type", suffix=" ")
@@ -185,13 +244,17 @@ class WellNamerBuilder(BuiltWellNamer):
             transform: Transform the value of the column for display (happens after everyting else). Useful for things like converting case, truncating, and abbreviating.
             or_null: If the value is empty ('none', 'nan', or ''; lowercased), write it as ``or_null``.
             if_missing_col: Only apply this to rows that have this column empty ('none', 'nan', or ''; lowercased). (This will NOT be applied if ``if_missing_col`` doesn't match.)
+
+        Returns:
+            This builder
+
         """
         had_min_unique = min_unique is not None
         if min_unique is None:
             min_unique = 2 if col_name in {"variant_name", "age", "n_fish", "well_group"} else 1
 
         def function(df):
-
+            """"""
             return WellNamerBuilder._bit(
                 df,
                 col_name,
@@ -219,6 +282,10 @@ class WellNamerBuilder(BuiltWellNamer):
 
         Args:
             function: A function mapping names to new names
+
+        Returns:
+            This builder
+
         """
         self._modification = function
         return self
@@ -250,6 +317,9 @@ class WellNamerBuilder(BuiltWellNamer):
             sep: Separate multiple treatments with this string
             ignore_cids: Ignore compounds with these IDs
             ignore_bids: Ignore batches with these IDs
+
+        Returns:
+            This builder
         """
         if isinstance(displayer, str):
             displayer = StringTreatmentNamer(displayer)
@@ -319,6 +389,8 @@ class WellNamerBuilder(BuiltWellNamer):
         Builds the namer.
         This builder can be used again, and the Namer won't be affected. (Though it's not clear why you would want to do that.)
 
+        Args:
+
         Returns:
             The Namer from this builder
         """
@@ -360,21 +432,40 @@ class WellNamers:
 
     @classmethod
     def builder(cls) -> WellNamerBuilder:
-
+        """"""
         return WellNamerBuilder()
 
     @classmethod
     def general(cls, displayer: TreatmentNamer = TreatmentNamers.id_with_dose()) -> WellNamer:
+        """
+
+
+        Args:
+            displayer:
+
+        Returns:
+
+        """
         return WellNamerBuilder().run().important_columns(displayer).build()
 
     @classmethod
     def elegant(
         cls, displayer: TreatmentNamer = TreatmentNamers.name_with_id_with_dose()
     ) -> WellNamer:
+        """
+
+
+        Args:
+            displayer:
+
+        Returns:
+
+        """
         return WellNamerBuilder().important_columns(displayer).build()
 
     @classmethod
     def well(cls) -> WellNamer:
+        """"""
         return WellNamerBuilder().column("well").build()
 
     @classmethod
@@ -421,10 +512,17 @@ class WellNamers:
 
     @classmethod
     def arbitrary(cls, column: str, name_dict: Mapping[str, str]) -> WellNamer:
+        """"""
         return WellNamerBuilder().column(column, transform=name_dict.get)
 
     @classmethod
     def false_label(cls, well_index_to_false_label: Mapping[int, str]) -> WellNamer:
+        """
+
+
+        Args:
+            well_index_to_false_label:
+        """
         return WellNamerBuilder().column(
             "well_index", transform=lambda w: well_index_to_false_label[int(w)]
         )

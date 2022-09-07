@@ -7,15 +7,42 @@ from sauronlab.viz.figures import *
 
 
 class WellPlotter(KvrcPlotting):
+    """"""
+
     def plot(self, df: WellFrame) -> Figure:
+        """
+
+
+        Args:
+            df: WellFrame:
+
+        Returns:
+
+        """
         raise NotImplementedError()
 
 
 class TwoDWellPlotter(WellPlotter):
+    """"""
+
     def __init__(self, alpha: float = 0.8):
+        """
+
+        Args:
+
+        """
         self.alpha = alpha
 
     def plot(self, df: WellFrame) -> Figure:
+        """
+
+
+        Args:
+            df: WellFrame:
+
+        Returns:
+
+        """
         if df.feature_length() != 2:
             raise LengthMismatchError(
                 f"{self.__class__.__name__} only applies to WellFrames with precisely 2 features"
@@ -80,6 +107,8 @@ class TwoDWellPlotter(WellPlotter):
 
 
 class WellPlotters:
+    """"""
+
     @classmethod
     def basic(cls, df: WellFrame, recolor: bool = False, **kwargs) -> Figure:
         """
@@ -91,6 +120,9 @@ class WellPlotters:
             df: WellFrame:
             recolor:
             **kwargs:
+
+        Returns:
+
         """
         if recolor:
             df = df.set_meta(

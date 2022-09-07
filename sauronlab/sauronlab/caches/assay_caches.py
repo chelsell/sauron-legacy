@@ -21,7 +21,7 @@ class AssayFrameCache(AAssayCache):
 
     @property
     def cache_dir(self) -> Path:
-
+        """"""
         return self._cache_dir
 
     @abcd.overrides

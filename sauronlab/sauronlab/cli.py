@@ -15,6 +15,8 @@ cli = typer.Typer()
 
 
 class Installer:
+    """"""
+
     def __init__(self):
         self.n_created = 0
 
@@ -87,7 +89,7 @@ class Installer:
             videos_path = cache_path / "videos"
             videos_path = typer.prompt("path for locally cached full videos", default=videos_path)
             if os.name == "nt":
-                first_line = r"path; e.g. ``\\192.234.342/my-share-name/my_data_dir/store``"
+                first_line = r"path with a (network) drive letter; e.g. ``\\192.234.342/my-share-name/my_data_dir/store``"
             else:
                 first_line = r"path to a mounted share (e.g. ``/shire``)"
             shire_path = typer.prompt(

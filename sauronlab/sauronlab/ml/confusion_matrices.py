@@ -14,10 +14,11 @@ class ConfusionMatrix(MatrixDf):
     """
     A wrapper around a confusion matrix as a Pandas DataFrame.
     The rows are the correct labels, and the columns are the predicted labels.
+
     """
 
     def _repr_html_(self) -> str:
-
+        """"""
         return "<strong>{}: {} {}</strong>\n{}".format(
             self.__class__.__name__,
             self._dims(),
@@ -41,6 +42,9 @@ class ConfusionMatrix(MatrixDf):
         Call this first. Do not call symmetrize(), log(), or triagonalize() before calling this.
         Returns a copy.
 
+        Args:
+            **kwargs:
+
         Returns:
             A dictionary mapping class names to their new positions (starting at 0)
 
@@ -52,6 +56,9 @@ class ConfusionMatrix(MatrixDf):
         """
         Sorts this confusion matrix to show clustering. The same ordering is applied to the rows and columns.
         Returns the sorting. Does not alter this ConfusionMatrix.
+
+        Args:
+            **kwargs:
 
         Returns:
             A dictionary mapping class names to their new positions (starting at 0)
@@ -101,6 +108,12 @@ class ConfusionMatrix(MatrixDf):
     def sort_first(self, first: Sequence[str]) -> ConfusionMatrix:
         """
         Put these elements first.
+
+        Args:
+            first: Sequence[str]:
+
+        Returns:
+
         """
         first = [*first, *[r for r in self.rows if r not in first]]
         permutation = {name: i for i, name in enumerate(first)}
@@ -109,7 +122,7 @@ class ConfusionMatrix(MatrixDf):
     @property
     def length(self) -> int:
         """
-        Gets a safe length, verifying that the ``len(rows) == len(cols)``.
+        Gets a safe length, verifying that the len(rows) == len(cols).
         """
         if len(self.rows) != len(self.cols):
             raise LengthMismatchError(f"{len(self.rows)} rows != {len(self.cols)} cols")
@@ -141,6 +154,7 @@ class ConfusionMatrix(MatrixDf):
 
         Returns:
             The figure, which was not displayed
+
         """
         return ConfusionPlots.plot(
             self, vmin=vmin, vmax=vmax, renamer=renamer, runs=runs, label_colors=label_colors
@@ -160,6 +174,7 @@ class ConfusionMatrices:
 
         Returns:
             A new ConfusionMatrix
+
         """
         if len(matrices) < 1:
             raise EmptyCollectionError("Cannot average 0 matrices")
@@ -195,6 +210,7 @@ class ConfusionMatrices:
 
         Returns:
             A new ConfusionMatrix
+
         """
         if len(matrices) < 1:
             raise EmptyCollectionError("Cannot aggregate 0 matrices")

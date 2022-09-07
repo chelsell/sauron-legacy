@@ -25,18 +25,48 @@ DEFINITELY_BAD_CONTROLS = {
 
 
 class ConcernRule:
+    """"""
+
     @property
     def clazz(self) -> Type[Concern]:
         """ """
         raise NotImplementedError()
 
     def of(self, df: WellFrame):
+        """
+
+
+        Args:
+          df: WellFrame:
+
+        Returns:
+
+        """
         raise NotImplementedError()
 
     def severity(self, concern) -> Severity:
+        """
+
+
+        Args:
+          concern:
+
+        Returns:
+
+        """
         raise NotImplementedError()
 
     def _new(self, run: Runs, *args):
+        """
+
+
+        Args:
+            run: Runs:
+            *args:
+
+        Returns:
+
+        """
         # noinspection PyArgumentList
         concern = self.clazz(run, Severity.CRITICAL, *args)
         # noinspection PyArgumentList
@@ -55,22 +85,31 @@ class MissingSensorConcernRule(ConcernRule):
         return MissingSensorConcern
 
     def severity(self, concern: MissingSensorConcern) -> Severity:
+        """
+
+
+        Args:
+            concern: MissingSensorConcern:
+
+        Returns:
+
+        """
         # 16, 17 are snapshots, so missing them isn't serious
         missing = {s for s in concern.missing}
         bad = {s for s in concern.missing if s.id not in [16, 17]}
         verybad = {s for s in concern.missing if s.id not in [16, 17]}
         generation = concern.generation
         version = (
-            ValarTools.run_tag(concern.run, "sauronx_version") if generation.is_sauronx else None
+            ValarTools.run_tag(concern.run, "sauronx_version") if generation.is_sauronx() else None
         )
-        if concern.generation.is_pointgrey:
+        if concern.generation.is_pointgrey():
             pass
             # if it was SauronX with pymata-aio, then missing light sensors is critical
-        if len(verybad) > 0 and concern.generation.is_pointgrey:
+        if len(verybad) > 0 and concern.generation.is_pointgrey():
             return Severity.CRITICAL
         elif len(verybad) > 0:
             return Severity.DANGER
-        elif len(bad) > 0 and concern.generation.is_pointgrey:
+        elif len(bad) > 0 and concern.generation.is_pointgrey():
             return Severity.WARNING
         elif len(bad) > 0:
             return Severity.CAUTION  # just missing snapshots
@@ -78,6 +117,15 @@ class MissingSensorConcernRule(ConcernRule):
             return Severity.GOOD
 
     def of(self, df: WellFrame) -> Generator[MissingSensorConcern, None, None]:
+        """
+
+
+        Args:
+            df: WellFrame:
+
+        Returns:
+
+        """
         for run in df.unique_runs():
             run = Runs.fetch(run)
             # TODO check registry
@@ -88,6 +136,8 @@ class MissingSensorConcernRule(ConcernRule):
 
 
 class SensorLengthConcernRule(ConcernRule):
+    """"""
+
     def __init__(self, as_of: datetime, sensor_cache):
         self.as_of = as_of
         self.sensor_cache = sensor_cache
@@ -98,6 +148,15 @@ class SensorLengthConcernRule(ConcernRule):
         return SensorLengthConcern
 
     def severity(self, concern: SensorLengthConcern) -> Severity:
+        """
+
+
+        Args:
+            concern: SensorLengthConcern:
+
+        Returns:
+
+        """
         for thresh, level in zip(
             [2, 2 / 4, 2 / 16, 2 / 16, 2 / 256],
             [Severity.CRITICAL, Severity.DANGER, Severity.WARNING, Severity.CAUTION, Severity.NOTE],
@@ -107,6 +166,15 @@ class SensorLengthConcernRule(ConcernRule):
         return Severity.GOOD
 
     def of(self, df: WellFrame) -> Generator[SensorLengthConcern, None, None]:
+        """
+
+
+        Args:
+            df: WellFrame:
+
+        Returns:
+
+        """
         for run in df.unique_runs():
             generation = ValarTools.generation_of(run)
             if generation is not DataGeneration.POINTGREY:
@@ -136,14 +204,13 @@ class SensorLengthConcernRule(ConcernRule):
 class TargetTimeConcernRule(ConcernRule):
     """
     Processes deviations from expected treatment, wait, and acclimation durations.
+        Looks for rows in the ``Annotations`` tables with names:
+            - expected :: seconds :: acclimation
+            - expected :: seconds :: wait
+            - expected :: seconds :: treatment
+        When it can't find an annotation, falls back to the value in ``Concerns.expected_times``.
+        Otherwise, yields a concern for each run, each of the 3 kinds, and each corresponding annotations.
 
-    Looks for rows in the ``Annotations`` tables with names:
-        - expected :: seconds :: acclimation
-        - expected :: seconds :: wait
-        - expected :: seconds :: treatment
-
-    When it can't find an annotation, falls back to the value in ``Concerns.expected_times``.
-    Otherwise, yields a concern for each run, each of the 3 kinds, and each corresponding annotations.
     """
 
     def __init__(self, as_of: datetime):
@@ -157,38 +224,60 @@ class TargetTimeConcernRule(ConcernRule):
     def severity(self, concern: TargetTimeConcern) -> Severity:
         """
         Gets a severity based on various lab experience.
-        Subject to change.
+        Subject to change. Current rules:
+            Tries the levels from highest to lowest, each with a progressively more liberal bound on relative error.
+            Each level's bound is its higher level's bound divided by a power of 2.
+            These powers are: 1, 2, 4, 16
+            For treatment time:
+                - rel error > 2.0    ⇒ DANGER
+                - rel error > 1.25   ⇒ WARNING
+                - rel error > 1.0625 ⇒ CAUTION
+                - rel error > 1.125  ⇒ NOTE
+                - rel error ≤ 1.125  ⇒ GOOD
+                So for a 1-hour treatment time, DANGER is <30min or >2hr,
+                WARNING is <45min or >90min,
+                CAUTION or higher is applied for being 7.5 minutes late,
+                and GOOD is applied for being ≤3.75 minutes late.
+            For (pre-treatment) wait time:
+                The logic is similar, following halving thresholds.
+                But the bounds are asymmetric: For DANGER, < 4-fold or > 8-fold (usually <15min or >8hr)
+            For (dark) acclimation time:
+                Same idea, with values < 4-fold or > 8-fold (usually <2.5min or >80min)
 
-        Current rules
-        =============
+        Args:
+          concern: TargetTimeConcern:
 
-        Tries the levels from highest to lowest, each with a progressively more liberal bound on relative error.
-        Each level's bound is its higher level's bound divided by a power of 2.
-        These powers are: 1, 2, 4, 16
-        For treatment time:
-            - rel error > 2.0    ⇒ DANGER
-            - rel error > 1.25   ⇒ WARNING
-            - rel error > 1.0625 ⇒ CAUTION
-            - rel error > 1.125  ⇒ NOTE
-            - rel error ≤ 1.125  ⇒ GOOD
-            So for a 1-hour treatment time, DANGER is <30min or >2hr,
-            WARNING is <45min or >90min,
-            CAUTION or higher is applied for being 7.5 minutes late,
-            and GOOD is applied for being ≤3.75 minutes late.
-        For (pre-treatment) wait time:
-            The logic is similar, following halving thresholds.
-            But the bounds are asymmetric: For DANGER, < 4-fold or > 8-fold (usually <15min or >8hr)
-        For (dark) acclimation time:
-            Same idea, with values < 4-fold or > 8-fold (usually <2.5min or >80min)
+        Returns:
+
         """
         # TODO: What is this??
         if hasattr(self, "__severity") and self.__severity is not None:
             return self.__severity
 
         def fail(low, high) -> bool:
+            """
+
+
+            Args:
+              low:
+              high:
+
+            Returns:
+
+            """
             return concern.log2_diff < low or concern.log2_diff >= high
 
         def halving(low, high):
+            """
+
+
+            Args:
+              low:
+              high:
+
+            Returns:
+
+            """
             for i, then in zip(
                 [1, 2, 4, 16], [Severity.DANGER, Severity.WARNING, Severity.CAUTION, Severity.NOTE]
             ):
@@ -206,6 +295,15 @@ class TargetTimeConcernRule(ConcernRule):
             assert False, concern.kind
 
     def of(self, df: WellFrame) -> Generator[TargetTimeConcern, None, None]:
+        """
+
+
+        Args:
+            df: WellFrame:
+
+        Returns:
+
+        """
         for run in df.unique_runs():
             run = Runs.fetch(run)  # type: Runs
             yield from self._time_concerns(run, TargetTimeKind.ACCLIMATION)
@@ -216,6 +314,16 @@ class TargetTimeConcernRule(ConcernRule):
     def _time_concerns(
         self, run: Runs, kind: TargetTimeKind
     ) -> Generator[TargetTimeConcern, None, None]:
+        """
+
+
+        Args:
+            run: Runs:
+            kind: TargetTimeKind:
+
+        Returns:
+
+        """
         actual = self._fetch_actual_time(run, kind)
         if actual is None:
             actual = np.inf
@@ -262,6 +370,15 @@ class TargetTimeConcernRule(ConcernRule):
                 yield (expected, None)
 
     def default_expected_time(self, kind: TargetTimeKind) -> float:
+        """
+
+
+        Args:
+            kind: TargetTimeKind:
+
+        Returns:
+
+        """
         return {
             TargetTimeKind.ACCLIMATION: 10 * 60,
             TargetTimeKind.WAIT: 60 * 60,
@@ -278,6 +395,8 @@ class TargetTimeConcernRule(ConcernRule):
 
 
 class BatchConcernRule(ConcernRule):
+    """"""
+
     def __init__(self, as_of: datetime):
         self.as_of = as_of
 
@@ -303,6 +422,8 @@ class BatchConcernRule(ConcernRule):
 
 
 class AnnotationConcernRule(ConcernRule):
+    """"""
+
     def __init__(self, as_of: datetime):
         self.as_of = as_of
 
@@ -334,6 +455,8 @@ class AnnotationConcernRule(ConcernRule):
 
 
 class ToFixConcernRule(ConcernRule):
+    """"""
+
     def __init__(self, as_of: datetime):
         self.as_of = as_of
 
@@ -372,6 +495,8 @@ class ToFixConcernRule(ConcernRule):
 
 
 class GenerationConcernRule(ConcernRule):
+    """"""
+
     def __init__(self, as_of: datetime, feature: Union[FeatureType, str]):
         self.as_of = as_of
         self.feature = FeatureTypes.of(feature)
@@ -394,6 +519,8 @@ class GenerationConcernRule(ConcernRule):
 
 
 class ImpossibleTimeConcernRule(ConcernRule):
+    """"""
+
     def __init__(self, as_of: datetime):
         self.as_of = as_of
 
@@ -404,7 +531,7 @@ class ImpossibleTimeConcernRule(ConcernRule):
     def severity(self, concern: ImpossibleTimeConcern) -> Severity:
         generation = ValarTools.generation_of(concern.run)
         # some legacy data was missing these values (especially datetime plated)
-        if generation.is_sauronx or str(concern.value) != "None":
+        if generation.is_sauronx() or str(concern.value) != "None":
             return Severity.DANGER
         else:
             return Severity.CAUTION
@@ -443,6 +570,8 @@ class ImpossibleTimeConcernRule(ConcernRule):
 
 
 class NFeaturesConcernRule(ConcernRule):
+    """"""
+
     def __init__(self, as_of: datetime, feature: Union[None, FeatureType, str]):
         self.as_of = as_of
         self.feature = None if feature is None else FeatureTypes.of(feature)
@@ -482,6 +611,8 @@ class NFeaturesConcernRule(ConcernRule):
 
 
 class WellConcernRule(ConcernRule):
+    """"""
+
     def __init__(self, as_of: datetime):
         self.as_of = as_of
 
@@ -531,6 +662,8 @@ STANDARD_CONCERN_RULES = frozenlist(
 
 
 class ConcernRuleCollection:
+    """"""
+
     def __init__(
         self,
         feature: Union[FeatureType, str],
@@ -620,6 +753,8 @@ class ConcernRuleCollection:
 
 
 class SimpleConcernRuleCollection(ConcernRuleCollection):
+    """"""
+
     @property
     def rules(self) -> Sequence[ConcernRule]:
         """ """
@@ -637,7 +772,16 @@ class SimpleConcernRuleCollection(ConcernRuleCollection):
         ]
 
 
+# TODO
+# SimpleConcernRuleCollection = ConcernRuleCollection.create(
+#    STANDARD_CONCERN_RULES,
+#    name="SimpleConcernRuleCollection"
+# )
+
+
 class Concerns:
+    """"""
+
     @classmethod
     def create(
         cls,
@@ -657,6 +801,18 @@ class Concerns:
         as_of: Optional[datetime],
         min_severity: Union[int, str, Severity] = Severity.GOOD,
     ) -> ConcernRuleCollection:
+        """
+
+
+        Args:
+            feature:
+            sensor_cache:
+            as_of:
+            min_severity:
+
+        Returns:
+
+        """
         return SimpleConcernRuleCollection(feature, sensor_cache, as_of, min_severity)
 
     @classmethod
@@ -668,10 +824,32 @@ class Concerns:
         as_of: Optional[datetime],
         min_severity: Union[int, str, Severity] = Severity.GOOD,
     ) -> Sequence[Concern]:
+        """
+
+
+        Args:
+            df: WellFrame:
+            feature:
+            sensor_cache:
+            as_of:
+            min_severity:
+
+        Returns:
+
+        """
         return list(cls.default_collection(feature, sensor_cache, as_of, min_severity).of(df))
 
     @classmethod
     def log_warnings(cls, concerns: Sequence[Concern]):
+        """
+
+
+        Args:
+            concerns:
+
+        Returns:
+
+        """
         concerns = list(concerns)  # might be a generator, even though that's the wron gtype
         if len(concerns) == 0:
             return  # will break the max fn otherwise
@@ -693,6 +871,15 @@ class Concerns:
 
     @classmethod
     def to_df(cls, concerns: Sequence[Concern]) -> ConcernFrame:
+        """
+
+
+        Args:
+            concerns:
+
+        Returns:
+
+        """
         return ConcernFrame([pd.Series(concern.as_dict()) for concern in concerns])
 
 

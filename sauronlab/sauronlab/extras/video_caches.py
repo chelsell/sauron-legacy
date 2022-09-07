@@ -1,15 +1,15 @@
-from os.path import exists
-
 from sauronlab.core.core_imports import *
 from sauronlab.extras.addon_tools import AddonTools
 from sauronlab.extras.video_core import VideoCore
 from sauronlab.extras.videos import SauronxVideo, SauronxVideos
 from sauronlab.model.cache_interfaces import AVideoCache
-
+from os.path import exists
 DEFAULT_SHIRE_STORE = PurePath(sauronlab_env.shire_path) / "store"
 
 
 class VideoDownloadError(DownloadError):
+    """ """
+
     pass
 
 
@@ -19,6 +19,7 @@ class VideoCache(AVideoCache):
     """
     A cache for videos for runs.
     Downloads videos from the Shire, saves the native h265 video files, and loads them with moveipy.
+
     """
 
     def __init__(
@@ -45,6 +46,15 @@ class VideoCache(AVideoCache):
 
     @abcd.overrides
     def path_of(self, run: RunLike) -> Path:
+        """
+
+
+        Args:
+            run: RunLike:
+
+        Returns:
+
+        """
         run = Tools.run(run)
         return self.cache_dir / str(run.id) / (str(run.id) + VideoCore.video_ext)
 
@@ -54,6 +64,15 @@ class VideoCache(AVideoCache):
 
     @abcd.overrides
     def key_from_path(self, path: PathLike) -> RunLike:
+        """
+
+
+        Args:
+            path: PathLike:
+
+        Returns:
+
+        """
         path = Path(path).relative_to(self.cache_dir)
         return int(regex.compile(r"^([0-9]+)\..+$", flags=regex.V1).fullmatch(path.name).group(1))
 
@@ -67,16 +86,22 @@ class VideoCache(AVideoCache):
 
         Returns:
             A SauronxVideo
+
         """
         self.download(run)
         return self._load(run)
 
     @abcd.overrides
     def download(self, *runs: RunLike) -> None:
-        for run in Tools.runs(
-            runs
-        ):  # in my hands this causes errors because the target runs gets regarded as missing
-            # for run in runs:
+        """
+
+
+        Args:
+            *runs: RunLike:
+
+        """
+        for run in Tools.runs(runs): # in my hands this causes errors because the target runs gets regarded as missing
+        #for run in runs:
             video_path = self.path_of(run)
             t0 = time.monotonic()
             if video_path.exists():
@@ -103,19 +128,32 @@ class VideoCache(AVideoCache):
 
         Returns:
           A SauronxVideo
+
         """
         return SauronxVideos.of(self.path_of(run), run)
 
     def validate(self, run: RunLike) -> None:
         """
         Raises a HashValidationFailedException if the hash doesn't validate.
+
+        Args:
+            run: RunLike:
+
         """
         path = self.path_of(run)
         if not VideoCore.video_hasher.check_hash(path):
             pass
-            # raise HashValidationFailedError(f"Video at {path} did not validate") #HashValidationError is an unresolved reference
+            #raise HashValidationFailedError(f"Video at {path} did not validate") #HashValidationError is an unresolved reference
 
     def _copy_from_shire(self, remote_path, local_path) -> None:
+        """
+
+
+        Args:
+            remote_path:
+            local_path:
+
+        """
         try:
             AddonTools.download_file(remote_path, local_path, False)
             AddonTools.download_file(

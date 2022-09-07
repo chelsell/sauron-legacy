@@ -13,6 +13,30 @@ class InternalTools:
     """
 
     @classmethod
+    def verify_class_has_attrs(
+        cls, class_: Type[T], *attributes: Union[str, Iterable[str]]
+    ) -> None:
+        """
+        Raises an AttributeError if the class ``class_`` is missing any of the arguments.
+
+        Args:
+            class_: A type
+            attributes: An iterable of argument names (strs), or a single arg name
+        """
+        attributes = InternalTools.flatten_smart(attributes)
+        bad_attributes = [not hasattr(class_, k) for k in attributes]
+        if any(bad_attributes):
+            raise AttributeError(f"No {class_.__name__} attribute(s) {bad_attributes}")
+
+    @classmethod
+    def warn_overlap(cls, a: Collection[Any], b: Collection[Any]) -> Set[Any]:
+        """Warns with level ``error`` if the intersection is non-empty."""
+        bad = set(a).intersection(set(b))
+        if len(bad) > 0:
+            logger.error(f"Values {', '.join(bad)} are present in both sets")
+        return bad
+
+    @classmethod
     def load_resource(
         cls, *parts: Sequence[PathLike]
     ) -> Union[
@@ -46,6 +70,7 @@ class InternalTools:
 
         Raises:
             ValarLookupError: If a row was not found
+
         """
         things = InternalTools.listify(things)
         # noinspection PyTypeChecker
@@ -68,7 +93,7 @@ class InternalTools:
     def flatten_smart(cls, seq: Iterable[Any]) -> Sequence[Any]:
         """
         Flattens an iterable any number of nested levels.
-        Continues until :meth:`InternalTools.is_true_iterable` is false.
+        Continues until :meth:``InternalTools.is_true_iterable`` is false.
         """
         if not Tools.is_true_iterable(seq):
             return [seq]
@@ -89,6 +114,7 @@ class InternalTools:
 
         Args:
             sequence_or_element: A single element of any type, or an untyped Iterable of elements.
+
         """
         return list(InternalTools.iterify(sequence_or_element))
 
@@ -100,11 +126,27 @@ class InternalTools:
 
         Args:
             sequence_or_element: A single element of any type, or an untyped Iterable of elements.
+
         """
         if Tools.is_true_iterable(sequence_or_element):
             return iter(sequence_or_element)
         else:
             return iter([sequence_or_element])
+
+    @classmethod
+    def well(cls, well: Union[int, Wells]) -> Wells:
+        """
+        Fetches a well and its run in a single query.
+        In contrast, calling Wells.fetch().run will perform two queries.
+
+        Args:
+            well: A well ID or instance
+
+        """
+        well = Wells.select(Wells, Runs).join(Runs).where(Wells.id == well).first()
+        if well is None:
+            raise ValarLookupError(f"No well {well}")
+        return well
 
 
 __all__ = ["InternalTools"]

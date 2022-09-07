@@ -9,6 +9,7 @@ from sauronlab.core.valar_singleton import *
 
 
 class VideoCore:
+    """"""
 
     shasum_filename: str = InternalTools.load_resource("core", "videos.json")["shasum_filename"]
     sha_algorithm = InternalTools.load_resource("core", "videos.json")["shasum_algorithm"]
@@ -24,7 +25,6 @@ class VideoCore:
     @classmethod
     def get_remote_path(cls, run: Runs) -> PurePath:
         """
-        Gets a hardcoded remove video path.
 
         Args:
             run: The runs instance

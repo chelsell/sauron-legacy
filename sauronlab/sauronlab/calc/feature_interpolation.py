@@ -4,6 +4,8 @@ from sauronlab.core.core_imports import *
 
 
 class InterpolationFailedError(AlgorithmError):
+    """"""
+
     def __init__(self, msg: str, feature: str, well: int):
         super().__init__(msg)
         self.feature = feature
@@ -11,7 +13,18 @@ class InterpolationFailedError(AlgorithmError):
 
 
 class FeatureTimestampMismatchError(InterpolationFailedError):
+    """"""
+
     def __init__(self, feature: str, well: int, n_features: int, n_timestamps: int, n_ideal: int):
+        """
+
+        Args:
+            feature:
+            well:
+            n_features:
+            n_timestamps:
+            n_ideal:
+        """
         feature = Features.fetch(feature).name
         msg = f"Could not interpolate {feature}: {n_features} features != {n_timestamps} timestamps; ideal is {n_ideal}"
         super().__init__(msg, feature, well)
@@ -21,6 +34,8 @@ class FeatureTimestampMismatchError(InterpolationFailedError):
 
 
 class FeatureInterpolation:
+    """"""
+
     def __init__(self, feature: Features):
         self.feature = feature
 
@@ -47,8 +62,9 @@ class FeatureInterpolation:
 
         Returns:
             The interpolated features
+
         """
-        run = Wells.fetch(well).run
+        run = InternalTools.well(well).run
         ideal_framerate = ValarTools.frames_per_second(run)
         battery = run.experiment.battery
         actual_battery_start_ms, actual_battery_stop_ms = stim_timestamps[0], stim_timestamps[-1]
@@ -106,8 +122,11 @@ class FeatureInterpolation:
             battery_stop_ms: The millisecond at which the battery finished (see ``frames_ms``)
             ideal_framerate: The framerate that was set in the camera config.
                              The interpolation will use this to determine the resulting number of frames.
-            well: TODO
-            stringent: TODO
+            well: int:
+            stringent: bool:
+
+        Returns:
+
         """
         # Later we want to have logic that checks that it makes sense to interpolate--we don't want to interpolate if there are problematic gaps
         # diffs = np.diff(frames_ms)

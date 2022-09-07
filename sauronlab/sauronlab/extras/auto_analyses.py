@@ -13,20 +13,36 @@ from sauronlab.viz.figures import *
 
 @abcd.auto_repr_str()
 class AutoScreenTracer:
+    """"""
+
     def __init__(
         self,
         quick: Quick,
         path: PathLike = ".",
         redo: bool = False,
         traces: bool = False,
+        plot_sensors: Optional[Union[SensorNames, str]] = None,
         metric: Optional[Callable[[WellFrame], pd.Series]] = None,
         path_fn: Callable[[Runs], str] = None,
         saver: Optional[FigureSaver] = None,
         redownload: bool = False,
     ):
+        """
+
+        Args:
+            path:
+            redo:
+            traces:
+            plot_sensors:
+            metric:
+            path_fn:
+            saver:
+            redownload:
+        """
         self.path = Tools.prepped_dir(path)
         self.redo = redo
         self.traces = traces
+        self.plot_sensors = [SensorNames.PHOTOSENSOR] if plot_sensors is None else plot_sensors
         self.metric = metric
         self.saver = FigureSaver(clear=True) if saver is None else copy(saver)
         self.saver._save_under = None
@@ -45,13 +61,24 @@ class AutoScreenTracer:
         if self.quick.auto_fix:
             logger.caution("Quick had auto_fix=True. AutoScreenTracer handles this itself.")
         self.quick = self.quick.using(enable_checks=True, auto_fix=True)
-        logger.info(f"Plotting {w(traces)} traces")
+        w = lambda b: "with" if b else "without"
+        logger.info(
+            f"Plotting {w(traces)} traces and with sensors {', '.join([str(s) for s in self.plot_sensors])}"
+        )
 
     def plot_project(
         self,
         project: Union[Projects, int, str],
         control: Union[ControlTypes, str, int] = "solvent (-)",
     ) -> None:
+        """
+
+
+        Args:
+            project
+            control:
+
+        """
         project = Projects.fetch(project)
         self.plot_where(Projects.id == project.id, control)
 
@@ -60,16 +87,32 @@ class AutoScreenTracer:
         experiment: Union[Experiments, int, str],
         control: Union[ControlTypes, str, int] = "solvent (-)",
     ) -> None:
+        """
+
+
+        Args:
+            experiment:
+            control:
+
+        """
         experiment = Experiments.fetch(experiment)
         self.plot_where(Experiments.id == experiment.id, control)
 
     def plot_where(
         self, where, control: Union[None, ControlTypes, str, int] = "solvent (-)"
     ) -> None:
+        """
+
+
+        Args:
+            where:
+            control:
+
+        """
         control = None if control is None else ControlTypes.fetch(control)
         runs = self.quick.query_runs(where)
         logger.notice(f"Plotting {runs} runs...")
-        for run in runs:
+        for run in Tools.loop(runs, logger.info):
             try:
                 self.plot_run(run, control)
             except:
@@ -79,6 +122,14 @@ class AutoScreenTracer:
     def plot_run(
         self, run: Runs, control: Union[None, ControlTypes, str, int] = "solvent (-)"
     ) -> None:
+        """
+
+
+        Args:
+            run: Runs:
+            control:
+
+        """
         q0 = self.quick
         run = Runs.fetch(run)
         FigureTools.clear()
@@ -110,11 +161,12 @@ class AutoScreenTracer:
             concerns = Concerns.to_df(concerns)
             concerns.to_csv(path / "concerns.csv")
             # now fix issues
-            # DO NOT AUTO-FIX! We'll do it here, after we emit cjobliboncerns
+            # DO NOT AUTO-FIX! We'll do it here, after we emit concerns
             df = q0.fix(df)
             # misc stuff
             tags = Tools.query(RunTags.select().where(RunTags.run == run))
             tags.to_csv(path / "tags.csv")
+            self._write_scores(df, control, path)
             ########################################
             # and now come the plots
             ########################################
@@ -130,7 +182,39 @@ class AutoScreenTracer:
             raise
         FigureTools.clear()
 
+    def _write_scores(self, df: WellFrame, control: ControlTypes, path: Path) -> None:
+        """
+
+
+        Args:
+            df: WellFrame:
+            control: ControlTypes:
+            path: Path:
+
+        """
+        if self.metric is None:
+            scores = (
+                pd.DataFrame(np.square(df.z_score(control)).mean(axis=1))
+                .rename(columns={0: "dist"})
+                .reset_index()[["name", "control_type", "dist"]]
+            )
+        else:
+            scores = self.metric(df)
+            # keep columns
+        scores.to_csv(path / "scores.csv")
+
     def _plot(self, df: WellFrame, control: ControlTypes, path: Path, run: Runs) -> None:
+        """
+
+
+        Args:
+            df:
+            control:
+            path:
+            run: run
+
+        """
+
         q0 = self.quick
         # save traces and heatmaps
         def trace_it():
@@ -146,6 +230,13 @@ class AutoScreenTracer:
                 q0.zheat(df, control_type=control),
                 path / "zheat",
             )
+        # diagnostics
+        logger.debug("Plotting diagnostics...")
+        try:
+            figure = q0.sensor_plots(run, sensors=self.plot_sensors)
+            self.saver.save(figure, path / "diagnostics")
+        except Exception:  # need base exception for RuntimeError: Internal psf_fseek() failed from soundfile
+            logger.error("Failed to get main sensor data", exc_info=True)
         # sensor data info
         logger.debug("Saving additional sensor data...")
         try:
@@ -167,6 +258,15 @@ class AutoScreenTracer:
         #    logger.error("Failed to plot structures", exc_info=True)
 
     def _write_properties(self, done_path: Path) -> None:
+        """
+
+
+        Args:
+            done_path: Path:
+
+        Returns:
+
+        """
         Tools.write_properties_file(
             {
                 "sauronlab_version": sauronlab_version,
@@ -177,6 +277,15 @@ class AutoScreenTracer:
         )
 
     def run_path(self, run: Runs) -> Path:
+        """
+
+
+        Args:
+            run: Runs:
+
+        Returns:
+
+        """
         return self.path / self.path_fn(run)
 
 
@@ -185,6 +294,13 @@ class AutoScreenTraces:
 
     @classmethod
     def run(cls, args) -> None:
+        """
+
+
+        Args:
+            args:
+
+        """
         parser = argparse.ArgumentParser("Auto-generate screening plots")
         parser.add_argument("path", type=str)
         parser.add_argument("experiment", type=str)
@@ -193,18 +309,21 @@ class AutoScreenTraces:
         parser.add_argument("--feature", required=False, type=str)
         parser.add_argument("--ignore-batches", required=False, type=int, nargs="*")
         parser.add_argument("--traces", required=False, action="store_true")
+        parser.add_argument("--plot-sensors", required=False, type=str, nargs="*")
         parser.add_argument("--stderr", required=False, action="store_true")
         parser.add_argument("--stdout", required=False, action="store_true")
         parser.add_argument("--redo", required=False, action="store_true")
         args = parser.parse_args(args)
         ignore_bids = args.ignore_bids
-        q = Quicks.new(
-            datetime.now(),
+        q = Quicks.choose(
             args.generation,
+            datetime.now(),
             feature=args.feature,
             namer=WellNamers.screening_plate(ignore_bids),
         )
-        tracer = AutoScreenTracer(q, args.path, redo=args.redo, traces=args.traces)
+        tracer = AutoScreenTracer(
+            q, args.path, redo=args.redo, traces=args.traces, plot_sensors=args.plot_sensors
+        )
         tracer.plot_experiment(args.experiment, args.control)
 
 

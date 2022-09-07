@@ -84,7 +84,7 @@ class CachingWellFrameBuilder(WellFrameBuilder):
 
     def include_full_runs(self) -> CachingWellFrameBuilder:
         """
-        Makes CachingWellFrameBuilder.build() return all the wells on a run if a single well matched the query.
+        Makes CachingWellFrameBuilder.build() return all of the wells on a run if a single well matched the query.
         This won't make the actual querying any slower because the whole runs are cached to disk, not just the matching wells.
 
         Returns:
