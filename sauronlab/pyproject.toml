@@ -2,7 +2,9 @@
 description-file = "README.md"
 
 [build-system]
-requires = ["poetry>=1,<2", "coverage[toml]>=5,<6", "virtualenv>=20.2"]
+# virtualenv 20.0.34 partly breaks pre-commit under conda
+# https://github.com/ContinuumIO/anaconda-issues/issues/12094
+requires = ["poetry>=1.2,<2", "virtualenv>=20", "wheel>=0.37,<1.0"]
 build-backend = "poetry.masonry.api"
 
 
@@ -19,15 +21,16 @@ maintainers = ["Douglas Myers-Turnbull"]
 license = "Apache-2.0"
 readme = "README.md"
 keywords = ["zebrafish", "behavior", "data science", "bioinformatics", "cheminformatics"]
-homepage = "https://github.com/dmyersturnbull/sauronlab"
-repository = "https://github.com/dmyersturnbull/sauronlab"
-documentation = "https://github.com/dmyersturnbull/sauronlab"
+homepage = "https://github.com/dmyersturnbull/sauron-legacy"
+repository = "https://github.com/dmyersturnbull/sauron-legacy"
+documentation = "https://github.com/dmyersturnbull/sauron-legacy"
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Natural Language :: English",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "Operating System :: OS Independent",
@@ -52,42 +55,49 @@ sauronlab = "sauronlab.cli:cli"
 #########################################################################################
 
 [tool.poetry.dependencies]
-python                         = ">=3.9, <3.11"
-clana                          = "~0.4"
-cycler                         = ">=0.10, <1.0"
+python                         = ">=3.9, <3.12"
 decorateme                     = "^0.3"
 loguru                         = ">=0.6, <1.0"
 joblib                         = "^1.1"
-matplotlib                     = "^3.5"
-moviepy                        = "^1"
 natsort                        = ">=8"
 numpy                          = "^1.23"
 pandas                         = "^1.4"
 peewee                         = "^3.15"
 pillow                         = "^9"
-pocketutils                    = {version="^0.9", extras=["tools", "notebooks", "plotting"]}
-pydub                          = ">=0.25, <1.0"
-python-dateutil                = ">=2"
-rapidfuzz                      = "^2.3"
+pocketutils                    = {version="^0.9", extras=["tools"]}
+pyarrow                        = ">=9"
+pydub                          = {version=">=0.25, <1.0"}
 regex                          = ">=2022"
 requests                       = "^2.26"
-scipy                          = "^1.9"
-scikit-learn                   = "^1.1"
-seaborn                        = ">=0.11, <1.0"
-soundfile                      = ">=0.10, <1.0"
-typeddfs                       = {version=">=0.14.3, <0.16", extras=["feather", "parquet", "excel", "xml"]}
+scipy                          = {version="^1.9"}
+soundfile                      = {version=">=0.10, <1.0"}
 typer                          = ">=0.6, <1.0"
+typeddfs                       = {version=">=0.14.3, <0.16", extras=["feather", "parquet", "excel"]}
+#valarpy                        = {path = "../valarpy/", develop=true}
 
-ipympl                         = {optional = true, version=">=0.8"}
-jupyterlab                     = {optional = true, version=">=3"}
-valarpy                        = {git="https://github.com/dmyersturnbull/valarpy.git", tag = "v3.0.0-alpha.2"}
+clana                          = {optional=true, version="~0.4"}
+cycler                         = {optional=true, version=">=0.10, <1.0"}
+ipympl                         = {optional=true, version=">=0.8"}
+matplotlib                     = {optional=true, version="^3.5"}
+moviepy                        = {optional=true, version="^1"}
+rapidfuzz                      = {optional=true, version="^2.3"}
+scikit-learn                   = {optional=true, version="^1.1"}
+seaborn                        = {optional=true, version=">=0.11, <1.0"}
+jupyterlab                     = {optional=true, version=">=3"}
 
 [tool.poetry.dev-dependencies]
 pre-commit               = "^2.20"
 tomlkit                  = ">=0.11, <1.0"
 
 [tool.poetry.extras]
-extras = ["jupyterlab", "ipympl", "moviepy"]
+viz = [
+  "clana",
+  "cycler",
+  "ipympl",
+  "matplotlib",
+  "pydub",
+  "rapidfuzz",
+]
 
 
 #########################################################################################
