@@ -61,43 +61,6 @@ class SubmissionLookups(LookupTool):
         """ """
         return {r.name for r in RunTags.select(RunTags.name).distinct()}
 
-    @classmethod
-    def records_on(cls, wheres: Union[ExpressionsLike, Submissions, str]) -> Lookup:
-        """
-
-
-        Args:
-            wheres:
-
-        Returns:
-
-        """
-        wheres = InternalTools.flatten_smart(wheres)
-        query = (
-            SubmissionRecords.select(SubmissionRecords, Submissions, Saurons, Users)
-            .join(Submissions)
-            .join(Experiments)
-            .switch(Submissions)
-            .join(Users, on=Submissions.user_id == Users.id)
-            .switch(SubmissionRecords)
-            .join(Saurons)
-        )
-        df = SubmissionLookups._simple(
-            Submissions,
-            query,
-            False,
-            False,
-            wheres,
-            ("record_id", "id"),
-            ("when_run", "datetime_modified"),
-            ("when_updated", "created"),
-            "status",
-            ("submission", "submission.lookup_hash"),
-            ("submission_created", "submission.created"),
-            ("sauron", "sauron.name"),
-        )
-        return df
-
     # TODO
     # if len(df) == 0: return df
     # subs = {int(s) for s in df['submission_id'].unique().tolist() if s is not None}

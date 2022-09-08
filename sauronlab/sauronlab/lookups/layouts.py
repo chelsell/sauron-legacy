@@ -197,7 +197,7 @@ class LayoutViewers:
         lambda w, ts: ", ".join(
             Tools.unique(
                 [
-                    Tools.nice_dose(Treatment.from_well_treatment(t).dose)
+                    Tools.format_micromolar(Treatment.from_well_treatment(t).dose)
                     for t in ts
                     if Treatment.from_well_treatment(t).dose is not None
                 ]

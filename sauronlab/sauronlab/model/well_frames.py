@@ -310,6 +310,8 @@ class AbsWellFrame(TypedDf):
             The same WellFrame with smoothed features
 
         """
+        if window_size == 1:
+            return self
         results = function(self.rolling(window_size, axis=1, min_periods=1, win_type=window_type))
         return self.__with_new_features(results)
 

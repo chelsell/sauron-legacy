@@ -196,16 +196,17 @@ class StringTreatmentNamer(TreatmentNamer):
         def idit(gs):
             return "b" + str(bid) if cid is None else ("c" + str(cid))
 
-        def get_dose_kwargs(gs) -> Tup[Optional[int], Optional[bool]]:
-            use_sigfigs = gs[0] == ":"
-            round_figs = None if gs[1] is None else int(gs[1])
-            return use_sigfigs, round_figs
+        def get_dose_kwargs(gs) -> dict:
+            return dict(
+                n_sigfigs=5 if gs[1] is None else int(gs[1]),
+                use_sigfigs=gs[0] == ":",
+            )
 
         def doseit(gs):
-            return self._dosify(dose, True, *get_dose_kwargs(gs))
+            return Tools.format_micromolar(dose, adjust_units=True, **get_dose_kwargs(gs))
 
         def rumit(gs):
-            return self._dosify(dose, False, *get_dose_kwargs(gs))
+            return Tools.format_micromolar(dose, adjust_units=False, **get_dose_kwargs(gs))
 
         e = self.expression
         e = self._replace(e, rtreatment, lambda g: t_str)
@@ -227,7 +228,7 @@ class StringTreatmentNamer(TreatmentNamer):
         elif round_figs == "*":
             round_figs = 100  # reserved
         round_figs = int(round_figs)
-        #return Tools.nice_dose(dose, round_figs, adjust_units=adjust, use_sigfigs=use_sigfigs) #Tools.nice_dose can't be found -CH
+        #return Tools.format_micromolar(dose, round_figs, adjust_units=adjust, use_sigfigs=use_sigfigs) #Tools.nice_dose can't be found -CH
         return dose
 
     def _fall(self, allowed, cid, bid) -> Optional[str]:

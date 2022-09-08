@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import moviepy.video.fx.crop as crop_fx
 from matplotlib.colors import to_rgb
 
 from sauronlab.core.core_imports import *
@@ -430,18 +429,7 @@ class SauronxVideo(ASauronxVideo):
         return self.crop_to_coords(roi.x0, roi.y0, roi.x1, roi.y1)
 
     def crop_to_coords(self, x0: int, y0: int, x1: int, y1: int) -> SauronxVideo:
-        """
-
-
-        Args:
-            x0: int:
-            y0: int:
-            x1: int:
-            y1: int:
-
-        Returns:
-
-        """
+        import moviepy.video.fx.crop as crop_fx
         coords = x0 - self.x0, y0 - self.y0, x1 - self.x0, y1 - self.y0
         RoiTools.verify_coords(*coords, self.width, self.height)
         clip = crop_fx.crop(self.video, *coords)
