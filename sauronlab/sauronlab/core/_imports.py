@@ -64,7 +64,8 @@ import decorateme as abcd
 import numpy as np
 import pandas as pd
 import regex
-from pocketutils.core import PathLike, SmartEnum
+from pocketutils.core import PathLike
+from pocketutils.core.enums import CleverEnum
 from pocketutils.core.exceptions import *
 from pocketutils.tools.common_tools import CommonTools
 

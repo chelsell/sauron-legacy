@@ -41,10 +41,10 @@ classifiers = [
 ]
 
 [tool.poetry.urls]
-CI = "https://github.com/dmyersturnbull/sauronlab/actions"
-Issues = "https://github.com/dmyersturnbull/sauronlab/issues"
-Download = "https://pypi.org/project/sauronlab/"
-Changelog = "https://github.com/dmyersturnbull/sauronlab/blob/main/CHANGELOG.md"
+CI = "https://github.com/dmyersturnbull/sauron-legacy/actions"
+Issues = "https://github.com/dmyersturnbull/sauron-legacy/issues"
+Download = "https://pypi.org/project/sauron-legacy/"
+Changelog = "https://github.com/dmyersturnbull/sauron-legacy/blob/main/CHANGELOG.md"
 
 [tool.poetry.scripts]
 sauronlab = "sauronlab.cli:cli"

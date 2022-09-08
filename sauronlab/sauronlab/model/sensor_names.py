@@ -4,7 +4,7 @@ from sauronlab.core.core_imports import *
 
 
 @enum.unique
-class SensorNames(SmartEnum):
+class SensorNames(CleverEnum):
     """
     These are standard sensors.
     Any ``SensorCache`` is required to handle all of them exactly.

@@ -49,7 +49,7 @@ generation_feature_preferences = {
 }
 
 
-class AggType(SmartEnum):
+class AggType(CleverEnum):
     """"""
 
     NONE = enum.auto()

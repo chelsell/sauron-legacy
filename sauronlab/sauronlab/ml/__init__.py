@@ -10,7 +10,7 @@ from pocketutils.tools.path_tools import PathTools
 from sauronlab.core.core_imports import *
 
 
-class ErrorBehavior(SmartEnum):
+class ErrorBehavior(CleverEnum):
     """"""
 
     FAIL = 1

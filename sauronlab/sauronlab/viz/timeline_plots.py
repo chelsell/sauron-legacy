@@ -8,7 +8,7 @@ from sauronlab.viz._internal_viz import *
 from sauronlab.viz.figures import *
 
 
-class TimelineLabelType(SmartEnum):
+class TimelineLabelType(CleverEnum):
     """"""
 
     NONE = enum.auto()
@@ -45,7 +45,7 @@ class TimelineLabelType(SmartEnum):
             raise XTypeError(str(self))
 
 
-class DurationType(SmartEnum):
+class DurationType(CleverEnum):
     """"""
 
     WAIT = enum.auto()
