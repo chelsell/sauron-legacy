@@ -3,8 +3,7 @@ import logging
 from time import monotonic
 from typing import Iterator, List, Optional, Tuple, Union
 
-from sauronx import stamp
-
+from .utils import stamp
 from .arduino import Board
 from .configuration import config
 from .global_audio import SauronxAudio

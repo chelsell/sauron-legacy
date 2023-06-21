@@ -3,8 +3,8 @@ import logging
 import threading
 import time
 from typing import Optional
+from colorama import Fore
 
-from sauronx import clock_start
 from sauronx.preview import Previewer, WebcamSnapshotFailed
 
 from .alive import SauronxAlive, StatusValue
@@ -16,6 +16,7 @@ from .paths import *
 from .protocol import ProtocolBlock
 from .schedule import Schedule, StimulusTimeLog
 from .sensors import SensorParams, SensorRegistry, SensorTrigger
+from .utils import warn_user, notify_user, clock_start
 
 
 class RunArguments:
@@ -77,13 +78,16 @@ class Submitter:
         )
         self.submission = self.sx_alive.submission_obj
         self.sensors_finished = False
-        self.plate_type = (
-            model.PlateTypes.select(model.PlateTypes, model.TemplatePlates, model.Experiments)
-            .join(model.TemplatePlates)
-            .join(model.Experiments)
-            .where(model.Experiments.id == self.submission.experiment.id)
-            .first()
-        )
+        if sx_alive.is_test:
+            self.plate_type_id = config['sauron.test_plate_layout']
+            self.dark_acclimation_override = 0
+        else:
+            self.plate_type_id = (
+                model.PlateTypes
+                .select(model.PlateTypes, model.TemplatePlates, model.Experiments)
+                .join(model.TemplatePlates).join(model.Experiments)
+                .where(model.Experiments.id == self.submission.experiment.id).first().id
+            )
         self.registry = SensorRegistry(
             SensorParams(self.keep_camera_on_ms, config.get_output_dir(self.submission_hash))
         )
@@ -124,13 +128,13 @@ class Submitter:
     def _run_core(self) -> CompletedRunInfo:
 
         battery = self.battery
-        plate_type_id = self.plate_type.id
+        plate_type_id = self.plate_type_id
         coll = config.get_coll(self.submission_hash)
         output_dir = config.get_output_dir(self.submission_hash)
         frames_output_dir = config.get_raw_frames_dir(self.submission_hash)
         with PointGreyCamera(
             frames_output_dir,
-            coll.raw_snapshot_timing_log_file(),
+            coll.raw_snapshot_timing_log_file,
             self.keep_camera_on_ms,
             plate_type_id,
         ) as camera:
@@ -172,7 +176,7 @@ class Submitter:
 
             datetime_capture_finished = datetime.datetime.now()
             logging.debug("Finished capturing at {}".format(datetime_capture_finished))
-            stimulus_time_log.write(coll.stimulus_timing_log_file())
+            stimulus_time_log.write(coll.stimulus_timing_log_file)
 
             camera.finish()
             self.board.flash_done()
@@ -190,11 +194,11 @@ class Submitter:
             or self.dark_acclimation_override >= config.webcam["min_dark_acclimation_ms"]
         ):
             try:
-                Previewer(plate_type_id).webcam_preview(self.board, coll.webcam_snapshot())
+                Previewer(plate_type_id).webcam_preview(self.board, coll.webcam_snapshot)
             except WebcamSnapshotFailed as e:
                 warn_user("Failed taking webcam snapshot!", "Please fix this before the next run.")
                 logging.error("Failed taking webcam snapshot", e)
-        elif pexists(coll.webcam_snapshot()):
+        elif pexists(coll.webcam_snapshot):
             logging.warning(
                 "Using the webcam snapshot from the previous run because --dark was set and was too low."
             )

@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from .utils import pexists, psize
 
 sauronx_home = os.environ["SAURONX_HOME"]
 
@@ -11,7 +12,7 @@ def processing_file(submission_hash: str) -> Path:
 
 
 def processing_submission_hash_from_file(submission_hash: str) -> Path:
-    return Path(submission_hash[len(".processing-") :])
+    return Path(submission_hash[len(".processing-"):])
 
 
 def component_check_path(output_dir: str, trigger: str) -> Path:
@@ -114,24 +115,23 @@ class SubmissionPathCollection:
 
     def avi_exists(self) -> bool:
         return (
-                   self.avi_file.exists()
-            and os.path.getsize(self.avi_file) > 0
-            and os.path.getsize(self.shasum_file) > 0
-            pexists()
-            and pexists(self.avi_file() + ".sha256")
-            and psize(self.avi_file()) > 0
-            and psize(self.avi_file() + ".sha256") > 0
+                        self.avi_file.exists()
+                        and os.path.getsize(self.avi_file) > 0
+                        and os.path.getsize(self.shasum_file) > 0
+                        and pexists(os.path.join(self.avi_file, ".sha256")
+                        and psize(self.avi_file) > 0
+                        and psize(os.path.join(self.avi_file, ".sha256"))) > 0
         )
 
     def snapshot_timing_exists(self) -> bool:
         return (
-            self.snapshot_timing_log_file().exists()
-            and psize(self.snapshot_timing_log_file()) > 0
-            or pexists(self.raw_snapshot_timing_log_file())
-            and psize(self.raw_snapshot_timing_log_file()) > 0
+            self.snapshot_timing_log_file.exists()
+            and psize(self.snapshot_timing_log_file) > 0
+            or pexists(self.raw_snapshot_timing_log_file)
+            and psize(self.raw_snapshot_timing_log_file) > 0
         )
 
     def stimulus_timing_exists(self) -> bool:
         return (
-            pexists(self.stimulus_timing_log_file()) and psize(self.stimulus_timing_log_file()) > 0
+            pexists(self.stimulus_timing_log_file) and psize(self.stimulus_timing_log_file) > 0
         )

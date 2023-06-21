@@ -4,7 +4,7 @@ import logging
 from pocketutils.tools.call_tools import CallTools
 
 from .configuration import config
-
+from .utils import warn_user
 
 class PointGreyCamera:
     def __init__(

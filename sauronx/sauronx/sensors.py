@@ -7,20 +7,18 @@ from enum import Enum
 from multiprocessing import Process
 from os.path import dirname
 from typing import Dict, List
-
+import scipy
 import numpy as np
 import pandas as pd
 import pyaudio
 
 # from scipy.io import wavfile  # TODO broken
-from hipsterplot import HipsterPlotter
-
-from sauronx import stamp
+import hipsterplot
 
 from .arduino import Board
 from .configuration import config
 from .paths import *
-
+from .utils import make_dirs, warn_user, stamp, pjoin
 
 class SensorParams:
     # this allows us to add new info without refactoring
@@ -195,7 +193,7 @@ class Microphone(Sensor):
             ms = np.array([i / sampling_rate * 1000 for i in range(0, len(data))])
         low_x = self.timestamps[0].strftime("%H:%M:%S")
         high_x = self.timestamps[-1].strftime("%H:%M:%S")
-        s = HipsterPlotter(num_y_chars=10).plot(
+        s = hipsterplot.plot(
             data, title=self.name(), low_x_label=low_x, high_x_label=high_x
         )
         with open(self.file_path() + ".plot.txt", "w", encoding="utf8") as f:
@@ -259,7 +257,7 @@ class CsvSensor(Sensor):
             return "{}: <no data>".format(self.sensor_name())
         low_x = datetime.datetime.strptime(df["Time"].iloc[0], fmt).strftime("%H:%M:%S")
         high_x = datetime.datetime.strptime(df["Time"].iloc[-1], fmt).strftime("%H:%M:%S")
-        s = HipsterPlotter(num_y_chars=10).plot(
+        s = hipsterplot.plot(
             df["Value"], title=self.name(), low_x_label=low_x, high_x_label=high_x
         )
         with open(self.file_path() + ".plot.txt", "w", encoding="utf8") as f:

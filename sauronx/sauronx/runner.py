@@ -1,8 +1,9 @@
 from datetime import datetime, timedelta
 from multiprocessing import Process
-
-from valarpy.Valar import Valar
-
+import psutil
+from pocketutils.core.exceptions import RefusingRequestError
+from pocketutils.tools.console_tools import ConsoleTools
+from valarpy import Valar
 from .alive import SauronxAlive, StatusValue
 from .global_audio import SauronxAudio
 from .locks import SauronxLock
@@ -10,8 +11,8 @@ from .preview import *
 from .protocol import ProtocolBlock
 from .results import Results
 from .submission import CompletedRunInfo, RunArguments, Submitter
-
-
+from .utils import notify_user, prompt_yes_no, nice_time
+from .utils import fsize as filesize
 class SubmissionRunnerArgs:
     def __init__(
         self,
@@ -83,39 +84,42 @@ class SubmissionRunner:
                 self._run_single(alive, battery, run_args, results, last_run)
 
     def _prompt(self, alive: SauronxAlive, battery: ProtocolBlock, run_args: RunArguments):
-        darkness_seconds = (
-            run_args.dark_acclimation_override
-            if run_args.dark_acclimation_override is not None
-            else alive.submission_obj.acclimation_sec
-        )
+        if alive.is_test:
+            darkness_seconds = 0
+            description = "test"
+            experiment = "test"
+        else:
+            darkness_seconds = run_args.dark_acclimation_override if run_args.dark_acclimation_override is not None \
+                else alive.submission_obj.acclimation_sec
+            description = alive.submission_obj.description
+            experiment = alive.submission_obj.experiment.name
         notify_user(
-            "Submitting {} ({}).".format(alive.submission_hash, alive.submission_obj.description),
-            'for experiment "{}".'.format(alive.submission_obj.experiment.name),
-            'Using battery "{}" (ID {}),'.format(battery.valar_obj.name, battery.valar_obj.id),
-            "which will run for {} with {} events.".format(
-                nice_time(len(battery)), len(battery.stimulus_list)
-            ),
+            "Submitting {} ({}).".format(alive.submission_hash, description),
+            "for experiment \"{}\".".format(experiment),
+            "Using battery \"{}\" (ID {}),".format(battery.valar_obj.name, battery.valar_obj.id),
+            "which will run for {} with {} events.".format(nice_time(len(battery)), len(battery.stimulus_list)),
             "",
             "~~Running camera at {} FPS.~~".format(config.fps),
             "Started at {} and will finish at {}.".format(
-                datetime.now().strftime("%H:%M"),
-                (
-                    datetime.now() + timedelta(milliseconds=len(battery) + darkness_seconds * 1000)
-                ).strftime("%H:%M"),
-            ),
+                datetime.now().strftime('%H:%M'),
+                (datetime.now() + timedelta(
+                    milliseconds=len(battery) + darkness_seconds * 1000)).strftime('%H:%M')
+            )
         )
-        if not prompt_yes_no("Continue? [yes/no]"):
-            raise RefusingRequestException("User chose not to continue.")
+        if not ConsoleTools.prompt_yes_no('Continue? [yes/no]'):
+            raise RefusingRequestError("User chose not to continue.")
 
     def _ensure_sufficient_storage(self, submission_hash: str) -> None:
         import valarpy.model as model
-
-        battery = (
-            model.Submissions.select()
-            .where(model.Submissions.lookup_hash == submission_hash)
-            .first()
-            .experiment.battery
-        )
+        if submission_hash == config['sauron.test_submission_hash']:
+            battery = model.Batteries.select().where(model.Batteries.name == config['sauron.test_battery']).first()
+        else:
+            battery = (
+                model.Submissions.select()
+                .where(model.Submissions.lookup_hash == submission_hash)
+                .first()
+                .experiment.battery
+            )
         n_frames = battery.length / 1000 * config.camera["frames_per_second"]
         expected = 1024 * config.storage["max_kb_per_frame"] * n_frames
         free = psutil.disk_usage(config.raw_frames_root).free
@@ -124,21 +128,21 @@ class SubmissionRunner:
                 msg = (
                     "There are {} of storage free on {}, but {} are expected to be needed.\n"
                     "Continuing anyway because --assume-clean is set."
-                ).format(filesize.size(free), config.raw_frames_disk, filesize.size(expected))
+                ).format(filesize(free), config.raw_frames_disk, filesize(expected))
                 logging.warning(msg)
             else:
                 msg = "Refusing to proceed: there are {} of storage free on {}, but {} are expected to be needed".format(
-                    filesize.size(free), config.raw_frames_disk, filesize.size(expected)
+                    filesize(free), config.raw_frames_disk, filesize(expected)
                 )
                 warn_user(
                     msg,
                     "Consider running `sauronx clean` to see what you can delete.",
                     "The raw frames are stored under {}.".format(config.raw_frames_root),
                 )
-                raise RefusingRequestException(msg)
+                raise RefusingRequestError(msg)
         logging.info(
             "There are {} of storage free on disk {} with {} expected to be needed".format(
-                filesize.size(free), config.raw_frames_disk, filesize.size(expected)
+                filesize(free), config.raw_frames_disk, filesize(expected)
             )
         )
 
@@ -189,9 +193,9 @@ class SubmissionRunner:
         ):
             logging.info("Deleting previous run at {}".format(output_dir))
             if os.path.exists(output_dir):
-                slow_delete(output_dir, 3)
+                ConsoleTools.slow_delete(output_dir, 3)
             if os.path.exists(raw_frames_output_dir) and not self._args.assume_clean:
-                slow_delete(raw_frames_output_dir, 3)
+                ConsoleTools.slow_delete(raw_frames_output_dir, 3)
 
     def _handle_results(self, results: Results, alive: SauronxAlive) -> None:
         if self._args.store_to is None:

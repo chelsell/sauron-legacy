@@ -4,13 +4,11 @@ from subprocess import Popen
 from typing import Iterable
 
 from colorama import Fore, Style
-from klgists.common import escape_for_properties
-from klgists.misc.colored_notifications import header_to_user
-from klgists.misc.commit_hash import git_commit_hash
-from valarpy.Valar import Valar
+#from klgists.common import escape_for_properties
+from valarpy import Valar
 
-from sauronx import pjoin, sauronx_version
-
+from sauronx import sauronx_version
+from .utils import pjoin, git_commit_hash
 from .alive import SauronxAlive
 from .configuration import config, config_file_path
 from .locks import *
@@ -172,7 +170,7 @@ class InfoTools(MetaTools):
                 self._bannered(
                     Style.BRIGHT + "Environment information...",
                     *[
-                        ((key + " ").ljust(40, ".") + " " + escape_for_properties(value))
+                        ((key + " ").ljust(40, ".") + " " + value)
                         for key, value in config.environment_info.items()
                     ],
                 )

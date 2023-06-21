@@ -9,10 +9,10 @@ from urllib.request import urlopen
 
 from colorama import Fore, Style
 from pint import UnitRegistry
-from valarpy.Valar import Valar
+from valarpy import Valar
 
-from sauronx import looks_like_submission_hash, sauronx_version
-
+from .utils import looks_like_submission_hash, SubcommandHandler, warn_user, success_to_user
+from pocketutils.core.exceptions import NaturalExpectedError
 from .configuration import config
 from .data_manager import DataManager, DisplayOptions, SearchRestrictions
 from .locks import SauronxLock
@@ -282,7 +282,7 @@ class Main:
             help="The number of milliseconds to record for each change",
         )
         args = self._parse_args(parser)
-        CheckMode().run(args.alive_ms)
+        TestMode().run(args.alive_ms)
 
     def prototype(self) -> None:
         parser = argparse.ArgumentParser(
@@ -511,7 +511,7 @@ class Main:
             # 	pass
             return args
         except SystemExit as e:
-            raise NaturalExpectedException from e
+            raise NaturalExpectedError from e
 
     def _submission_hash_it(self, submission_hash: str) -> Optional[str]:
         if not looks_like_submission_hash(submission_hash) and not submission_hash == "_" * 12:

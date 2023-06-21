@@ -57,26 +57,33 @@ sauronx = "sauronx.cli:cli"
 
 [tool.poetry.dependencies]
 python                   = "^3.9"
-PyMata                   = "^2.20"
 defusedxml               = "^0.7"
+hipsterplot              = ">=0.1"
 loguru                   = "^0.5"
 numpy                    = "^1.21"
+opencv-python            = ">=4.7.0.72"
 pandas                   = "^1.2"
 peewee                   = "^3.14"
 pillow                   = "^8.2"
 pint                     = ">=0.17, <1.0"
-pocketutils              = {version="^0.5.2", extras=["tools"]}
+pocketutils              = {version=">=0.9.1", extras=["tools"]}
+psutil                   = ">=5.9.5"
 pyaudio                  = "^0.2"
 pydub                    = "^0.25"
+pymata-aio               = ">=2.35"
 regex                    = ">=2021.8"
+requests                 = ">=2.31.0"
+scipy                    = ">=1.10.1"
+simpleaudio              = ">=1.0.4"
 soundfile                = "^0.10"
 suretime                 = ">=0.1.1, <1.0"
-tomlkit                  = "Y0.7"
+terminaltables           = ">=3.1.10"
+toml                     = ">=0.10.2"
+tomlkit                  = ">=0.11, <1.0"
 typeddfs                 = {version=">=0.13, <1.0", extras=["feather", "parquet", "excel"]}
 typer                    = ">=0.4, <1.0"
 tzdata                   = ">=2021.1"
-valarpy                  = {git="https://github.com/dmyersturnbull/valarpy.git", tag = "v3.0.0-alpha.1"}
-
+valarpy                  = ">=3.0.0"
 
 [tool.poetry.dev-dependencies]
 black                    = "==21.8b0"

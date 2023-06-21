@@ -2,11 +2,10 @@ import enum
 import logging
 import os
 from typing import Iterator, Optional, Set
-
-from sauronx import is_process_running, looks_like_submission_hash
+from pocketutils.core.exceptions import LockedError
 
 from .paths import lock_file, processing_file, processing_submission_hash_from_file, sauronx_home
-
+from .utils import warn_user, notify_user, is_process_running, looks_like_submission_hash
 _generic_lock_string = "None"
 _forced_lock_string = "--locked--"
 
@@ -60,7 +59,7 @@ class SauronxLock:
 
     def engage(self, submission_hash: Optional[str], replace: bool = False) -> None:
         if self.is_engaged() and not replace:
-            raise LockedException("Appears locked with {}".format(self.submission_hash))
+            raise LockedError("Appears locked with {}".format(self.submission_hash))
         self.submission_hash = submission_hash
         with open(lock_file, "w") as f:
             f.write(str(self.submission_hash))
@@ -96,13 +95,13 @@ class SauronxLock:
                     "SauronX appears to be locked, and a SauronX process is running.",
                     "If this is wrong, run 'sauronx unlock'",
                 )
-                raise LockedException("SauronX appears to be locked by another SauronX process.")
+                raise LockedError("SauronX appears to be locked by another SauronX process.")
             else:
                 warn_user(
                     "SauronX is locked but there is no SauronX process running!",
                     "Confirm this and run 'sauronx unlock' to proceed.",
                 )
-                raise LockedException("SauronX is locked but there is no SauronX process running!")
+                raise LockedError("SauronX is locked but there is no SauronX process running!")
         SauronxLock().engage(submission_hash, replace=replace)
         notify_user(
             "SauronX lock acquired. You cannot run submit, prototype, or preview until it is released.",

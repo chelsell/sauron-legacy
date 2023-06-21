@@ -8,7 +8,7 @@ from typing import Any, List, Optional, Set, Sized
 import numpy as np
 import peewee
 
-from sauronx import show_table
+from .utils import show_table, blob_to_byte_array
 
 from .audio import AudioInfo
 from .stimulus import Stimulus

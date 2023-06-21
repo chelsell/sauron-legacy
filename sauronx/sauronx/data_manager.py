@@ -1,17 +1,19 @@
 import shutil
 from enum import Enum
 from typing import Any, Callable, Dict, Iterator, Optional
-
+from colorama import Fore
 from pocketutils.core.exceptions import (
     LookupFailedError,
     MissingResourceError,
     RefusingRequestError,
 )
+from pocketutils.tools.console_tools import ConsoleTools
+from pocketutils.tools.unit_tools import UnitTools
 from peewee import JOIN
-from valarpy.Valar import Valar
+from valarpy import Valar
 
-from sauronx import is_process_running, show_table
-
+from .utils import is_process_running, show_table, pjoin, warn_user, notify_user, print_to_user, prompt_yes_no,\
+    prompt_and_delete, Deletion, scan_for_files
 from .alive import SauronxAlive
 from .configuration import config
 from .locks import SauronxLock
@@ -40,16 +42,16 @@ class Recommendation(Enum):
             )
             # first delete raw frames
             if pexists(raw_frames_path) and choice == Deletion.HARD and pexists(raw_frames_path):
-                slow_delete(raw_frames_path, 2)
+                ConsoleTools.slow_delete(raw_frames_path, 2)
                 if pexists(raw_frames_path):
                     os.rmdir(raw_frames_path)
             elif pexists(raw_frames_path) and choice == Deletion.TRASH and pexists(raw_frames_path):
-                slow_delete(raw_frames_path, 2)
+                ConsoleTools.slow_delete(raw_frames_path, 2)
                 if pexists(raw_frames_path):
                     os.rmdir(raw_frames_path)
             # now delete output dir
             if choice == Deletion.HARD and pexists(path):
-                slow_delete(path, 2)
+                ConsoleTools.slow_delete(path, 2)
                 if pexists(path):
                     os.rmdir(path)
             elif choice == Deletion.TRASH and pexists(path):
@@ -112,12 +114,12 @@ class Recommendation(Enum):
                 break
             elif deletable and command.lower() == "hard":
                 if os.path.exists(raw_frames_path):
-                    slow_delete(raw_frames_path, 2)
+                    ConsoleTools.slow_delete(raw_frames_path, 2)
                 if pexists(output_dir):
-                    slow_delete(output_dir, 2)
+                    ConsoleTools.slow_delete(output_dir, 2)
             elif trashable and command.lower() == "trash":
                 if os.path.exists(raw_frames_path):
-                    slow_delete(raw_frames_path, 2)
+                    ConsoleTools.slow_delete(raw_frames_path, 2)
                     print(Fore.BLUE + "Deleted {}".format(raw_frames_path))
                 if pexists(output_dir):
                     shutil.move(output_dir, config.trash_path(output_dir))
@@ -140,11 +142,11 @@ class Recommendation(Enum):
             try:
                 results = Results(sx_alive, output_dir)
                 if not coll.snapshot_timing_exists():
-                    raise MissingResourceException("Can't proceed: capture didn't complete")
+                    raise MissingResourceError("Can't proceed: capture didn't complete")
                 if not coll.avi_exists():
                     results.make_video()
                 results.upload()
-            except MissingResourceException as e:
+            except MissingResourceError as e:
                 warn_user(str(e))
 
 
@@ -334,7 +336,7 @@ class Entry:
                 "Path": self.path,
                 "Experiment": self.submission.experiment.name,
                 "Description": self.submission.description,
-                "Length (s)": nice_time(self.submission.experiment.battery.length),
+                "Length (s)": UnitTools.ms_to_minsec(self.submission.experiment.battery.length),
                 "User": self.submission.user.username,
                 "Best stage": self.best_status,
                 "Run": str(self.plate_run.id if self.plate_run is not None else "-"),
@@ -475,7 +477,7 @@ class Entry:
                 model.Submissions, model.Experiments, model.Users, model.Batteries
             )
             .join(model.Experiments)
-            .join(model.Superprojects, JOIN.LEFT_OUTER)
+            .join(model.Projects, JOIN.LEFT_OUTER)
             .switch(model.Experiments)
             .join(model.Batteries)
             .switch(model.Experiments)
@@ -592,7 +594,7 @@ class DataManager:
     ) -> None:
         if is_process_running():  # TODO this is broken on Windows
             warn_user("For safety, cannot auto-clean if another SauronX instance is running.")
-            raise RefusingRequestException(
+            raise RefusingRequestError(
                 "For safety, cannot auto-clean if another SauronX instance is running."
             )
         notify_user("Listing submissions under {}".format(base_dir))
@@ -653,7 +655,7 @@ class DataManager:
             n = 0
             for f in os.listdir(path):
                 f = pjoin(path, f)
-                slow_delete(f, 2)
+                ConsoleTools.slow_delete(f, 2)
                 n += 1
                 print("Deleted {}".format(f))
             print(Fore.RED + "Obliterated {} files or directories under {}".format(n, path))
@@ -677,7 +679,7 @@ class DataManager:
                 entry = Entry(path)
                 if restrictions.matches(entry):
                     self._pretty_print(entry, options, callback)
-            except LookupFailedException as e:
+            except LookupFailedError as e:
                 self._pretty_error(path, e)
 
     def _pretty_print(
@@ -694,7 +696,7 @@ class DataManager:
         callback(entry)
         print(Fore.BLUE + "~" * 100)
 
-    def _pretty_error(self, path: str, e: LookupFailedException) -> None:
+    def _pretty_error(self, path: str, e: LookupFailedError) -> None:
         print(Fore.RED + "~" * 100)
         print(Fore.RED + e.message)
         print(Fore.RED + "~" * 100)

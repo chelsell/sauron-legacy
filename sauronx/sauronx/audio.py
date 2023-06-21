@@ -81,8 +81,8 @@ class AudioInfo:
             final = pydub.AudioSegment.silent(duration=0.5)
         else:
             # noinspection PyTypeChecker
-            volume_floor = config.get_float("sauron.hardware.stimuli.audio.audio_floor")
-            volume_ceil = config.get_float("sauron.hardware.stimuli.audio.audio_ceil")
+            volume_floor = config.get("sauron.hardware.stimuli.audio.audio_floor")
+            volume_ceil = config.get("sauron.hardware.stimuli.audio.audio_ceil")
             # final = resized + (volume * (volume_floor / 255) - volume_floor)
             # print(volume * (volume_ceil - volume_floor) / 255 + volume_floor)
             final = resized + volume * (volume_ceil - volume_floor) / 255 + volume_floor

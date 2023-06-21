@@ -1,20 +1,20 @@
 import datetime
 import json
 import logging
+import os, sys, re
 from enum import Enum
 from typing import List, Optional
 
 from pocketutils.full import Tools
-from valarpy.Valar import Valar
+from valarpy import Valar
 from pocketutils.core.exceptions import LockedError, RefusingRequestError
-from pocketutils.misc.fancy_console import ColorMessages
-
+from terminaltables import AsciiTable
 from loguru import logger
-
+from colorama import Fore
 Valar().open()
 from valarpy.model import *
 
-from sauronx import datetime_started_raw
+from .utils import datetime_started_raw, warn_user
 
 from .configuration import config
 from .locks import ProcessingList, ProcessingSubmission, SauronxLock
@@ -67,7 +67,7 @@ class SauronxLogging:
         logging.basicConfig(handlers=[InterceptHandler()], level=level)
 
     @classmethod
-    def set_log_level(cls, level: str, path: Optional[Path]) -> None:
+    def set_log_level(cls, level: str, path: Optional[os.PathLike]) -> None:
         """
         This function will control all aspects of the logging as set via command-line.
 
@@ -82,12 +82,12 @@ class SauronxLogging:
         cls._add_path_logger(path)
 
     @classmethod
-    def _add_path_logger(cls, path: Path) -> None:
+    def _add_path_logger(cls, path: os.PathLike) -> None:
         if path is None:
             return
         match = re.compile(r"(?:[A-Z]+:)??(.*)").match(str(path))
         level = "DEBUG" if match.group(1) is None else match.group(1)
-        path = Path(match.group(2))
+        path = os.PathLike(match.group(2))
         for e, c in dict(gz="gzip", zip="zip", bz2="bzip2", xz="xz"):
             if str(path).endswith("." + e):
                 serialize = True if path.suffix == f".json.{e}" else False
@@ -283,6 +283,8 @@ class SauronxAlive:
             .where(model.Submissions.lookup_hash == self.submission_hash)
             .first()
         )
+        if self.is_test:
+            return sub
         if sub is None:
             raise ValarLookupError(
                 "No SauronX submission exists in Valar with submission hash {}".format(
@@ -310,16 +312,23 @@ class SauronxAlive:
         return sub
 
     def _init_status(self) -> None:
-        matches = list(
-            SubmissionRecords.select(SubmissionRecords)
-            .where(SubmissionRecords.submission == self.submission_obj.id)
-            .order_by(SubmissionRecords.created.desc())
-        )  # type: List[SubmissionRecords]
-        # warn about prior runs
-        prev_run = Runs.select().where(Runs.submission == self.submission_obj).first()
-        has_remote = any(m.status in REMOTE for m in matches)
-        has_post_capture = any(m.status in POST_CAPTURE for m in matches)
-        acquisition_starts = [m.created for m in matches if m.status is StatusValue.CAPTURING]
+        if self.is_test:
+            matches = None
+            prev_run = None
+            has_remote = 0
+            has_post_capture = 0
+            acquisition_starts = None
+        else:
+            matches = list(
+                SubmissionRecords.select(SubmissionRecords) \
+                    .where(SubmissionRecords.submission == self.submission_obj.id)
+                    .order_by(SubmissionRecords.created.desc())
+            )  # type: List[SubmissionRecords]
+            # warn about prior runs
+            prev_run = Runs.select().where(Runs.submission == self.submission_obj).first()
+            has_remote = any(m.status in REMOTE for m in matches)
+            has_post_capture = any(m.status in POST_CAPTURE for m in matches)
+            acquisition_starts = [m.created for m in matches if m.status is StatusValue.CAPTURING]
         # TODO warn if n_acquisition_starts > 0
         if not self.ignore_warnings:
             if len(matches) > 0 and not SauronxLock().is_running_test():

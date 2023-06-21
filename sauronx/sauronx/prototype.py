@@ -5,7 +5,8 @@ import shlex
 import shutil
 from argparse import ArgumentError, ArgumentParser
 from typing import Optional
-
+from pocketutils.core.exceptions import BadCommandError, NaturalExpectedError, UserError, LookupFailedError, \
+    BadWriteError
 from colorama import Fore
 from .arduino import Board
 from .audio import AudioInfo
@@ -15,7 +16,7 @@ from .lookup import *
 from .protocol import AssayBlock, ProtocolBlock
 from .schedule import Schedule
 from .sensors import SensorParams, SensorRegistry, SensorTrigger
-
+from .utils import prompt_yes_no
 
 class UsageError(Exception):
     message = None  # type: str
@@ -85,17 +86,14 @@ class Prototyper(cmd.Cmd):
                 break
             except KeyboardInterrupt:
                 if prompt_yes_no("Exit? [yes/no]"):
-                    raise NaturalExpectedException()
+                    raise NaturalExpectedError()
             except (
                 BadCommandError,
                 ArgumentError,
                 UserError,
-                ExternalCommandFailed,
                 ValueError,
-                LookupFailedException,
-                BoardUserError,
-                BadPinWriteValueException,
-                NoSuchOutputPinException,
+                LookupFailedError,
+                BadWriteError,
             ) as e:
                 print(Fore.RED + str(e))
                 # self.do_help(None)
@@ -120,11 +118,11 @@ class Prototyper(cmd.Cmd):
 
     def do_exit(self, arg):
         """Exits the prototyper."""
-        raise NaturalExpectedException()
+        raise NaturalExpectedError()
 
     def do_quit(self, arg):
         """Exits the prototyper."""
-        raise NaturalExpectedException()
+        raise NaturalExpectedError()
 
     def do_reload(self, arg):
         """Reload the TOML config file."""
@@ -370,21 +368,21 @@ def _byte(value: str) -> int:
     if value.isdigit() and int(value) in range(0, 256):
         return int(value)
     else:
-        raise BadPinWriteValueException("Value must be a byte (0–255) but was {}".format(value))
+        raise BadWriteError("Value must be a byte (0–255) but was {}".format(value))
 
 
 def _positive_int(value: str) -> int:
     if value.isdigit() and int(value) > 0:
         return int(value)
     else:
-        raise BadPinWriteValueException("Value must positive integer but was {}".format(value))
+        raise BadWriteError("Value must positive integer but was {}".format(value))
 
 
 def _positive_float(value: str) -> float:
     if value.isdecimal() and float(value) > 0:
         return float(value)
     else:
-        raise BadPinWriteValueException("Value be a positive float but was {}".format(value))
+        raise BadWriteError("Value be a positive float but was {}".format(value))
 
 
 def _assay_id(value: str) -> int:

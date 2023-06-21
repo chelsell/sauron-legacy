@@ -3,19 +3,11 @@ import shutil
 from abc import ABC
 
 import pandas as pd
-from klgists.files import remake_dirs
-from klgists.misc.colored_notifications import notify_user, success_to_user
-from valarpy.Valar import Valar
-
-from sauronx import (
-    looks_like_submission_hash,
-    plain_timestamp_started,
-    plain_timestamp_started_with_millis,
-    pretty_timestamp_started,
-)
+from .utils import notify_user, success_to_user, looks_like_submission_hash, plain_timestamp_started,\
+    plain_timestamp_started_with_millis, pretty_timestamp_started
+from valarpy import Valar
 
 from .alive import SauronxAlive, StatusValue
-from .arduino import Board
 from .global_audio import SauronxAudio
 from .locks import SauronxLock
 from .preview import *
@@ -317,7 +309,6 @@ __all__ = [
     "TestMode",
     "ProceedMode",
     "IncubateMode",
-    "CheckMode",
     "PrototypeMode",
     "LivePreviewMode",
     "SnapshotMode",

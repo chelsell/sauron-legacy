@@ -1,15 +1,18 @@
 import csv
-import hashlib
 import logging
 import shutil
 from datetime import datetime, timedelta
 from ntpath import basename
-from typing import Dict
-
+from typing import List
+import os
+import subprocess
 from colorama import Fore
 from dateutil import parser
-
-from sauronx import append_log_to_submission_log, stamp
+from pocketutils.tools.console_tools import ConsoleTools
+from pocketutils.tools.call_tools import CallTools
+from pocketutils.core.exceptions import RefusingRequestError, BadCommandError, MissingResourceError
+from .utils import append_log_to_submission_log, stamp, make_dirs, warn_user, prompt_yes_no, pexists, pjoin,\
+    success_to_user, pdir, scan_for_proper_files, write_hash_file, parse_local_iso_datetime, lines
 
 from .alive import SauronxAlive, StatusValue
 from .configuration import config
@@ -39,21 +42,23 @@ class Results:
         self.submission_hash = self.sx_alive.submission_hash
         self.upload_params = config["connection.upload"]
         self.notify_params = config["connection.notification"]
-        self.output_dir = self.coll.output_dir()
-        self.raw_frames_output_dir = self.coll.outer_frames_dir()
+        self.output_dir = self.coll.output_dir
+        self.raw_frames_output_dir = self.coll.outer_frames_dir
         self.fps = config["sauron.hardware.camera.frames_per_second"]
-        plate_type_id = sx_alive.submission_obj.experiment.template_plate.plate_type.id
+        if sx_alive.is_test:
+            plate_type_id = config['sauron.test_plate_layout']
+        else:
+            plate_type_id = sx_alive.submission_obj.experiment.template_plate.plate_type.id
         roi = config.camera_roi(plate_type_id)
         self.frame_width = roi.x1 - roi.x0
         self.frame_height = roi.y1 - roi.y0
         # this gets uploaded to a 'pending' dir on valinor for notification
-        self.video_file = self.coll.avi_file()
+        self.video_file = self.coll.avi_file
         self.qp = config["sauron.data.video.qp"]
         self.x265_params = None
         self.keyframe_interval = config["sauron.data.video.keyframe_interval"]
         self.extra_x265_options = config["sauron.data.video.extra_x265_params"]
         self.submission_log_file = append_log_to_submission_log(self.submission_hash)
-        self.file_hasher = FileHasher(algorithm=hashlib.sha256, extension=".sha256")
         self.keep_raw_frames = keep_raw_frames
         self.assume_clean = assume_clean
 
@@ -78,8 +83,8 @@ class Results:
             if prompt_yes_no(""):
                 # a little weird, but copy webcam file first
                 # this is useful if --dark and --override are both set
-                if pexists(self.coll.webcam_snapshot()):
-                    shutil.copy(self.coll.webcam_snapshot(), tmp_webcam_snap)
+                if pexists(self.coll.webcam_snapshot):
+                    shutil.copy(self.coll.webcam_snapshot, tmp_webcam_snap)
                 print("")
                 shutil.rmtree(self.output_dir, onerror=change_perm)
                 if os.path.exists(self.raw_frames_output_dir):
@@ -91,7 +96,7 @@ class Results:
                     else:
                         shutil.rmtree(self.raw_frames_output_dir, onerror=change_perm)
             else:
-                raise RefusingRequestException(
+                raise RefusingRequestError(
                     "The path {} already exists; refusing to proceed.".format(self.output_dir)
                 )
             logging.info("Finished deleting")
@@ -104,57 +109,72 @@ class Results:
             logging.warning(
                 "Keeping webcam snapshot from previous run. It will be overwritten if a new capture is taken."
             )
-            shutil.move(tmp_webcam_snap, self.coll.webcam_snapshot())
+            shutil.move(tmp_webcam_snap, self.coll.webcam_snapshot)
 
         with open(pjoin(self.output_dir, "submission_hash.txt"), "w", encoding="utf8") as f:
             f.write(self.sx_alive.submission_hash)
-        shutil.copyfile(os.environ["SAURONX_CONFIG_PATH"], self.coll.toml_file())
+        shutil.copyfile(os.environ["SAURONX_CONFIG_PATH"], self.coll.toml_file)
 
         # copy os info, git hash, etc.
-        with open(self.coll.env_file(), "w", encoding="utf8") as f:
+        with open(self.coll.env_file, "w", encoding="utf8") as f:
             for key, value in config.environment_info.items():
                 f.write(key + "=" + value + "\n")
 
         logging.info("Prepared output directory {}".format(self.output_dir))
 
-        if pexists(self.coll.log_file()):
-            logging.warning("The log file at {} already exists".format(self.coll.log_file()))
+        if pexists(self.coll.log_file):
+            logging.warning("The log file at {} already exists".format(self.coll.log_file))
         else:
-            os.symlink(self.submission_log_file, self.coll.log_file())
+            os.symlink(self.submission_log_file, self.coll.log_file)
 
     def finalize(self, run_info: CompletedRunInfo) -> None:
         import valarpy.model as model
 
-        with open(self.coll.env_file(), "a", encoding="utf8") as f:
+        with open(self.coll.env_file, "a", encoding="utf8") as f:
 
             def write(key: str, value: str) -> None:  # TODO strip control chars, etc, too
-                f.write(key + "=" + escape_for_properties(value) + "\n")
+                f.write(key + "=" + value + "\n")
 
             sub_obj = self.sx_alive.submission_obj
-            exp = sub_obj.experiment
-            # this is the critical start time, which is used to fill in runs.datetime_run
-            write("datetime_started", stamp(run_info.datetime_acclimation_started))
-            # and this end time is critical too
-            write("datetime_capture_finished", stamp(run_info.datetime_capture_finished))
-            write("original:experiment_id", exp.id)
-            write("original:experiment_name", exp.name)
-            write("original:description", sub_obj.description)
-            write("original:continuing_id", sub_obj.continuing_id)
-            write("original:datetime_plated", sub_obj.datetime_plated)
-            write("original:datetime_dosed", sub_obj.datetime_dosed)
-            write("original:notes", sub_obj.notes)
-            write("original:person_submitted", sub_obj.user_id)
-            write("original:battery", exp.battery_id)
-            write("original:template_plate", exp.template_plate_id)
-            for param in model.SubmissionParams.select(model.SubmissionParams).where(
-                model.SubmissionParams.submission == sub_obj.id
-            ):
-                write("param:" + param.param_type + ":" + param.name, param.value)
-            write("datetime_environment_written", stamp(datetime.now()))
-            write("ffmpeg_version", self.find_ffmpeg_version())
+            if self.sx_alive.is_test:
+                write("datetime_started", stamp(run_info.datetime_acclimation_started))
+                # and this end time is critical too
+                write("datetime_capture_finished", stamp(run_info.datetime_capture_finished))
+                write("original:experiment_id", "test")
+                write("original:experiment_name", "test")
+                write("original:description", "test")
+                write("original:continuing_id", "test")
+                write("original:datetime_plated", "test")
+                write("original:datetime_dosed", "test")
+                write("original:notes", "test")
+                write("original:person_submitted", "ur mom")
+                write("original:battery", "test")
+                write("original:template_plate", "test")
+            else:
+                exp = sub_obj.experiment
+                # this is the critical start time, which is used to fill in runs.datetime_run
+                write("datetime_started", stamp(run_info.datetime_acclimation_started))
+                # and this end time is critical too
+                write("datetime_capture_finished", stamp(run_info.datetime_capture_finished))
+                write("original:experiment_id", exp.id)
+                write("original:experiment_name", exp.name)
+                write("original:description", sub_obj.description)
+                write("original:continuing_id", sub_obj.continuing_id)
+                write("original:datetime_plated", sub_obj.datetime_plated)
+                write("original:datetime_dosed", sub_obj.datetime_dosed)
+                write("original:notes", sub_obj.notes)
+                write("original:person_submitted", sub_obj.user_id)
+                write("original:battery", exp.battery_id)
+                write("original:template_plate", exp.template_plate_id)
+                for param in model.SubmissionParams.select(model.SubmissionParams).where(
+                    model.SubmissionParams.submission == sub_obj.id
+                ):
+                    write("param:" + param.param_type + ":" + param.name, param.value)
+                write("datetime_environment_written", stamp(datetime.now()))
+                write("ffmpeg_version", self.find_ffmpeg_version())
         try:
             if os.path.exists(run_info.preview_path):
-                shutil.copyfile(run_info.preview_path, self.coll.preview_snapshot())
+                shutil.copyfile(run_info.preview_path, self.coll.preview_snapshot)
             else:
                 logging.error("Missing preview snapshot {}".format(run_info.preview_path))
         except:
@@ -162,7 +182,7 @@ class Results:
         success_to_user("Finalized run. All of the necessary data is now present.")
 
     def find_ffmpeg_version(self):
-        out, err = wrap_cmd_call(["ffmpeg", "-version"])
+        out, err = subprocess.run(["ffmpeg", "-version"])
         return out
 
     def upload(self) -> None:
@@ -173,7 +193,7 @@ class Results:
                 try:
                     self._attempt_upload()
                     break
-                except (SCPException, ExternalCommandFailed) as e:
+                except BadCommandError as e:
                     # noinspection PyTypeChecker
                     if i < int(self.upload_params["max_attempts"]) - 1:
                         logging.error("Upload failed (attempt {})".format(i), e)
@@ -224,13 +244,11 @@ class Results:
             raise ValueError("Directory {} does not exist".format(path))
         first_real_frame = self._first_frame(path)
         # TODO change log level back to info
-        stream_cmd_call(
+        subprocess.run(
             [
                 "ffmpeg",
                 "-loglevel",
                 "warning",
-                "-hwaccel",
-                "qsv",
                 "-f",
                 "image2",
                 "-nostdin",
@@ -248,24 +266,20 @@ class Results:
                 pjoin(path, "%08d.raw"),
                 "-y",
                 "-c:v",
-                "hevc_qsv",
+                "hevc",
                 "-g",
                 str(self.keyframe_interval),
                 "-q:v",
                 str(self.qp),
-                "-preset",
-                config["sauron.data.video.preset"],
-                "-load_plugin",
-                "2",
                 "-r",
                 str(self.fps),
                 output_video,
             ]
         )
 
-        self.file_hasher.add_hash(output_video)
+        write_hash_file(output_video)
         if not self.keep_raw_frames:
-            slow_delete(path, 3)
+            ConsoleTools.slow_delete(path, 3)
 
     def _first_frame(self, path: str):
         assert pexists(path), "The frame directory does not exist"
@@ -294,11 +308,11 @@ class Results:
         return self.x265_params
 
     def _convert_microphone(self) -> None:
-        microphone_input = self.coll.microphone_wav_path()
-        microphone_output = self.coll.microphone_flac_path()
+        microphone_input = self.coll.microphone_wav_path
+        microphone_output = self.coll.microphone_flac_path
         if pexists(microphone_input):
             logging.info("Compressing microphone data.")
-            stream_cmd_call(
+            CallTools.stream_cmd_call(
                 [
                     "ffmpeg",
                     "-i",
@@ -310,7 +324,7 @@ class Results:
                     microphone_output,
                 ]
             )
-            self.file_hasher.add_hash(microphone_output)
+            write_hash_file(microphone_output)
             os.remove(microphone_input)
 
     def _trim_frames(self) -> None:
@@ -319,16 +333,16 @@ class Results:
         To fulfill this definition, Board.run_scheduled_and_wait appends a stimulus for ID 0 at the beginning, and another at the end.
         """
         if not self.coll.stimulus_timing_exists():
-            raise MissingResourceException(
+            raise MissingResourceError(
                 "Cannot proceed: the stimulus timing log at {} is missing".format(
-                    self.coll.stimulus_timing_log_file()
+                    self.coll.stimulus_timing_log_file
                 )
             )
 
         # first, check that we didn't fail partway through trimming
         # this could be bad; let's fix that before making the trimming videos or the main video
         def fixit(name: str):
-            output_video = pjoin(self.coll.trimmed_dir(), name + ".mkv")
+            output_video = pjoin(self.coll.trimmed_dir, name + ".mkv")
             hash_file = output_video + ".sha256"
             tmpdir = pjoin(self.output_dir, name + "-trimmings")
             if pexists(tmpdir) and not pexists(hash_file):
@@ -336,30 +350,30 @@ class Results:
                 logging.warning("Moving {} trimmed frames back".format(name))
                 for f in os.listdir(tmpdir):
                     if os.path.isdir(
-                        self.coll.outer_frames_dir()
+                        self.coll.outer_frames_dir
                     ):  # If directory exists, copy overwrites existing files in directory, move does not.
-                        shutil.copy(pjoin(tmpdir, f), self.coll.outer_frames_dir())
+                        shutil.copy(pjoin(tmpdir, f), self.coll.outer_frames_dir)
                         os.remove(pjoin(tmpdir, f))
                     else:
-                        shutil.move(pjoin(tmpdir, f), self.coll.outer_frames_dir())
+                        shutil.move(pjoin(tmpdir, f), self.coll.outer_frames_dir)
             elif pexists(tmpdir):
                 pass
 
         fixit("start")
         fixit("end")
 
-        stimulus_time_log = self._parse_stimulus_timing_file(self.coll.stimulus_timing_log_file())
+        stimulus_time_log = self._parse_stimulus_timing_file(self.coll.stimulus_timing_log_file)
         if len(stimulus_time_log) == 0:
             return  # ok; nothing to remove
         snapshots = [
-            parse_local_iso_datetime(snap) for snap in lines(self.coll.snapshot_timing_log_file())
+            parse_local_iso_datetime(snap) for snap in lines(self.coll.snapshot_timing_log_file)
         ]
         first_stimulus = stimulus_time_log[0]  # type: datetime
         last_stimulus = stimulus_time_log[-1]  # type: datetime
         trimmings_start = []
         trimmings_end = []
         ran_off_end = 0
-        my_files = enumerate(sorted(scan_for_proper_files(self.coll.outer_frames_dir())))
+        my_files = enumerate(sorted(scan_for_proper_files(self.coll.outer_frames_dir)))
         for i, frame in my_files:
             if i >= len(snapshots):
                 ran_off_end += 1
@@ -371,15 +385,15 @@ class Results:
             logging.error("{} stimuli occurred after the last snapshot!")
             warn_user("{} stimuli occurred after the last snapshot!")
 
-        make_dirs_perm(self.coll.trimmed_dir())
+        make_dirs_perm(self.coll.trimmed_dir)
         self._make_trimmings_video(trimmings_start, "start")
         self._make_trimmings_video(trimmings_end, "end")
 
     def _make_trimmings_video(self, trimmings, name):
         output_video = (
-            self.coll.trimmed_start_video() if name == "start" else self.coll.trimmed_end_video()
+            self.coll.trimmed_start_video if name == "start" else self.coll.trimmed_end_video
         )
-        hash_file = output_video + ".sha256"
+        hash_file = pjoin(output_video, ".sha256")
         tmpdir = pjoin(self.output_dir, name + "-trimmings")
         if os.path.exists(hash_file):
             # TODO will fail if interrupted WHILE moving frames
@@ -428,9 +442,9 @@ class Results:
 
     def _parse_frame_timing_file(self):
         strftime_fmt = "%Y-%m-%dT%H:%M:%S.%f"
-        raw_timing_file_path = self.coll.raw_snapshot_timing_log_file()
-        proc_timing_file_path = self.coll.snapshot_timing_log_file()
-        stream_cmd_call(["sudo", "chmod", "777", raw_timing_file_path])
+        raw_timing_file_path = self.coll.raw_snapshot_timing_log_file
+        proc_timing_file_path = self.coll.snapshot_timing_log_file
+        CallTools.stream_cmd_call(["sudo", "chmod", "777", raw_timing_file_path])
         with open(raw_timing_file_path, "r+", encoding="utf8") as f:
             with open(proc_timing_file_path, "w", encoding="utf8") as o:
                 reader = csv.reader(f)
@@ -452,7 +466,7 @@ class Results:
         logging.info("Finished uploading data via SSH")
 
     def _scp_files(self) -> None:
-        stream_cmd_call(
+        CallTools.stream_cmd_call(
             [
                 "scp",
                 "-r",
@@ -462,7 +476,7 @@ class Results:
                 + "@"
                 + str(self.upload_params["hostname"])
                 + ":"
-                + self._remote_upload_dir(),
+                + self._remote_upload_dir,
             ]
         )
         # noinspection PyBroadException

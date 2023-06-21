@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+conda activate sauronx
+pushd $(dirname $(dirname "$0")) > /dev/null
+git stash
+git fetch --tag
+tagged=$(git describe --tags $(git rev-list --tags --max-count=1))
+git checkout $tagged
+pip install -r requirements.txt
+pip install -r requirements.txt --upgrade
+popd > /dev/null
+conda activate root

@@ -2,9 +2,9 @@ import time
 
 from pocketutils.core.exceptions import *
 from PyMata.pymata import PyMata
-
 from .configuration import config
 from .stimulus import StimulusType
+from .utils import warn_user, flatten
 
 
 class Board:

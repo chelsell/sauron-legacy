@@ -5,21 +5,19 @@ import os
 import platform
 import socket
 import sys
-from pathlib import Path
 from typing import Dict, List
 from warnings import warn
-
-from pocketutils.full import Tools
+from pocketutils.core.exceptions import MissingEnvVarError, FileDoesNotExistError, PathError, ConfigError
+from pocketutils.tools.path_tools import PathTools
 from pocketutils.core.dot_dict import NestedDotDict
+from .utils import pexists, pfile, pjoin, warn_user, make_dirs, git_commit_hash
 
 import psutil
 import toml
 
-from sauronx import (
+from .utils import (
     datetime_started_raw,
-    fix_path,
     iso_timestamp_started,
-    plain_timestamp_started,
     plain_timestamp_started_with_millis,
     sauronx_version,
     stamp,
@@ -28,14 +26,14 @@ from sauronx import (
 from .paths import SubmissionPathCollection
 
 if "SAURONX_CONFIG_PATH" not in os.environ:
-    raise MissingEnvironmentVariableException(
+    raise MissingEnvVarError(
         "Environment variable $SAURONX_CONFIG_PATH is not set; set this to the correct config.toml file"
     )
-config_file_path = fix_path(os.environ["SAURONX_CONFIG_PATH"])
+config_file_path = PathTools.sanitize_path(os.environ["SAURONX_CONFIG_PATH"])
 if not pexists(config_file_path):
-    raise NoSuchPathException("SAURONX_CONFIG_PATH file {} does not exist".format(config_file_path))
+    raise FileDoesNotExistError("SAURONX_CONFIG_PATH file {} does not exist".format(config_file_path))
 if not pfile(config_file_path):
-    raise PathIsNotFileException(
+    raise PathError(
         "SAURONX_CONFIG_PATH file {} is not a file".format(config_file_path)
     )
 # TODO require this to be inside sauronx/config
@@ -68,7 +66,7 @@ class WellRoi:
         )
 
 
-class Config(TomlData):
+class Config(NestedDotDict):
     def __init__(self, spec_config_file_path: str = config_file_path) -> None:
         """Reads the TOMLs, sets some extra variables, and fetches OS info and software versions."""
 
@@ -77,9 +75,9 @@ class Config(TomlData):
         super().__init__(self._get_data(spec_config_file_path))
         self.path = spec_config_file_path
 
-        for r in self.nested_keys(separator=""):
+        for r in self.keys():
             if "." in r:
-                raise BadConfigException("key {} contains a period (.)".format(r))
+                raise ConfigError("key {} contains a period (.)".format(r))
 
         # set logging level
         logging.getLogger().setLevel(logging.getLevelName(self["local.feedback.log_level"]))
@@ -105,8 +103,8 @@ class Config(TomlData):
         self.executables = self.sub("local.executables")
         self.audio = self.sub("sauron.hardware.stimuli.audio")
 
-        if "%" in self.storage["directory_format"]:
-            raise BadConfigException(
+        if "%" in self.storage["directory_format"].name:
+            raise ConfigError(
                 "For technical limitations (regarding ffmpeg), local storage paths cannot contain a percent sign (%)"
             )
 
@@ -150,8 +148,8 @@ class Config(TomlData):
             try:
                 data = toml.loads(config_handle.read())
             except toml.TomlDecodeError as e:
-                raise BadConfigException("Could not parse SauronX config file.", e)
-            data["local"]["storage"]["directory_format"] = fix_path(
+                raise ConfigError("Could not parse SauronX config file.", e)
+            data["local"]["storage"]["directory_format"] = PathTools.sanitize_path(
                 data["local"]["storage"]["directory_format"]
             )
         return data
@@ -164,7 +162,7 @@ class Config(TomlData):
                 )
             )
             make_dirs(self.storage["root_temp_dir"])
-        return fix_path(
+        return PathTools.sanitize_path(
             pjoin(
                 self._parse_dir_format(self.storage["root_temp_dir"]),
                 "sauronx.tmp-" + plain_timestamp_started_with_millis,
@@ -205,7 +203,7 @@ class Config(TomlData):
             "memory_used": psutil.virtual_memory().used,
             "memory_available": psutil.virtual_memory().available,
             "sauronx_hash": git_commit_hash(sauronx_home),
-            "environment_info_capture_datetime": now().isoformat(),
+            "environment_info_capture_datetime": datetime.datetime.now().isoformat(),
         }
         self.environment_info = {k: str(v) for k, v in self.environment_info.items()}
 
@@ -295,7 +293,7 @@ class Config(TomlData):
 
     def parse_path_format(self, fmt: str, path: str, dt: datetime) -> str:
         return (
-            fix_path(fmt)
+            PathTools.sanitize_path(fmt)
             .replace("${path}", path)
             .replace("${number}", str(self.sauron_number))
             .replace("${sauron}", str(self.sauron_name))
@@ -307,7 +305,8 @@ class Config(TomlData):
 
     def _parse_dir_format(self, fmt: str) -> str:
         return (
-            fix_path(fmt)
+            #str(PathTools.sanitize_path_nodes(fmt)) # this returns /t/m/p/sauronx.... rather than /tmp
+            str(fmt)
             .replace("${number}", str(self.sauron_number))
             .replace("${sauron}", str(self.sauron_name))
         )
@@ -315,7 +314,7 @@ class Config(TomlData):
 
 try:
     config = Config()  # type: Config
-except BadConfigException:
+except ConfigError:
     warn_user("The config file is malformatted")
     raise
 except Exception:
@@ -328,7 +327,7 @@ except Exception:
 def switch_config(path: str) -> None:
     global config_file_path
     global config
-    config_file_path = pjoin(pardir(config_file_path), path)
+    config_file_path = pjoin(config_file_path, path)
     config = Config(path)
     logging.info("Switching config to {}".format(path))
     logging.info("Using log level {}".format(config["local.feedback.log_level"]))

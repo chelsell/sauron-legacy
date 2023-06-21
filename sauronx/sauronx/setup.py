@@ -69,7 +69,7 @@ class SauronLogging:
 
     @classmethod
     def submission(cls, sub: SubmissionPathCollection):
-        cls._add_path_logger(sub.log_file(), level)
+        cls._add_path_logger(sub.log_file(), SauronLogging.DEFAULT_LEVEL)
 
     @classmethod
     def _init(cls) -> None:

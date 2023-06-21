@@ -7,6 +7,9 @@ from importlib.metadata import PackageNotFoundError
 from importlib.metadata import metadata as __load
 from pathlib import Path
 
+__version__ = '2.1.8'
+sauronx_version = __version__
+
 pkg = Path(__file__).absolute().parent.name
 logger = logging.getLogger(pkg)
 __metadata = None

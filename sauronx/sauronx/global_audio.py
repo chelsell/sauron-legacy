@@ -2,9 +2,9 @@ import logging
 import platform
 import typing
 from typing import Optional
-
+import subprocess
 from pocketutils.core.exceptions import BadCommandError
-
+from pocketutils.tools.call_tools import CallTools
 from .audio import AudioInfo
 from .configuration import config
 
@@ -100,7 +100,7 @@ class SmartGlobalAudio(GlobalAudio):
     def __wrap(self, prefix: str):
         try:
             getattr(self, "_" + prefix + "_" + platform.system().lower())()
-        except ExternalCommandFailed as e:
+        except BadCommandError as e:
             raise CouldNotConfigureOsAudioError() from e
         except AttributeError as e:
             raise CouldNotConfigureOsAudioError(
@@ -155,19 +155,19 @@ class DefaultSmartGlobalAudio(SmartGlobalAudio):
 
         if self.output_device is not None:
             logging.debug("Setting audio output device to %s" % self.output_device[i])
-            wrap_cmd_call(
+            subprocess.run(
                 ["nircmd", "setdefaultsounddevice", "%s" % self.output_device[i]],
                 timeout_secs=self.timeout_secs,
             )
         if self.input_device is not None:
             logging.debug("Setting audio input device to %s" % self.input_device[i])
-            wrap_cmd_call(
+            subprocess.run(
                 ["nircmd", "setdefaultsounddevice", "%s" % self.input_device[i], "2"],
                 timeout_secs=self.timeout_secs,
             )
         if self.output_gain is not None:
             logging.debug("Setting system volume to configured default %s" % self.output_gain[i])
-            wrap_cmd_call(
+            subprocess.run(
                 [
                     "nircmd",
                     "setsysvolume",
@@ -178,7 +178,7 @@ class DefaultSmartGlobalAudio(SmartGlobalAudio):
             )
         if self.input_gain is not None:
             logging.debug("Setting input gain to configured default %s" % self.input_gain[i])
-            wrap_cmd_call(
+            subprocess.run(
                 [
                     "nircmd",
                     "setsysvolume",
@@ -191,28 +191,28 @@ class DefaultSmartGlobalAudio(SmartGlobalAudio):
     def __darwin_switch(self, i: int):
         if self.output_device is not None:
             logging.debug("Setting audio output device to %s" % self.output_device[i])
-            wrap_cmd_call(["SwitchAudioSource", "-s", "%s" % self.output_device[i]])
+            subprocess.run(["SwitchAudioSource", "-s", "%s" % self.output_device[i]])
         if self.input_device is not None:
             logging.debug("Setting audio input device to %s" % self.input_device[i])
-            wrap_cmd_call(["SwitchAudioSource", "-t input", "-s", "%s" % self.input_device[i]])
+            subprocess.run(["SwitchAudioSource", "-t input", "-s", "%s" % self.input_device[i]])
         if self.output_gain is not None:
             logging.debug("Setting system volume to configured default %s" % self.output_gain[i])
-            wrap_cmd_call(["osascript", "-e", "set volume output volume %s" % self.output_gain[i]])
+            subprocess.run(["osascript", "-e", "set volume output volume %s" % self.output_gain[i]])
         if self.input_gain is not None:
             logging.debug("Setting input gain to configured default %s" % self.input_gain[i])
-            wrap_cmd_call(["osascript", "-e", "set volume input volume %s" % self.input_gain[i]])
+            subprocess.run(["osascript", "-e", "set volume input volume %s" % self.input_gain[i]])
         logging.debug("Done configuring audio")
 
     def __linux_switch(self, i: int):
         if self.output_device is not None:
             logging.debug("Setting audio output device to %s" % self.output_device[i])
-            wrap_cmd_call(["pactl", "set-default-sink", "%s" % self.output_device[i]])
+            subprocess.run(["pactl", "set-default-sink", "%s" % self.output_device[i]])
         if self.input_device is not None:
             logging.debug("Setting audio input device to %s" % self.input_device[i])
-            wrap_cmd_call(["pactl", "set-default-source", "%s" % self.input_device[i]])
+            subprocess.run(["pactl", "set-default-source", "%s" % self.input_device[i]])
         if self.output_gain is not None:
             logging.debug("Setting system volume to configured default %s" % self.output_gain[i])
-            wrap_cmd_call(
+            subprocess.run(
                 [
                     "pactl",
                     "set-sink-volume",
@@ -222,7 +222,7 @@ class DefaultSmartGlobalAudio(SmartGlobalAudio):
             )
         if self.input_gain is not None:
             logging.debug("Setting input gain to configured default %s" % self.input_gain[i])
-            wrap_cmd_call(
+            subprocess.run(
                 [
                     "pactl",
                     "set-source-volume",

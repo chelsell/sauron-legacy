@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+source activate sauronx
+python -m unittest discover --top-level-directory $(dirname $(dirname "$0"))
+source activate root

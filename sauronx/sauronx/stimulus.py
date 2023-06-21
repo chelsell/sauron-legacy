@@ -1,9 +1,9 @@
 from enum import Enum
 from typing import Optional, Union
+from pocketutils.core.exceptions import ConfigError
 
 from .audio import AudioInfo
 from .configuration import config
-
 
 class StimulusType(Enum):
     ANALOG = 1
@@ -60,7 +60,7 @@ class Stimulus:
                 self.name in config.stimuli["analog_pins"]
                 or self.name in config.stimuli["digital_pins"]
             ):
-                raise BadConfigException(
+                raise ConfigError(
                     "{} is in the pins list but is an audio file".format(self.name)
                 )
             return StimulusType.AUDIO
@@ -69,7 +69,7 @@ class Stimulus:
                 self.name not in config.stimuli["analog_pins"]
                 or self.name in config.stimuli["digital_pins"]
             ):
-                raise BadConfigException(
+                raise ConfigError(
                     "{} is analog and should be listed (and only listed) in analog_pins".format(
                         self.name
                     )
@@ -80,7 +80,7 @@ class Stimulus:
                 self.name not in config.stimuli["digital_pins"]
                 or self.name in config.stimuli["analog_pins"]
             ):
-                raise BadConfigException(
+                raise ConfigError(
                     "{} is digital and should be listed (and only listed) in digital_pins".format(
                         self.name
                     )

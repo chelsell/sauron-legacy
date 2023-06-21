@@ -7,11 +7,12 @@ import tkinter as tk
 from subprocess import SubprocessError, check_call
 from tkinter import PhotoImage
 from typing import Callable, List, Optional
-
+from pocketutils.core.exceptions import DirDoesNotExistError, FileDoesNotExistError
+from pocketutils.tools.call_tools import CallTools
 import cv2
 from PIL import Image, ImageDraw, ImageTk
 
-from sauronx import plain_timestamp_started_with_millis
+from .utils import plain_timestamp_started_with_millis, pjoin, make_dirs, pdir, warn_user
 
 from .arduino import Board
 from .configuration import Config, config
@@ -32,7 +33,7 @@ class Previewer:
         self.temp_dir = temp_dir
         make_dirs(self.temp_dir)
         if not pdir(self.temp_dir):
-            raise NoSuchDirectoryException("Temporary dir {} does not exist".format(self.temp_dir))
+            raise DirDoesNotExistError("Temporary dir {} does not exist".format(self.temp_dir))
         self.plate_type_id = plate_type_id
         roi = config.camera_roi(plate_type_id)
         self.x_offset = str(roi.x0)
@@ -88,7 +89,7 @@ class Previewer:
 
     def make_img(self, path: str, looping: bool) -> Image:
         global config
-        with silenced(no_stdout=self.silence, no_stderr=False):
+        with CallTools.silenced(no_stdout=self.silence, no_stderr=False):
             if looping:
                 config = Config()  # reload each time
             img = Image.open(path)
@@ -146,7 +147,6 @@ class Previewer:
         task(snapshot)
 
     def _snapshot(self):
-        from klgists.misc.colored_notifications import warn_user
 
         make_dirs(self._snapshot_dir())
         try:
@@ -179,7 +179,7 @@ class Previewer:
         if len(matches) > 0:
             return matches[0]
         else:
-            raise NoSuchFileException("No snapshot exists in {}".format(path))
+            raise FileDoesNotExistError("No snapshot exists in {}".format(path))
 
     def _ml_roi(self) -> str:
         return " ".join([str(j) for j in config.camera["plate.{}.roi".format(self.plate_type_id)]])
