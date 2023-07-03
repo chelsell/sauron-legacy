@@ -26,7 +26,7 @@ if (( $# == 5 )); then
 	fi
 
 	post_str="{'text':'${slack_user} S${SAURON_NUMBER} ${status_lower} ${submission} (${description})'}"
-	curl -X POST -H 'Content-type: application/json' --data $post_str https://hooks.slack.com/services/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
+	curl -X POST -H 'Content-type: application/json' --data $post_str __TOKEN__
 	#/home/sellolab/code/sauronx/bin/bombadil "${slack_user} S${SAURON_NUMBER} ${status_lower} ${submission} (${description})"
 
 elif (( $# ==  1 )); then
@@ -35,7 +35,7 @@ elif (( $# ==  1 )); then
 
 	status_lower=$(echo $sub_stat | tr '[:upper:]' '[:lower:]')
 	post_str="{'text':'S${SAURON_NUMBER} ${status_lower}'}"
-	curl -X POST -H 'Content-type: application/json' --data $post_str https://hooks.slack.com/services/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
+	curl -X POST -H 'Content-type: application/json' --data $post_str __TOKEN__
 else
 	echo "No action taken in notification"
 fi
