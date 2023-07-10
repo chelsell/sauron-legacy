@@ -56,6 +56,7 @@ Download = "https://pypi.org/project/sauronx/"
 sauronx = "sauronx.cli:cli"
 
 [tool.poetry.dependencies]
+colorama                 = "0.4.6"
 python                   = "^3.9"
 defusedxml               = "^0.7"
 hipsterplot              = ">=0.1"

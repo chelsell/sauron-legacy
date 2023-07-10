@@ -6,6 +6,7 @@ from enum import Enum
 from typing import List, Optional
 
 from pocketutils.full import Tools
+from pocketutils.tools.call_tools import CallTools
 from valarpy import Valar
 from pocketutils.core.exceptions import LockedError, RefusingRequestError
 from terminaltables import AsciiTable
@@ -220,13 +221,16 @@ class SauronxAlive:
         self.finish()
 
     def start(self):
-        if self._internal_db:
-            self.db.open()
+        if self._internal_db: self.db.open()
         self.sauron_obj = self._fetch_sauron()
         if self.submission_hash is not None:
             ProcessingSubmission.from_hash(self.submission_hash).create()
             try:
                 self.submission_obj = self._fetch_submission()
+                if self.is_test:
+                    self.username = "cole"
+                else:
+                    self.username = Users.select().where(Users.id == self.submission_obj.user_id).first().username
                 self._init_status()
             except:
                 ProcessingSubmission.from_hash(self.submission_hash).destroy()
@@ -244,15 +248,24 @@ class SauronxAlive:
 
     def update_status(self, stat: StatusValue) -> None:
         if self.submission_hash is not None:
-            self.status_obj = SubmissionRecords(
-                submission=self.submission_obj,
-                created=datetime_started_raw,
-                datetime_modified=datetime.datetime.now(),
-                sauron=self.sauron_obj.id,
-                status=stat.name.lower(),
-            )
             try:
-                self.status_obj.save()
+                if not self.is_test:
+                    self.status_obj = SubmissionRecords(
+                        submission=self.submission_obj,
+                        created=datetime_started_raw,
+                        datetime_modified=datetime.datetime.now(),
+                        sauron=self.sauron_obj.id,
+                        status=stat.name.lower()
+                    )
+                    self.status_obj.save()
+                    description = self.submission_obj.description
+                else:
+                    description = "test"
+                user = self._slack_user_dict[self.username]
+                payload = '{{"text":"<@{}> S{} {} {} ({})"}}'.format(user, self.sauron_obj.id, stat.name.lower(),
+                                                                     self.submission_hash, description)
+                CallTools.stream_cmd_call(['curl', '-X', "POST", "-H", "'Content-type: application/json'", "--data", payload,
+                               self._slack_hook.rstrip("\n")])
             except:
                 warn_user("Failed to update status to {}".format(stat))
                 logger.warning("Failed to update status to {}".format(stat))

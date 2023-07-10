@@ -16,7 +16,7 @@ if (( $# == 5 )); then
 	sub_stat="${sub_stat//_/ }"
 
 	function get_slack_user {
-		echo $( grep "${1}" $HOME/valar_configs/slack_users.properties|cut -d'=' -f2 )
+		echo $( grep "${1}" $HOME/.sauronlab/slack_users.properties|cut -d'=' -f2 )
 	}
 	slack_user=$( get_slack_user "${valinor_user}" )
 

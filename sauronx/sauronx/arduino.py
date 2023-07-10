@@ -1,7 +1,8 @@
 import time
 
 from pocketutils.core.exceptions import *
-from PyMata.pymata import PyMata
+from pymata_aio.pymata3 import PyMata3 as PyMata
+from pymata_aio.constants import Constants
 from .configuration import config
 from .stimulus import StimulusType
 from .utils import warn_user, flatten
@@ -82,7 +83,7 @@ class Board:
             )
 
         try:
-            self._board = PyMata(port_id="/dev/ttyACM0", baud_rate=57600)
+            self._board = PyMata(com_port="/dev/ttyACM0") #,baud_rate=57600)
         except (TypeError, ValueError, Exception) as e:
             board_load_error(e)
             raise MissingDeviceError("Could not connect to the Arduino board") from e
@@ -120,9 +121,9 @@ class Board:
         if "sauron.hardware.illumination.pins.status_led" in config:
             self._board.digital_write(config["sauron.hardware.illumination.pins.status_led"], 1)
         for name in self._analog_stimuli_pins:
-            self._board.set_pin_mode(self._analog_stimuli_pins[name], PyMata.PWM, PyMata.DIGITAL)
+            self._board.set_pin_mode(self._analog_stimuli_pins[name], Constants.PWM)
         for name in self._analog_sensor_pins:
-            self._board.set_pin_mode(self._analog_sensor_pins[name], PyMata.INPUT, PyMata.ANALOG)
+            self._board.set_pin_mode(self._analog_sensor_pins[name], Constants.INPUT)
 
     def __exit__(self, t, value, traceback) -> None:
         self.finish()
@@ -172,10 +173,10 @@ class Board:
         except BaseException as e:
             logging.exception("Got an error while writing pins to off")
         try:
-            self._board._command_handler.stop()
-            self._board.transport.stop()
-            self._board._command_handler.join()
-            self._board.transport.join()
+            #self._board._command_handler.stop()
+            #self._board.transport.stop()
+            #self._board._command_handler.join()
+            #self._board.transport.join()
             time.sleep(2)
         except:
             logging.exception("FAILED SHUTDOWN")

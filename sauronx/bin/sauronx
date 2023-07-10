@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-# TODO logs are lost with this because this is executed in a subshell:
-# $(cd $(dirname $(dirname "$0")); python -m sauronx.main "$@" )
-
-pushd $(dirname $(dirname "$0")) > /dev/null
-#conda activate sauronx
-python -m sauronx.main "$@"
-popd > /dev/null
