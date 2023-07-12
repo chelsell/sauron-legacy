@@ -394,7 +394,7 @@ class SauronxVideo(ASauronxVideo):
 
         """
         roi = self.roi_from_label(wb1)
-        return self.crop_to_roi(roi)
+        return self.crop_to_roi(wb1)
 
     def crop_to_bound(self, label_1: str, label_2: str) -> SauronxVideo:
         """
