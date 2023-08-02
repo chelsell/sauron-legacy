@@ -75,7 +75,7 @@
     "has_submission": true,
     "quality": 4,
     "historical": false,
-    "saurons": ["Thor", "Smaug", "Drake", "Wyrm"],
+    "saurons": ["Thor", "Smaug", "Drake", "Wyrm", "Scatha", "Thorondor"],
     "sensors": {
       "camera_millis": "sauronx-snapshot-ms",
       "stimulus_ids": "sauronx-stimulus-id",

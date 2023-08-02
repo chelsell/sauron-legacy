@@ -162,7 +162,7 @@ class StimFrame(TypedDf, metaclass=abc.ABCMeta):
             }
             fdf = fdf.append(pd.Series(dct), ignore_index=True)
         the_range = np.arange(fdf.tail(1).end.values) if len(fdf) > 0 else []
-        empty_df = pd.DataFrame(index=the_range, columns=set(fdf.stimulus))
+        empty_df = pd.DataFrame(index=the_range, columns=list(set(fdf.stimulus)))
         for idx in fdf.index:
             start_index = fdf.start.loc[idx]
             assay_frames = fdf.frames.loc[idx]

@@ -187,7 +187,7 @@ class SensorLengthConcernRule(ConcernRule):
             sampling = float(
                 ValarTools.toml_item(run, "sauron.hardware.sensors.sampling_interval_milliseconds")
             )
-            expected = np.float(run.experiment.battery.length / sampling)
+            expected = float(run.experiment.battery.length / sampling)
             photo_data = None
             try:
                 photo_data = self.sensor_cache.load((SensorNames.PHOTOSENSOR, run))

@@ -85,7 +85,7 @@ class TraceBase(CakeLayer, KvrcPlotting):
 
         """
         ax1.set_rasterization_zorder(1)
-        ax1.grid(b=False)
+        #ax1.grid(b=False)
         ax1.set_facecolor("white")
         ax1.set_xticks([])
         ordered_names, ordered_colors = [], []
